@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Login</title>
+
+
+<!-- Bootstrap core CSS 
+<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet">-->
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/style.css}" rel="stylesheet">
+<!-- Estilos para el menú -->
+
+</head>
+
+<body>
+
+	<div class="container" id="container">
+		<div class="form-container sign-up">
+			<form>
+				<h1>Recuperar Contraseña</h1>
+				<span></span> <input type="text" placeholder="Nombre" /> <input
+					type="email" placeholder="Correo" />
+				<button>Recuperar Contraseña</button>
+			</form>
+		</div>
+		<div class="form-container sign-in">
+			<form th:action="@{/usuario/login}" class="contact-form" method="post">
+				<h1>Iniciar Sesión</h1>
+				<br> <span>Utiliza tu correo electronico y contraseña
+					para iniciar sesión.</span> 
+					<input type="email" placeholder="Correo"  name="username" required 
+					pattern="^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$"
+					title="El email debe ser correcto"
+					autocomplete="off">
+				<input type="password" placeholder="Contraseña" id="password" name="password">
+				<button type="submit">Iniciar sesión</button>
+			</form>
+			<a th:href="@{/usuario/registro}" class="card-link">Si aún no
+			tiene cuenta aqui puede registrarse</a>
+		</div>
+		<div class="toggle-container">
+			<div class="toggle">
+				<div class="toggle-panel toggle-left">
+					<h1>¡Bienvenido de nuevo!</h1>
+					<p>Ingresa tu corro y nombre, para poder recuperar tu
+						contraseña</p>
+					<button class="hidden" id="login">Iniciar sesión</button>
+				</div>
+				<div class="toggle-panel toggle-right">
+					<h1>¡Bienvenido!</h1>
+					<p>Inicie sesión para poder utilizar todas las funciones del
+						sitio</p>
+					<button class="hidden" id="register">Recuperar Contraseña</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript
+	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script> -->
+	<script th:src="@{/js/script.js}"></script>
+	<script>
+	document.addEventListener("DOMContentLoaded", (e) => {
+		
+		contactFormValidations();
+		
+	});
+	
+	function contactFormValidations() {
+		  const $form = document.querySelector(".contact-form"),
+		    //Si no quieres que por ejemplo el subject sea requerido, se le puede
+		    //quitar el atributo "required" para que no sea tomado en cuenta
+		    $inputs = document.querySelectorAll(".contact-form [required]");
+
+		  console.log($inputs);
+		  //Estamos creando un span que se coloque después de los inputs,
+		  //Se le agrega la clase error con none, para que este oculto
+		  //cuando se detecte algo en los inputs, se le quitará esa clase "none"
+		  //a los inputs
+		  $inputs.forEach((inp) => {
+		    const $span = document.createElement("span");
+		    $span.id = inp.name;
+		    $span.textContent = inp.title;
+		    $span.classList.add("contact-form-error", "none");
+		    inp.insertAdjacentElement("afterend", $span);
+		  });
+
+		  document.addEventListener("keyup", (e) => {
+		    if (e.target.matches(".contact-form [required]")) {
+		      let $input = e.target, //Capturamos al elemento actual que realiza el event
+		        pattern = $input.pattern || $input.dataset.pattern;
+		      //Operador de cortocircuito, indica que si la primera condición no funciona
+		      //Entonces accede al segundo valor
+		      if (pattern && $input.value !== "") {
+		        console.log("El input tiene patrón");
+		        //Guardo mi expresión regultar
+		        let expRegular = new RegExp(pattern);
+		        //
+		        //let expr = new RegExp(expresion) y la usamos mediante expr.exec(valorAVerificar)
+		        return !expRegular.exec($input.value)
+		          ? document.getElementById($input.name).classList.add("is-active")
+		          : document.getElementById($input.name).classList.remove("is-active");
+		      }
+		      if (!pattern) {
+		        console.log("El input  no tiene patrón");
+
+		        return $input.value === ""
+		          ? document.getElementById($input.name).classList.add("is-active")
+		          : document.getElementById($input.name).classList.remove("is-active");
+		      }
+		    }
+		  });
+		  
+
+
+		}
+	</script>
+</body>
+
+</html>

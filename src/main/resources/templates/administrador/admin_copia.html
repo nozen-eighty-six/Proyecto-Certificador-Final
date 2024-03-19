@@ -1,0 +1,2306 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Tienda</title>
+<!-- jQuery -->
+<script th:src="@{https://code.jquery.com/jquery-3.6.4.min.js}"></script>
+
+
+
+<link
+	th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css}"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+
+<link rel="stylesheet"
+	th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css}">
+<script
+	th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js}"></script>
+
+<link rel="stylesheet" th:href="@{/css/style_admin.css}">
+
+<!-- Estilos para el menú -->
+
+
+
+<style>
+html {
+	box-sizing: border-box;
+}
+
+*, *::before, *::after {
+	box-sizing: inherit;
+}
+
+.loader {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 10000000;
+	background-color: #7f7f7f;
+}
+
+.links {
+	position: absolute;
+	right: 10px;
+	bottom: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.links button {
+	padding: .5rem 1rem;
+	color: #000 !important;
+	cursor: pointer;
+}
+
+.links button:hover {
+	font-weight: bold !important;
+}
+
+.active {
+	background-color: #b2b2b2;
+}
+
+ul {
+	padding-left: 0;
+}
+
+.pedidos {
+	position: relative;
+	z-index: 101;
+}
+
+.none {
+	opacity: 0;
+}
+
+@
+keyframes opacidad { 0%{
+	opacity: 0;
+}
+
+100
+
+
+
+
+
+
+%
+{
+opacity
+
+
+
+
+
+
+:
+
+
+
+
+
+
+1
+
+
+
+
+;
+}
+}
+#productos {
+	position: absolute;
+	z-index: 100;
+	top: 35%;
+	left: 30%;
+	width: 350px;
+	height: 350px;
+	border: thin solid #000;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	overflow-y: auto;
+	transform: translate(0, -100%);
+	transition: opacity 0.5s ease-in-out, transform 0.9s ease-in-out;
+	border-radius: 0.5rem;
+	background-color: #f3f3f3;
+}
+
+.index-1001 {
+	z-index: 1001;
+}
+
+#productos div {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+}
+
+#productos input[type="text"] {
+	padding: 0.5rem;
+}
+
+#productos input {
+	margin: 0 0.5rem;
+}
+
+#productos div .contenedor-check {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+}
+
+#productos div .contenedor-check input {
+	margin-left: 1rem;
+}
+
+#productos div.container-button-guadar {
+	width: 100%;
+	display: flex;
+	align-self: flex-end;
+	gap: 0.5rem;
+	justify-content: center;
+	margin-bottom: 1rem;
+}
+
+#productos div.container-button-guadar button {
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+}
+</style>
+</head>
+<body>
+
+	<div class="menu">
+		<ion-icon name="menu-outline"></ion-icon>
+		<ion-icon name="close-outline"></ion-icon>
+	</div>
+
+	<div class="barra-lateral">
+		<div>
+			<div class="nombre-pagina">
+				<ion-icon id="cloud" name="cloud-outline"></ion-icon>
+				<span>Top Moda</span>
+			</div>
+		</div>
+
+		<nav class="navegacion">
+			<ul>
+				<li><a id="inbox" th:href="@{/administrador/usuarios}"
+					data-ruta="@{/administrador/usuarios}" data-scroll-spy> <ion-icon
+							name="person"></ion-icon> <span>Usuarios</span>
+				</a></li>
+				<li><a th:href="@{/proveedores}" data-ruta="@{/proveedores}"
+					data-controlador="proveedores" data-scroll-spy> <ion-icon
+							name="person-circle"></ion-icon> <span>Proveedores</span>
+				</a></li>
+				<li><a th:href="@{/administrador/productos}"
+					data-controlador="productos" 
+					data-table = "tablaProductos"
+					data-scroll-spy> <ion-icon
+							name="cube"></ion-icon> <span>Productos</span>
+				</a></li>
+				<li><a th:href="@{/marcas}" data-controlador="marcas"
+					data-table="tablaMarcas" data-scroll-spy> <ion-icon
+							name="pricetag"></ion-icon> <span>Marcas</span>
+				</a></li>
+				<li><a th:href="@{/categorias}" data-controlador="categorias"
+					data-table="tablaCategorias" data-scroll-spy> <ion-icon
+							name="list"></ion-icon> <span>Categorías</span>
+				</a></li>
+				<li><a th:href="@{/pedidos}" data-controlador="pedidos"
+					data-table="tablaPedidos" data-scroll-spy><ion-icon
+							name="receipt-outline"></ion-icon> <span>Pedidos</span> </a></li>
+				<li><a th:href="@{/entradas}" data-controlador="entradas"
+					data-table="tablaEntradas" data-scroll-spy><ion-icon
+							name="trash-outline"></ion-icon> <span>Entradas</span> </a></li>
+
+			</ul>
+		</nav>
+
+		<div>
+			<div class="linea"></div>
+
+			<div class="modo-oscuro">
+				<div class="info">
+					<ion-icon name="moon-outline"></ion-icon>
+					<span>Drak Mode</span>
+				</div>
+				<div class="switch">
+					<div class="base">
+						<div class="circulo"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="usuario">
+
+				<div class="info-usuario">
+					<div class="nombre-email">
+						<span class="nombre">Yuusha</span> <span class="email">yuushaescalanter@gmail.com</span>
+					</div>
+					<ion-icon name="ellipsis-vertical-outline"></ion-icon>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+
+	<main class="contenido overflow-auto"></main>
+
+
+
+
+
+
+	<template id="producto-template">
+		<tr>
+			<td class="nombre"></td>
+			<td class="descripcion"></td>
+			<td class="cantidad"></td>
+			<td class="precio"></td>
+			<td class="marca"></td>
+			<td class="categoria"></td>
+			<!-- th:href="@{/productos/editar/{id}(id=${p.id})}" -->
+			<td><button class="btn btn-warning edit col-12">Editar</button></td>
+			<!-- th:href="@{/productos/delete/{id}(id=${p.id})}" -->
+			<td><button class="btn btn-danger delete col-12">Eliminar</button></td>
+		</tr>
+		<!-- 
+		<tr th:each="p : ${bProductos}">
+			<td th:utext="${p.nombre}"></td>
+			<td th:utext="${p.descripcion}"></td>
+			<td th:utext="${p.cantidad}"></td>
+			<td th:utext="${p.precio}"></td>
+			<td th:utext="${p.marca.nombre}"></td>
+			<td th:utext="${p.categoria.nombre}"></td>
+			<td><a class="btn btn-warning"
+				th:href="@{/productos/editar/{id}(id=${p.id})}">Editar</a></td>
+			<td><a class="btn btn-danger"
+				th:href="@{/productos/delete/{id}(id=${p.id})}">Eliminar</a></td>
+		</tr> -->
+	</template>
+
+	<template id="template">
+		<tr>
+			<td class="nombre"></td>
+			<td class="activo"></td>
+
+			<td><button class="btn btn-warning edit col-6">Editar</button></td>
+			<!-- th:href="@{/productos/delete/{id}(id=${p.id})}" -->
+			<td><button class="btn btn-danger delete col-6">Eliminar</button></td>
+		</tr>
+
+	</template>
+	<template id="template-entrada">
+		<tr>
+			<td class="entradaid"></td>
+			<td class="fechaentrega"></td>
+			<td class="nombreproveedor"></td>
+			<td class="ubicacion"></td>
+			<td class="estado"></td>
+			<td><button class="btn btn-primary see col-12">Ver Detalle</button></td>
+			<!-- th:href="@{/productos/delete/{id}(id=${p.id})}" -->
+			<td><button class="btn btn-warning edit col-12">Actualizar</button></td>
+		</tr>
+
+	</template>
+	<template id="template-pedido">
+		<tr>
+			<td class="fPedido"></td>
+			<td class="fEntrega"></td>
+			<td class="proveedor-nombreProveedor"></td>
+			<td class="total"></td>
+			<td class="estado"></td>
+			<td><button class="btn btn-warning edit col-12">Editar</button></td>
+			<!-- th:href="@{/productos/delete/{id}(id=${p.id})}" -->
+			<td><button class="btn btn-danger delete col-12">Eliminar</button></td>
+		</tr>
+
+	</template>
+	<template id="template-proveedor">
+		<tr>
+			<td class="nombre"></td>
+			<td class="direccion"></td>
+			<td class="correo"></td>
+			<td class="telefono"></td>
+			<td><button class="btn btn-warning edit col-6">Editar</button></td>
+			<!-- th:href="@{/productos/delete/{id}(id=${p.id})}" -->
+			<td><button class="btn btn-danger delete col-6">Eliminar</button></td>
+		</tr>
+
+	</template>
+
+
+	<template id="loader">
+
+		<div class="loader d-flex justify-content-center align-items-center">
+			<!-- By Sam Herbert (@sherb), for everyone. More @ http://goo.gl/7AJzbL -->
+			<svg width="60" height="60" viewBox="0 0 38 38"
+				xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%"
+					id="a">
+            <stop stop-color="#000" stop-opacity="0" offset="0%" />
+            <stop stop-color="#000" stop-opacity=".631" offset="63.146%" />
+            <stop stop-color="#000" offset="100%" />
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g transform="translate(1 1)">
+            <path d="M36 18c0-9.94-8.06-18-18-18" id="Oval-2"
+					stroke="url(#a)" stroke-width="2">
+                <animateTransform attributeName="transform"
+					type="rotate" from="0 18 18" to="360 18 18" dur="0.9s"
+					repeatCount="indefinite" />
+            </path>
+            <circle fill="#fff" cx="36" cy="18" r="1">
+                <animateTransform attributeName="transform"
+					type="rotate" from="0 18 18" to="360 18 18" dur="0.9s"
+					repeatCount="indefinite" />
+            </circle>
+        </g>
+    </g>
+</svg>
+		</div>
+	</template>
+
+
+
+
+	<!--   Core JS Files   -->
+	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+
+	<script th:src="@{/js/ajax.js}"></script>
+	<script type="module"
+		th:src="@{https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js}"></script>
+	<script nomodule
+		th:src="@{https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js}"></script>
+	<script th:src="@{/js/script-admin.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/perfect-scrollbar.min.js}"></script>
+	<script th:src="@{/js/smooth-scrollbar.min.js}"></script>
+
+	<script>
+	//variables globales
+	var tablaData;
+	$(document).ready(function() {
+		   abrirModalCrearProducto();
+		   abrirModalCrearCategoria();
+		   abrirModalCrearMarca();
+		   guardarProducto();
+		   guardarMarca();
+		   guardarCategoria();
+		});
+	
+	let formularioValido = false;
+	
+	
+	/*Diseñamos nuestra tabla
+	tablaData = $("#tabla").DataTable({
+		responsive: true,
+		ordering: false, //para ordenar las columnas
+		//Traer todos los valores
+		"ajax": {
+			//Que tome de referencia el método Get ListarUsuarios del Contr. Home
+		url: "http://localhost:8000/productos/listar",
+		type: "GET",
+		dataType: "json",
+		 dataSrc: "data"
+		},
+	    success: function(response) {
+	        console.log(response); // Imprime la respuesta en la consola
+	    },
+		"columns": [
+		//"data" es lo que se envia del controller
+			{ "data": "nombre" },
+			{ "data": "descripcion" },
+			{ "data": "cantidad" },
+			{ "data": "precio" },
+			{
+				"data": "marca", "render": function (data) {
+
+					return data.nombre;
+
+				}
+			},
+			{
+				"data": "categoria", "render": function (data) {
+
+					return data.nombre;
+
+				}
+			},
+
+			{
+				//Columna por defecto
+				"defaultContent": '<button type="button" class="btn btn-primary btn-sm btn-editar"><i class="fas fa-pen "> </i></button>' +
+					'<button type="button" class="btn btn-danger btn-sm ms-2 btn-eliminar"><i class="fas fa-trash "> </i></button>',
+				"orderable": false,
+				"searchable": false,//que no se filtre por estos botones
+				"width":"90px"
+			}
+		],
+		"language": { "url": "https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"}
+
+
+
+	});*/
+	
+	
+		
+		 function abrirModalCrearProducto() {
+		        $('#FormModal').modal('show');
+		        //document.querySelector(".container-modal").classList.add("modal-show");
+		        $("#mensajeError").hide();
+		        document.querySelector(".modal-backdrop").style.display="none";
+		    }
+	
+	function abrirModalCrearProveedor(){
+		 $('#FormModal').modal('show');
+	        //document.querySelector(".container-modal").classList.add("modal-show");
+	        $("#mensajeError").hide();
+	        document.querySelector(".modal-backdrop").style.display="none";
+	}
+	
+	 function abrirModalCrearMarca() {
+	        $('#FormModal').modal('show');
+	        //document.querySelector(".container-modal").classList.add("modal-show");
+	        $("#mensajeError").hide();
+	        document.querySelector(".modal-backdrop").style.display="none";
+	    }
+	 function abrirModalCrearCategoria() {
+	        $('#FormModal').modal('show');
+	        //document.querySelector(".container-modal").classList.add("modal-show");
+	        $("#mensajeError").hide();
+	        document.querySelector(".modal-backdrop").style.display="none";
+	    }
+	 
+	 function abrirModalCrearPedido() {
+	        $('#FormModal').modal('show');
+	        //document.querySelector(".container-modal").classList.add("modal-show");
+	        $("#mensajeError").hide();
+	        document.querySelector(".modal-backdrop").style.display="none";
+	        
+		      const $selectProveedor = document.querySelector("#cboproveedor")
+				const 	productosContainer = document.querySelector("div#productos");
+				          productosContainer.classList.add("none");
+
+			      console.log($selectProveedor)
+
+			      $selectProveedor.addEventListener("change", e=>{
+				//const $divProductos = document.querySelector("#productos");
+			         console.log(e.target.value);
+			         
+			        cargarProductos(e.target.value);
+			      });
+	    }
+		 function mostrarImagen(input) {
+		        var fileInput = input;
+		        var imgElement = document.getElementById('img_producto');
+
+		        // Verifica si se seleccionó un archivo
+		        if (fileInput.files && fileInput.files[0]) {
+		            var reader = new FileReader();
+
+		            reader.onload = function (e) {
+		                // Muestra la vista previa de la imagen
+		                if(e.target.result){
+		                console.log(e.target.result);
+		                imgElement.src = e.target.result;
+		                }
+		                else{
+		                	imgElement.src='';
+		                }
+		            }
+
+		            // Lee el contenido del archivo como una URL de datos
+		            reader.readAsDataURL(fileInput.files[0]);
+		        }
+		    }
+		 function quitarImagen() {
+		        var imgElement = document.getElementById('img_producto');
+		                imgElement.src="";
+		 }
+
+		 document.addEventListener("keyup", (e)=>{
+			 if(e.target.matches(".contact-form input")){
+				 document.querySelector("#mensajeError").innerHTML="";
+				 let formularioChange = contactFormValidations();
+				 
+				 if(!formularioChange){
+					 formularioValido = false;
+					 $("#mensajeError").show(); 
+				 }
+				 else{
+					 formularioValido= true;
+				    $("#mensajeError").hide();
+				 }
+			 }
+		 })
+		 
+		 function contactFormValidations() {
+			  const $form = document.querySelector(".contact-form"),
+			    //Si no quieres que por ejemplo el subject sea requerido, se le puede
+			    //quitar el atributo "required" para que no sea tomado en cuenta
+			    $inputs = document.querySelectorAll(".contact-form [required]");
+				let cumpleVerificacion = true;
+			  //console.log($inputs);
+			  //Estamos creando un span que se coloque después de los inputs,
+			  //Se le agrega la clase error con none, para que este oculto
+			  //cuando se detecte algo en los inputs, se le quitará esa clase "none"
+			  //a los inputs
+			  $inputs.forEach((inp) => {
+					  let expRegular = new RegExp(inp.pattern);
+
+					  if(!expRegular.exec(inp.value.toString())){
+						  //console.log(inp);
+						  const $span = document.createElement("span");
+						    $span.id = inp.name;
+						    $span.textContent = inp.name+": "+ inp.title;
+						    $span.style.display="block";
+						    document.querySelector("#mensajeError").appendChild($span);
+						    cumpleVerificacion = false;
+					  }
+			   
+			    //$span.classList.add("contact-form-error", "none");
+			    //inp.insertAdjacentElement("afterend", $span);
+			  });
+				/*
+			  document.addEventListener("keyup", (e) => {
+			    if (e.target.matches(".contact-form [required]")) {
+			      let $input = e.target, //Capturamos al elemento actual que realiza el event
+			        pattern = $input.pattern || $input.dataset.pattern;
+			      //Operador de cortocircuito, indica que si la primera condición no funciona
+			      //Entonces accede al segundo valor
+			      if (pattern && $input.value !== "") {
+			        console.log("El input tiene patrón");
+			        //Guardo mi expresión regultar
+			        let expRegular = new RegExp(pattern);
+			        //
+			        //let expr = new RegExp(expresion) y la usamos mediante expr.exec(valorAVerificar)
+			        return !expRegular.exec($input.value)
+			          ? document.getElementById($input.name).classList.add("is-active")
+			          : document.getElementById($input.name).classList.remove("is-active");
+			      }
+			      if (!pattern) {
+			        console.log("El input  no tiene patrón");
+
+			        return $input.value === ""
+			          ? document.getElementById($input.name).classList.add("is-active")
+			          : document.getElementById($input.name).classList.remove("is-active");
+			      }
+			    }
+			  });*/
+			  return cumpleVerificacion;
+			  
+
+
+			}
+		 
+		 function entregaFormValidation(){
+			 const $inputUbicacion = document.querySelector(".contact-form #textubicacion");
+			 const $cboestado = document.querySelector(".contact-form #cboestado");
+			 let entregaFormValido = true;
+			 
+			 const ubicacionRegex = new RegExp($inputUbicacion.pattern);
+	
+		 	if(!ubicacionRegex.exec($inputUbicacion.value)){
+		 		 const $span = document.createElement("span");
+				    $span.id =$inputUbicacion.id ;
+				    $span.textContent = 'Ubicación: el campo "ubicación" solo aceptar letras y espacios en blanco';
+				    $span.style.display="block";
+				    document.querySelector("#mensajeError").appendChild($span);
+				    entregaFormValido = false;
+		 	}
+		 	
+		 	if($cboestado.value === "NRecepcionado"){
+		 		const $span = document.createElement("span");
+			    $span.id =$cboestado.id ;
+			    $span.textContent = 'Estado: El estado sigue en "No Recepcionado"';
+			    $span.style.display="block";
+			    document.querySelector("#mensajeError").appendChild($span);
+			    entregaFormValido = false;
+		 	}
+		 	
+		 	return entregaFormValido;
+		 }
+		 
+		 function pedidoFormValidation(){
+			 const $inputFEntrega = document.querySelector(".contact-form input[name='fEntrega']");
+			 const $selectProveedor = document.querySelector("#cboproveedor");
+			 let validoFormularioPedido = true;
+
+			 if($selectProveedor.value === "0" ){
+				 const $span = document.createElement("span");
+				    $span.id =$selectProveedor.id ;
+				    $span.textContent = "Proveedor: Debe seleccionar un proveedor";
+				    $span.style.display="block";
+				    document.querySelector("#mensajeError").appendChild($span);
+				    validoFormularioPedido = false;
+			 }
+			 if($selectProveedor.value !== "0" ){
+
+				 const $span = document.createElement("span");
+
+			        var checkboxes = document.getElementsByClassName("producto-checkbox");
+			        for (var i = 0; i < checkboxes.length; i++) {
+			          var checkbox = checkboxes[i];
+			          var productoId = checkbox.getAttribute("data-producto-id");
+			          var cantidadInput = document.querySelector(
+			            '.cantidad-input[data-producto-id="' + productoId + '"]'
+			          ).value;
+			          
+			          if(!(checkbox.checked) && cantidadInput===""){
+						    validoFormularioPedido = false;  
+			          }
+			          
+
+			        }
+				    if(!validoFormularioPedido){
+				    	//$span.id =$selectProveedor.id ;
+					    $span.textContent = "Producto: Debe seleccionar algún producto";
+					    $span.style.display="block";
+					    document.querySelector("#mensajeError").appendChild($span);
+				    }
+			 }
+			 
+			 
+			 if($inputFEntrega.value === ""){
+				 const $span = document.createElement("span");
+				    $span.id =$inputFEntrega.id ;
+				    $span.textContent = "Fecha Entrega: Debe seleccionar una fecha";
+				    $span.style.display="block";
+				    document.querySelector("#mensajeError").appendChild($span);
+				    validoFormularioPedido = false;
+			 }
+			 if($inputFEntrega.value !== ""){
+				 
+				  const fechaSeleccionada = new Date($inputFEntrega.value);
+				  const fechaActual = new Date();
+				    if(!(fechaSeleccionada > fechaActual)){
+				    	console.log("La fecha Seleccionada no es correcta")
+				    	const $span = document.createElement("span");
+					    $span.id =$inputFEntrega.id ;
+				    	$span.textContent = "Fecha Entrega: Debe seleccionar una fecha correcta";
+					    $span.style.display="block";
+					    document.querySelector("#mensajeError").appendChild($span);
+					    validoFormularioPedido = false;
+				    }
+			 }
+			 
+			return validoFormularioPedido;
+		
+		 }
+		 /*
+		 $("#contenedor").validate({
+				rules: {
+					nombre: {
+						required: true
+					},
+					descripcion: {
+						required: true
+					},
+					precio: {
+						required: true,
+						preciodecimal: true
+					},
+					cantidad: {
+						required: true,
+						number: true
+					}
+
+				},
+				//Mensajes en caso no se cumplan las reglas
+				messages: {
+					nombre: "- El campo nombre es obligatorio",
+					descripcion: "- El campo descripcion es obligatorio",
+					precio: { required: "- El campo precio es obligatorio", preciodecimal: "El formato correcto del precio es ##.##" },
+					stock: { required: "- El campo stock es obligatorio", preciodecimal: "- Debe ingresar solo numeros en el stock" },
+				},
+				//Dónde se van a mostrar los mensajes
+				errorElement: "div",
+				errorLabelContainer: ".alert-danger"//A qué div en específico
+
+			});*/
+			
+			async function guardarEntrada(){
+				try{
+					let $inputId = document.querySelector("#txtid");				
+					let $inputUbicacion = document.querySelector(".contact-form #textubicacion");
+					let $cboEstado = document.querySelector(".contact-form #cboestado");
+					let url = "http://localhost:8000/entradas/editar/"+$inputId.value;
+
+					const formData = new FormData();
+					
+
+					let entradas ={
+							ubicacion: $inputUbicacion.value,
+							estado : $cboEstado.value 
+					};
+					formData.append("entradas", JSON.stringify(entradas));
+					
+					 document.querySelector("#mensajeError").innerHTML="";		
+						if(!entregaFormValidation()){
+							alert("Por favor complete los campos correctamente.");
+							$("#mensajeError").show();
+							return;
+						}
+						
+					
+					const response = await fetch(url, {
+						method: "PUT",
+						body: formData
+					});
+					if(response.ok){
+						reloadTablaEntrada("tablaEntradas",  "http://localhost:8000/entradas/listar-siguientes-5","entradas");
+					 $('#FormModal').modal('hide');
+					 cerrarModalCM();
+					}
+					
+					console.log(response);
+				}
+				catch(error){
+					console.log(error);
+				}
+				
+			}
+			
+			document.addEventListener("change", (e)=>{
+				
+				if(e.target.matches(".contact-form #textubicacion") ||e.target.matches(".contact-form #cboestado") ){
+				
+					document.querySelector("#mensajeError").innerHTML = "";
+					if(!entregaFormValidation()){
+						$("#mensajeError").show();
+					}else{
+						$("#mensajeError").hide();
+					}
+				}
+			});
+		 
+		 function guardarProducto() {
+		   var imagenSeleccionado = document.querySelector("[name='img']").files[0];
+		  // var d = document;
+		  /*
+		   var Producto = {
+		     id: document.querySelector("[name='id']").value,
+		     nombre: document.querySelector("[name='nombre']").value,
+		     descripcion: document.querySelector("[name='descripcion']").value,
+		     marca: {
+		       id: document.querySelector("[name='marca']").checked,
+		       nombre: document.querySelector("[name='marca'").textContent,
+		     },
+		     categoria: {
+		       id: document.querySelector("[name='categoria']").checked,
+		       nombre: document.querySelector("[name='categoria']").textContent,
+		     },
+		     precio: document.querySelector("[name='precio']").value,
+		     cantidad: document.querySelector("[name='cantidad']").value,
+		   };*/
+
+		   const ajax = (options) => {
+		     let { url, method, success, err, data } = options;
+		    // var request = new FormData();
+		     const xhr = new XMLHttpRequest();
+
+		     xhr.addEventListener("readystatechange", (e) => {
+		       if (xhr.readyState !== 4) return;
+
+		       if (xhr.status >= 200 && xhr.status < 300) {
+		         /*Tratamos la respuesta y la convertimos a JSON*/
+		         //let json = JSON.parse(xhr.responseText);
+		         //console.log(json);
+
+		         success("exito");
+		       } else {
+		         let message = xhr.statusText || "Ocurrió un error!";
+		         err(`Error ${xhr.status}: ${message} `);
+		       }
+		     });
+
+		     xhr.open(method || "GET", url);
+		  // Generar un límite único
+		     // Generar un límite único
+			const boundary = `----MyBoundary${new Date().getTime()}`;
+			
+			const formData = new FormData();
+			formData.append("img", imagenSeleccionado);
+			
+			//guardarImgEnLocal(formData);
+			//const jsonBlob = new Blob([JSON.stringify(data)], { type: "application/json" });
+			formData.append("producto", JSON.stringify(data));
+			//formData.append("producto", new Blob([JSON.stringify(data)], { type: "application/json" }));
+
+//			xhr.setRequestHeader("Content-Type", "multipart/form-data");
+			//xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+			console.log("FormData content:");
+			for (const pair of formData.entries()) {
+			  console.log(pair[0] + ', ' + pair[1]);
+			}
+
+			xhr.send(formData);
+
+		
+
+
+		     //No aplicamos validación, ya que tan solo podemos evitar pasarle la variable data
+		     //"data" y lo tomaría como null al igual que la variable method
+		   };
+
+		   //Si es falsa, no tiene valor, por ende se requiere de registrar
+		   if (d.querySelector("[name='id']").value == 0) {
+				//Para que cada vez se reinicie
+			   //document.querySelector("#mensajeError").innerHTML="";
+
+				if (!formularioValido) {
+					alert("Por favor complete correctamente los campos.");
+					$("#mensajeError").show();
+					return;
+				}
+		     //POST
+		     ajax({
+		       method: "POST",
+		       url: "http://localhost:8000/productos/save",
+		       success: (res) => {
+		    	   $('#FormModal').modal('hide')
+		    	   //document.querySelector(".contenido").innerHTML = null;
+		    	   guardarImgEnLocal();
+					reloadTablePagination("http://localhost:8000/productos/listar-siguientes-5");	
+		    	   
+		    	   /* Actualizar solo la tabla con los nuevos datos
+		    	    fetch("http://localhost:8080/administrador/productos")
+		    	        .then(response => response.text())
+		    	        .then(data => {
+		    	        	document.querySelector(".contenido").innerHTML = data;
+		    	        })
+		    	        .catch(error => {
+		    	            console.error("Error al cargar los datos de la tabla:", error);
+		    	        });*/
+		       },
+		       err: (err) => $("mensajeError").show(),
+		           data: {
+		        	   id: document.querySelector("[name='id']").value,
+		        	   nombre: document.querySelector("[name='nombre']").value,
+		        	   descripcion: document.querySelector("[name='descripcion']").value,
+		        	   marca: {
+		        	     id: document.querySelector("[name='marca']").value, // Obtener el valor correcto del campo (puede ser checked o value dependiendo del tipo de campo)
+		        	     nombre: document.querySelector("[name='marca']").textContent,
+		        	   },
+		        	   categoria: {
+		        	     id: document.querySelector("[name='categoria']").value, // Obtener el valor correcto del campo (puede ser checked o value dependiendo del tipo de campo)
+		        	     nombre: document.querySelector("[name='categoria']").textContent,
+		        	   },
+		        	   itemsProveedor:{
+		        		   id: document.querySelector("[name='proveedor']").value, // Obtener el valor correcto del campo (puede ser checked o value dependiendo del tipo de campo)
+		        		   nombreProveedor: document.querySelector("[name='proveedor']").textContent,
+		        	   }
+		        	   ,
+		        	   precio: parseFloat(document.querySelector("[name='precio']").value), // Convertir a tipo de dato adecuado (por ejemplo, Double)
+		        	   cantidad: parseInt(document.querySelector("[name='cantidad']").value), // Convertir a tipo de dato adecuado (por ejemplo, Integer)
+		        	 }
+
+		     });
+		   } else {
+		     //UPDATE - DELETE
+		     	if (!formularioValido) {
+					alert("Por favor complete correctamente los campos.");
+					$("#mensajeError").show();
+					return;
+				}
+		         ajax({
+		         method: "PUT",
+		         url: "http://localhost:8000/productos/editar/"+document.querySelector("[name='id']").value,
+		         success: (res) => {
+		        	 $('#FormModal').modal('hide')
+			    	   //document.querySelector(".contenido").innerHTML = null;
+			    	   guardarImgEnLocal();
+		        	 reloadTablePagination("http://localhost:8000/productos/listar-siguientes-5");
+		         },
+		         err: (err) => $("mensajeError").show(),
+		         data: {
+		        	 id: document.querySelector("[name='id']").value,
+		        	   nombre: document.querySelector("[name='nombre']").value,
+		        	   descripcion: document.querySelector("[name='descripcion']").value,
+		        	   marca: {
+		        	     id: document.querySelector("[name='marca']").value, // Obtener el valor correcto del campo (puede ser checked o value dependiendo del tipo de campo)
+		        	     nombre: document.querySelector("[name='marca']").textContent,
+		        	   },
+		        	   categoria: {
+		        	     id: document.querySelector("[name='categoria']").value, // Obtener el valor correcto del campo (puede ser checked o value dependiendo del tipo de campo)
+		        	     nombre: document.querySelector("[name='categoria']").textContent,
+		        	   },
+		        	   precio: parseFloat(document.querySelector("[name='precio']").value), // Convertir a tipo de dato adecuado (por ejemplo, Double)
+		        	   cantidad: parseInt(document.querySelector("[name='cantidad']").value), 
+		         },
+		         });
+		     }
+		 }
+		 
+		  const ajaxCM = (options) => {
+			     let { url, method,nombreObjeto, success, err, data } = options;
+			    // var request = new FormData();
+			     const xhr = new XMLHttpRequest();
+
+			     xhr.addEventListener("readystatechange", (e) => {
+			       if (xhr.readyState !== 4) return;
+
+			       if (xhr.status >= 200 && xhr.status < 300) {
+
+			         success("exito");
+			       } else {
+			         let message = xhr.statusText || "Ocurrió un error!";
+			         err(`Error ${xhr.status}: ${message} `);
+			       }
+			     });
+			     xhr.open(method || "GET", url);
+				  // Generar un límite único
+				     // Generar un límite único
+					const boundary = `----MyBoundary${new Date().getTime()}`;
+					
+					const formData = new FormData();
+					
+					//guardarImgEnLocal(formData);
+					//const jsonBlob = new Blob([JSON.stringify(data)], { type: "application/json" });
+					formData.append(nombreObjeto, JSON.stringify(data));
+					//formData.append("producto", new Blob([JSON.stringify(data)], { type: "application/json" }));
+
+//					xhr.setRequestHeader("Content-Type", "multipart/form-data");
+					//xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+					console.log("FormData content:");
+					for (const pair of formData.entries()) {
+					  console.log(pair[0] + ', ' + pair[1]);
+					}
+
+					xhr.send(formData);
+
+			   };
+			   
+				  const ajaxEliminar = (options) => {
+					     let { url, method, success, err, data } = options;
+					    // var request = new FormData();
+					     const xhr = new XMLHttpRequest();
+
+					     xhr.addEventListener("readystatechange", (e) => {
+					       if (xhr.readyState !== 4) return;
+
+					       if (xhr.status >= 200 && xhr.status < 300) {
+
+					         success("exito");
+					       } else {
+					         let message = xhr.statusText || "Ocurrió un error!";
+					         err(`Error ${xhr.status}: ${message} `);
+					       }
+					     });
+					     xhr.open(method || "GET", url);
+						  if(data){
+							// Generar un límite único
+							     // Generar un límite único
+								const boundary = `----MyBoundary${new Date().getTime()}`;
+								
+								const formData = new FormData();
+								
+								//guardarImgEnLocal(formData);
+								//const jsonBlob = new Blob([JSON.stringify(data)], { type: "application/json" });
+								formData.append(nombreObjeto, JSON.stringify(data));
+								//formData.append("producto", new Blob([JSON.stringify(data)], { type: "application/json" }));
+
+//								xhr.setRequestHeader("Content-Type", "multipart/form-data");
+								//xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+								console.log("FormData content:");
+								for (const pair of formData.entries()) {
+								  console.log(pair[0] + ', ' + pair[1]);
+								}
+
+								xhr.send(formData);
+						  }
+						  
+						  xhr.send();
+
+					   };
+
+		 
+		 
+	            function guardarMarca() {
+
+	                if (d.querySelector("[name='id']").value == 0) {
+
+	    				if (!formularioValido) {
+	    					alert("Por favor complete correctamente los campos.");
+	    					$("#mensajeError").show();
+	    					return;
+	    				}
+
+	                    ajaxCM({
+	                         method: "POST",
+	                         url: "http://localhost:8000/marcas/save",
+	                         nombreObjeto: "marca",
+	                         success: (res) => {
+	                           $('#FormModal').modal('hide')
+	                           //document.querySelector(".contenido").innerHTML = null;
+	                           //guardarImgEnLocal();
+	                          // tabla,url,controlador
+	                           reloadTablaCM("tablaMarcas","http://localhost:8000/marcas/listar-siguientes-5","marcas");
+
+	                           /* Actualizar solo la tabla con los nuevos datos
+	                            fetch("http://localhost:8080/administrador/productos")
+	                                .then(response => response.text())
+	                                .then(data => {
+	                                  document.querySelector(".contenido").innerHTML = data;
+	                                })
+	                                .catch(error => {
+	                                    console.error("Error al cargar los datos de la tabla:", error);
+	                                });*/
+	                         },
+	                         err: (err) => $("mensajeError").show(),
+	                             data: {
+	                               id: document.querySelector("[name='id']").value,
+	                               nombre: document.querySelector("[name='nombre']").value,
+	                               activo: document.querySelector("#cboactivo").value
+	                             }
+
+	                       });
+	                      }
+
+	                
+	                 //Si es falsa, no tiene valor, por ende se requiere de registrar
+	                 //if (d.querySelector("[name='id']").value == 0) {
+	                   //POST
+
+	                 //}
+	                 else {
+	                   console.log("Actualizando marca");
+	                   if (!formularioValido) {
+	    					alert("Por favor complete correctamente los campos.");
+	    					$("#mensajeError").show();
+	    					return;
+	    				}
+
+	                   //UPDATE - DELETE
+	                       ajaxCM({
+	                       method: "PUT",
+	                       url: "http://localhost:8000/marcas/editar/" + document.querySelector("[name='id']").value,
+	                       nombreObjeto: "marca",
+	                       success: (res) => { 
+	                    	   $('#FormModal').modal('hide')
+	                    	   reloadTablaCM("tablaMarcas","http://localhost:8000/marcas/listar-siguientes-5","marcas");},
+	                       err: (err) => $("mensajeError").show(),
+	                       data: {
+	                           id: document.querySelector("[name='id']").value,
+	                           nombre: document.querySelector("[name='nombre']").value,
+	                           activo: document.querySelector("#cboactivo").value
+	                         }
+	                       });
+	                   }
+	                  }
+			 
+		 function guardarCategoria() {
+			  if (d.querySelector("[name='id']").value == 0) {
+				  
+					if (!formularioValido) {
+						alert("Por favor complete correctamente los campos.");
+						$("#mensajeError").show();
+						return;
+					}
+				  //POST
+				     ajaxCM({
+				       method: "POST",
+				       url: "http://localhost:8000/categorias/save",
+				       nombreObjeto: "categoria",
+				       success: (res) => {
+				    	   $('#FormModal').modal('hide')
+				    	   //document.querySelector(".contenido").innerHTML = null;
+				    	   //guardarImgEnLocal();
+				    	   
+				    	   reloadTablaCM("tablaCategorias","http://localhost:8000/categorias/listar-siguientes-5","categorias");
+				    	   
+				    	   /* Actualizar solo la tabla con los nuevos datos
+				    	    fetch("http://localhost:8080/administrador/productos")
+				    	        .then(response => response.text())
+				    	        .then(data => {
+				    	        	document.querySelector(".contenido").innerHTML = data;
+				    	        })
+				    	        .catch(error => {
+				    	            console.error("Error al cargar los datos de la tabla:", error);
+				    	        });*/
+				       },
+				       err: (err) => $("mensajeError").show(),
+				           data: {
+				        	   id: document.querySelector("[name='id']").value,
+				        	   nombre: document.querySelector("[name='nombre']").value,
+				        	   activo: document.querySelector("#cboactivo").value
+				        	 }
+
+				     });
+					
+			  }
+			 
+			   //Si es falsa, no tiene valor, por ende se requiere de registrar
+			  // if (d.querySelector("[name='id']").value == 0) {
+			   
+			   //}
+			  else {
+			     //UPDATE - DELETE
+				  console.log("Actualizando marca");
+					if (!formularioValido) {
+						alert("Por favor complete correctamente los campos.");
+						$("#mensajeError").show();
+						return;
+					}
+                  //UPDATE - DELETE
+                      ajaxCM({
+                      method: "PUT",
+                      url: "http://localhost:8000/categorias/editar/" + document.querySelector("[name='id']").value,
+                      nombreObjeto: "categoria",
+                      success: (res) => { 
+                   	   $('#FormModal').modal('hide')
+                   	reloadTablaCM("tablaCategorias","http://localhost:8000/categorias/listar","categorias");},
+                      err: (err) => $("mensajeError").show(),
+                      data: {
+                          id: document.querySelector("[name='id']").value,
+                          nombre: document.querySelector("[name='nombre']").value,
+                          activo: document.querySelector("#cboactivo").value
+                        }
+                      });
+			     }
+			 }
+		 
+		 
+		 function guardarProveedor() {
+			  if (d.querySelector("[name='id']").value == 0) {
+				  // document.querySelector("#mensajeError").innerHTML="";
+
+					if (!formularioValido) {
+						alert("Por favor complete correctamente los campos.");
+						$("#mensajeError").show();
+						return;
+					}
+				  //POST
+				     ajaxCM({
+				       method: "POST",
+				       url: "http://localhost:8000/proveedores/save",
+				       nombreObjeto: "proveedor",
+				       success: (res) => {
+				    	   $('#FormModal').modal('hide')
+				    	   //document.querySelector(".contenido").innerHTML = null;
+				    	   //guardarImgEnLocal();
+				    	   
+				    	   reloadTablaProveedor("tablaProveedores","http://localhost:8000/proveedores/listar","proveedores");
+				    	   
+				    	   /* Actualizar solo la tabla con los nuevos datos
+				    	    fetch("http://localhost:8080/administrador/productos")
+				    	        .then(response => response.text())
+				    	        .then(data => {
+				    	        	document.querySelector(".contenido").innerHTML = data;
+				    	        })
+				    	        .catch(error => {
+				    	            console.error("Error al cargar los datos de la tabla:", error);
+				    	        });*/
+				       },
+				       err: (err) => $("mensajeError").show(),
+				           data: {
+				        	   id: document.querySelector("[name='id']").value,
+				        	   nombreProveedor: document.querySelector("[name='nombre']").value,
+		                         direccion: document.querySelector("[name='direccion']").value,
+		                         correo: document.querySelector("[name='correo']").value,
+		                         telefono: parseInt(document.querySelector("[name='telefono']").value)
+				        	 }
+
+				     });
+					
+			  }
+			 
+			   //Si es falsa, no tiene valor, por ende se requiere de registrar
+			  // if (d.querySelector("[name='id']").value == 0) {
+			   
+			   //}
+			  else {
+			     //UPDATE - DELETE
+				  console.log("Actualizando marca");
+					if (!formularioValido) {
+						alert("Por favor complete correctamente los campos.");
+						$("#mensajeError").show();
+						return;
+					}
+                 //UPDATE - DELETE
+                     ajaxCM({
+                     method: "PUT",
+                     url: "http://localhost:8000/proveedores/editar/" + document.querySelector("[name='id']").value,
+                     nombreObjeto: "proveedor",
+                     success: (res) => { 
+                  	   $('#FormModal').modal('hide')
+                  	   reloadTablaProveedor("tablaProveedores","http://localhost:8000/proveedores/listar","proveedores")},
+                     err: (err) => $("mensajeError").show(),
+                     data: {
+                         id: document.querySelector("[name='id']").value,
+                         nombreProveedor: document.querySelector("[name='nombre']").value,
+                         direccion: document.querySelector("[name='direccion']").value,
+                         correo: document.querySelector("[name='correo']").value,
+                         telefono: document.querySelector("[name='telefono']").value
+                         
+                       }
+                     });
+			     }
+			 }
+		 
+		 function guardarPedido(){
+			 
+			 confirmarPedido();
+			 
+		 }
+		 
+		 function guardarLineaPedido(){
+			 
+		 }
+		 const ajaxEditModalCM = (options) => {
+		        let { url, method, success, err, data } = options;
+
+		        const xhr = new XMLHttpRequest();
+
+		        xhr.addEventListener("readystatechange", (e) => {
+		          if (xhr.readyState !== 4) return;
+
+		          if (xhr.status >= 200 && xhr.status < 300) {
+		            /*Tratamos la respuesta y la convertimos a JSON*/
+		            let json = JSON.parse(xhr.responseText);
+		            console.log(json);
+
+		            success(json);
+		          } else {
+		            let message = xhr.statusText || "Ocurrió un error!";
+		            err(`Error ${xhr.status}: ${message} `);
+		          }
+		        });
+
+		        xhr.open(method || "GET", url);
+		        xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+		        /*Nuestro objeto lo convertimos a texto*/
+		        xhr.send(JSON.stringify(data));
+		        //No aplicamos validación, ya que tan solo podemos evitar pasarle la variable data
+		        //"data" y lo tomaría como null al igual que la variable method
+		      };
+		      
+		      const ajaxEditModalProducto = (options) => {
+			        let { url, method, success, err, data } = options;
+
+			        const xhr = new XMLHttpRequest();
+
+			        xhr.addEventListener("readystatechange", (e) => {
+			          if (xhr.readyState !== 4) return;
+
+			          if (xhr.status >= 200 && xhr.status < 300) {
+			            /*Tratamos la respuesta y la convertimos a JSON*/
+			            let json = JSON.parse(xhr.responseText);
+			            console.log(json);
+
+			            success(json);
+			          } else {
+			            let message = xhr.statusText || "Ocurrió un error!";
+			            err(`Error ${xhr.status}: ${message} `);
+			          }
+			        });
+
+			        xhr.open(method || "GET", url);
+			        xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+			        /*Nuestro objeto lo convertimos a texto*/
+			        xhr.send(JSON.stringify(data));
+			        //No aplicamos validación, ya que tan solo podemos evitar pasarle la variable data
+			        //"data" y lo tomaría como null al igual que la variable method
+			      };
+		      
+			      async function findByIdEntrada(id){
+			    	  try{
+			    		  let url = "http://localhost:8000/entradas/"+id;
+			    		  const response = await fetch(url);
+			    		  const resData = await response.json();
+			    		  console.log(resData);
+			    		  return resData;
+			    	  }
+			    	  catch (e){
+			    		  console.log(e);
+			    	  }
+			      }
+			      function abrirModalConEntradas(data){
+			    	  console.log(data);
+			    	  const $form = document.querySelector(".contact-form");
+					  const $inputId = document.querySelector("#txtid");
+			    	  const $inputUbicacion = document.querySelector(".contact-form #textubicacion");
+			    	  const $selectEstado = document.querySelector(".contact-form #cboestado");
+			    	  $inputId.value = data.id;
+			    	  $inputUbicacion.value = data.ubicacion;
+			    	  $selectEstado.value = data.estado;
+
+			    	    
+			    	    $('#FormModal').modal('show');
+				        //document.querySelector(".container-modal").classList.add("modal-show");
+				        $("#mensajeError").hide();
+				        document.querySelector(".modal-backdrop").style.display="none";
+			      }
+		      
+		      function abrirModalConMC(data){
+		    		
+		    	  const $form = document.querySelector("#FormModal form");
+		    	  //Altero el valor por defecto que era cero, para que pueda identificar que se trata de una actualización
+		    	  const $formId = document.querySelector("#FormModal #txtid");
+		    	  $formId.setAttribute("value",data.id);
+		    	  
+		    	  console.log($formId);
+		    	  $form.nombre.value = data.nombre;
+		    	    const selectActivo = $form.querySelector('#cboactivo');
+
+		    	    // Establecer la propiedad selected de la opción correspondiente
+		    	    selectActivo.value = data.activo.toString();
+		    	    
+		    	    
+		    	    $('#FormModal').modal('show');
+			        //document.querySelector(".container-modal").classList.add("modal-show");
+			        $("#mensajeError").hide();
+			        document.querySelector(".modal-backdrop").style.display="none";
+		    	  
+		      	
+		      }
+		      
+		      function abrirModalConProveedor(data){
+		    		
+		    	  const $form = document.querySelector("#FormModal form");
+		    	  const $formId = document.querySelector("#FormModal #txtid");
+		    	  $formId.setAttribute("value",data.id);
+		    	  
+		    	  console.log($formId);
+		    	  $form.nombre.value = data.nombreProveedor;
+		    	  $form.direccion.value = data.direccion;
+		    	  $form.correo.value = data.correo;
+		    	  $form.telefono.value = data.telefono;
+		    	  
+		    	    
+		    	    
+		    	    $('#FormModal').modal('show');
+			        //document.querySelector(".container-modal").classList.add("modal-show");
+			        $("#mensajeError").hide();
+			        document.querySelector(".modal-backdrop").style.display="none";
+		    	  
+		      	
+		      }
+		      
+
+		      function abrirModalProducto(data){
+		    		
+		    	  const $form = document.querySelector("#FormModal form");
+		    	  
+		    	  const $formImg = document.querySelector("#FormModal form img");
+		    	  
+				  if(data.imagen){
+			    	  $formImg.setAttribute("src","/images/"+data.imagen);
+
+				  }
+		    	  const $formId = document.querySelector("#FormModal #txtid");
+		    	  $formId.setAttribute("value",data.id);
+		    	  
+		    	  console.log($formId);
+		    	  //const $formInputImg = document.querySelector("#FormModal #img");
+		    	  //console.log($formInputImg);
+		    	  //$formInputImg.setAttribute("src","/images/"+data.imagen);
+		    	  $form.nombre.value = data.nombre;
+		    	  $form.descripcion.value = data.descripcion;
+		    	  $form.precio.value = data.precio;
+		    	  $form.cantidad.value = data.cantidad;
+		    	  const selecCategoria = $form.querySelector('#cbocategoria');
+		    	  const selectMarca = $form.querySelector('#cbomarca');
+		    	    // Establecer la propiedad selected de la opción correspondiente
+		    	  selecCategoria.value = data.categoria.id;
+		    	  selectMarca.value = data.marca.id;
+		    	    
+		    	    
+		    	  $('#FormModal').modal('show');
+			        //document.querySelector(".container-modal").classList.add("modal-show");
+			      $("#mensajeError").hide();
+			      document.querySelector(".modal-backdrop").style.display="none";
+		    	  
+		      	
+		      }
+		      
+		      
+		function eliminarElemento(){
+			
+		}
+		      
+		 
+		 //Abrir modal con los datos
+		 document.addEventListener("click", async (e)=>{
+			
+			 //Para categoria y marca
+			 if(e.target.matches("#tablaMarcas .edit") || e.target.matches("#tablaCategorias .edit")){
+				 //e.preventDefault();
+				 console.log("Evitando evento")
+			 
+				 ajaxEditModalCM(
+				{
+					url: "http://localhost:8000/"+e.target.dataset.name+"/"+e.target.dataset.id,
+					success: (success)=> abrirModalConMC(success),
+					err: (err)=> console.log("Error")
+				
+				
+				});
+			 }
+			 
+			 if(e.target.matches("#tablaProveedores .edit")){
+				 ajaxEditModalCM(
+					{
+						url: "http://localhost:8000/"+e.target.dataset.name+"/"+e.target.dataset.id,
+						success: (success)=> abrirModalConProveedor(success),
+						err: (err)=> console.log("Error")
+							
+							
+					});
+			 }
+			 
+			 if(e.target.matches("#tablaProductos .edit")){
+				 console.log("Evitando evento");
+				 ajaxEditModalCM(
+				{
+					url: "http://localhost:8000/"+e.target.dataset.name+"/"+e.target.dataset.id,
+					success: (success)=> abrirModalProducto(success),
+					err: (err)=> console.log("Error")
+							
+							
+				});
+			 }
+			 
+			 if(e.target.matches("#tablaEntradas .edit")){
+				 let data =  await findByIdEntrada(e.target.dataset.id);
+				 abrirModalConEntradas(data);
+			 }
+			 
+		 });
+		 
+		 document.addEventListener("click", (e)=>{
+			
+			 if(e.target.matches(".delete")){
+				let ruta = "http://localhost:8000/"+e.target.dataset.name+"/delete/"+e.target.dataset.id;	 
+			 
+				 let nombre = e.target.dataset.name;
+				let eliminar = confirm("¿Quiere eliminar está "+nombre.slice(0, -1)+"?");
+				
+				if(eliminar){
+					
+					if(e.target.dataset.name === "categorias" || e.target.dataset.name === "marcas"){
+						
+						let tabla = nombre.substring(0,1).toUpperCase()+ nombre.substring(1);
+						ajaxEliminar({
+							url: ruta,
+							method: "DELETE",
+							success: (success)=>{ console.log(success)
+								 reloadTablaCMPagination(tabla,url,controlador)
+		                           reloadTablaCM("tabla"+tabla,"http://localhost:8000/"+e.target.dataset.name+"/listar-siguientes-5",e.target.dataset.name);
+							},
+							err: (err)=> console.log(err)
+						}); 
+					}
+					if(e.target.dataset.name === "productos"){
+						ajaxEliminar({
+							url: ruta,
+							method: "DELETE",
+							success: (success)=>{ console.log(success)
+								reloadTablePagination("http://localhost:8000/productos/listar-siguientes-5");	
+							},
+							err: (err)=> console.log(err)
+						}); 
+					}
+					if(e.target.dataset.name === "proveedores"){
+						ajaxEliminar({
+							url: ruta,
+							method: "DELETE",
+							success: (success)=>{ console.log(success)
+						    	   reloadTablaProveedor("tablaProveedores","http://localhost:8000/proveedores/listar","proveedores");	
+							},
+							err: (err)=> console.log(err)
+						}); 
+					}
+					
+				}
+				
+				else{
+					alert("Se canceló la eliminación");
+				}
+				 
+			 }
+		 });
+		 
+		 
+		 
+		 
+		 function reloadTabla() {
+			    // Aquí puedes realizar una petición Ajax para obtener los datos actualizados
+			    // y luego actualizar la sección de la tabla
+			    const $fragmento = document.createDocumentFragment();
+			    const $table = document.querySelector("#tablaProductos");
+			    const $template = d.getElementById("producto-template").content;
+			    $.ajax({
+			        url: "http://localhost:8000/productos/listar",
+			        type: "GET",
+			        dataType: "json",
+			        success: function (data) {
+			            // Reemplaza la sección de la tabla con los datos actualizados
+			        	$table.querySelector("tbody").innerHTML=null;
+
+			            $.each(data, function(index, element){
+			            	$template.querySelector(".nombre").textContent = element.nombre;
+			                 $template.querySelector(".descripcion").textContent =
+			                   element.descripcion;
+			                 $template.querySelector(".cantidad").textContent = element.cantidad;
+			                 $template.querySelector(".precio").textContent =
+			                   element.precio;
+			                 $template.querySelector(".marca").textContent = element.marca.nombre;
+			                 $template.querySelector(".categoria").textContent =
+			                   element.categoria.nombre;
+			                 
+			                 
+			                 $template.querySelector(".edit").dataset.id = element.id;
+			                 $template.querySelector(".edit").dataset.name = "productos";
+
+			                   $template.querySelector(".delete").dataset.id = element.id;
+				                 $template.querySelector(".delete").dataset.name = "productos";
+			                   const $clone = document.importNode($template, true);
+			            	$fragmento.appendChild($clone);
+			            });
+			            
+			            $table.querySelector("tbody").appendChild($fragmento);
+			        },
+			        error: function (xhr, status, error) {
+			            console.error("Error al cargar datos de la tabla:", error);
+			        }
+			    });
+			}
+		 
+		 async function reloadTablaEntrada(tabla,url,controlador){
+			try{
+				 const $fragmento = document.createDocumentFragment();
+				    const $table = document.querySelector(`#${tabla}`);
+				    const $template = d.getElementById("template-entrada").content;
+				    
+				    const response = await fetch(url);
+				    const jsonData = await response.json();
+				    
+				    console.log(jsonData);
+				    
+				    $table.querySelector("tbody").innerHTML = null;
+				    jsonData.forEach(item =>{
+				    	$template.querySelector(".entradaid").textContent = item.pedidoEntrada.id;
+
+				    	$template.querySelector(".fechaentrega").textContent = item.pedidoEntrada.fEntrega;
+				    	$template.querySelector(".nombreproveedor").textContent = item.pedidoEntrada.proveedor.nombreProveedor;
+				    	$template.querySelector(".ubicacion").textContent = item.ubicacion;
+				    	$template.querySelector(".estado").textContent = item.estado;
+				    	$template.querySelector(".see").dataset.id = item.pedidoEntrada.id;
+				    	$template.querySelector(".see").dataset.name = controlador;
+				    	
+				    	$template.querySelector(".edit").dataset.id = item.id;
+				    	$template.querySelector(".edit").dataset.name = controlador;
+				    	
+				    	const $clone = document.importNode($template, true);
+				    	$fragmento.appendChild($clone);
+				    	
+				    });
+				    $table.querySelector("tbody").appendChild($fragmento);
+			}
+			catch(error){
+				console.log(error);
+			}
+		 }
+		 
+		 async function reloadTablePedidos(tabla, url, controlador){
+			 try{
+				 const $fragmento = document.createDocumentFragment();
+				    const $table = document.querySelector(`#${tabla}`);
+				    const $template = d.getElementById("template-pedido").content;
+				    
+				    const response = await fetch(url);
+				    const jsonData = await response.json();
+				    
+				    console.log(jsonData);
+				    
+				    $table.querySelector("tbody").innerHTML = null;
+				    jsonData.forEach(element =>{
+				    	$template.querySelector(".fPedido").textContent = convertirFormato(element.fPedido);
+		            	 $template.querySelector(".fEntrega").textContent =convertirFormato(element.fEntrega);
+		            	 $template.querySelector(".proveedor-nombreProveedor").textContent = element.proveedor.nombreProveedor;
+		            	 $template.querySelector(".total").textContent = element.total;
+		            	 $template.querySelector(".estado").textContent = element.estado;
+
+		                 $template.querySelector(".edit").dataset.id = element.id;
+		                 $template.querySelector(".edit").dataset.name = controlador;
+		                   $template.querySelector(".delete").dataset.id = element.id;
+		                   $template.querySelector(".delete").dataset.name= controlador;
+		            	const $clone = document.importNode($template, true);
+		            	$fragmento.appendChild($clone);
+				    	
+				    });
+				    $table.querySelector("tbody").appendChild($fragmento);
+			}
+			catch(error){
+				console.log(error);
+			}
+		 }	 
+		 
+		 function reloadTablaCM(tabla,url,controlador) {
+			    // Aquí puedes realizar una petición Ajax para obtener los datos actualizados
+			    // y luego actualizar la sección de la tabla
+			    const $fragmento = document.createDocumentFragment();
+			    const $table = document.querySelector(`#${tabla}`);
+			    const $template = d.getElementById("template").content;
+			    $.ajax({
+			        url: url,
+			        type: "GET",
+			        dataType: "json",
+			        success: function (data) {
+			            $table.querySelector("tbody").innerHTML=null;
+
+			            // Reemplaza la sección de la tabla con los datos actualizados
+			            $.each(data, function(index, element){
+			            	 $template.querySelector(".nombre").textContent = element.nombre;
+			                 $template.querySelector(".activo").textContent = (element.activo) ? "Si" : "No";
+			                 $template.querySelector(".edit").dataset.id = element.id;
+			                 $template.querySelector(".edit").dataset.name = controlador;
+			                   $template.querySelector(".delete").dataset.id = element.id;
+			                   $template.querySelector(".delete").dataset.name= controlador;
+			            	const $clone = document.importNode($template, true);
+			            	$fragmento.appendChild($clone);
+			            });
+			            
+			            $table.querySelector("tbody").appendChild($fragmento);
+			        },
+			        error: function (xhr, status, error) {
+			            console.error("Error al cargar datos de la tabla:", error);
+			        }
+			    });
+			}
+		 function reloadTablaProveedor(tabla,url,controlador) {
+			    // Aquí puedes realizar una petición Ajax para obtener los datos actualizados
+			    // y luego actualizar la sección de la tabla
+			    const $fragmento = document.createDocumentFragment();
+			    const $table = document.querySelector(`#${tabla}`);
+			    const $template = d.getElementById("template-proveedor").content;
+			    $.ajax({
+			        url: url,
+			        type: "GET",
+			        dataType: "json",
+			        success: function (data) {
+			            $table.querySelector("tbody").innerHTML=null;
+
+			            // Reemplaza la sección de la tabla con los datos actualizados
+			            $.each(data, function(index, element){
+			            	 $template.querySelector(".nombre").textContent = element.nombreProveedor;
+			            	 $template.querySelector(".direccion").textContent = element.direccion;
+			            	 $template.querySelector(".correo").textContent = element.correo;
+			            	 $template.querySelector(".telefono").textContent = element.telefono;
+			                 //$template.querySelector(".activo").textContent = (element.activo) ? "Si" : "No";
+			                 $template.querySelector(".edit").dataset.id = element.id;
+			                 $template.querySelector(".edit").dataset.name = controlador;
+			                   $template.querySelector(".delete").dataset.id = element.id;
+			                   $template.querySelector(".delete").dataset.name= controlador;
+			            	const $clone = document.importNode($template, true);
+			            	$fragmento.appendChild($clone);
+			            });
+			            
+			            $table.querySelector("tbody").appendChild($fragmento);
+			        },
+			        error: function (xhr, status, error) {
+			            console.error("Error al cargar datos de la tabla:", error);
+			        }
+			    });
+			}
+		 
+		 
+		 function reloadTablePagination(ruta) {
+			    // Aquí puedes realizar una petición Ajax para obtener los datos actualizados
+			    // y luego actualizar la sección de la tabla
+			    const $fragmento = document.createDocumentFragment();
+			    const $table = document.querySelector("#tablaProductos");
+			    const $template = d.getElementById("producto-template").content;
+			    $.ajax({
+			        url: ruta,
+			        type: "GET",
+			        dataType: "json",
+			        success: function (data) {
+			            // Reemplaza la sección de la tabla con los datos actualizados
+			        	$table.querySelector("tbody").innerHTML=null;
+
+			            $.each(data, function(index, element){
+			            	$template.querySelector(".nombre").textContent = element.nombre;
+			                 $template.querySelector(".descripcion").textContent =
+			                   element.descripcion;
+			                 $template.querySelector(".cantidad").textContent = element.cantidad;
+			                 $template.querySelector(".precio").textContent =
+			                   element.precio;
+			                 $template.querySelector(".marca").textContent = element.marca.nombre;
+			                 $template.querySelector(".categoria").textContent =
+			                   element.categoria.nombre;
+			                 
+			                 
+			                 $template.querySelector(".edit").dataset.id = element.id;
+			                 $template.querySelector(".edit").dataset.name = "productos";
+
+			                   $template.querySelector(".delete").dataset.id = element.id;
+				                 $template.querySelector(".delete").dataset.name = "productos";
+			                   const $clone = document.importNode($template, true);
+			            	$fragmento.appendChild($clone);
+			            });
+			            
+			            $table.querySelector("tbody").appendChild($fragmento);
+			        },
+			        error: function (xhr, status, error) {
+			            console.error("Error al cargar datos de la tabla:", error);
+			        }
+			    });
+			}
+		 
+		 function reloadTablaCMPagination(tabla,url,controlador) {
+			    // Aquí puedes realizar una petición Ajax para obtener los datos actualizados
+			    // y luego actualizar la sección de la tabla
+			    const $fragmento = document.createDocumentFragment();
+			    const $table = document.querySelector(`#${tabla}`);
+			    const $template = d.getElementById("template").content;
+			    $.ajax({
+			        url: url,
+			        type: "GET",
+			        dataType: "json",
+			        success: function (data) {
+			            $table.querySelector("tbody").innerHTML=null;
+
+			            // Reemplaza la sección de la tabla con los datos actualizados
+			            $.each(data, function(index, element){
+			            	 $template.querySelector(".nombre").textContent = element.nombre;
+			                 $template.querySelector(".activo").textContent = (element.activo) ? "Si" : "No";
+			                 $template.querySelector(".edit").dataset.id = element.id;
+			                 $template.querySelector(".edit").dataset.name = controlador;
+			                   $template.querySelector(".delete").dataset.id = element.id;
+			                   $template.querySelector(".delete").dataset.name= controlador;
+			            	const $clone = document.importNode($template, true);
+			            	$fragmento.appendChild($clone);
+			            });
+			            
+			            $table.querySelector("tbody").appendChild($fragmento);
+			        },
+			        error: function (xhr, status, error) {
+			            console.error("Error al cargar datos de la tabla:", error);
+			        }
+			    });
+			}
+		 
+		 function convertirFormato(fechaRecibir){
+			 let fecha = new Date(fechaRecibir);
+			 let year = fecha.getFullYear();
+			 let month = fecha.getMonth()+1;
+		        let day = fecha.getDate();
+		        const fechaFormateadaPedido = `${year}-${month < 10 ? "0":""}${month}-${day<10 ? "0": ""}${day}`
+			 
+			 return  fechaFormateadaPedido ;
+			 
+			 
+		 }
+		 function reloadTablaPedidoPagination(tabla,url,controlador){
+			    // Aquí puedes realizar una petición Ajax para obtener los datos actualizados
+			    // y luego actualizar la sección de la tabla
+			    const $fragmento = document.createDocumentFragment();
+			    const $table = document.querySelector(`#${tabla}`);
+			    const $template = d.getElementById("template-pedido").content;
+			    $.ajax({
+			        url: url,
+			        type: "GET",
+			        dataType: "json",
+			        success: function (data) {
+			            $table.querySelector("tbody").innerHTML=null;
+
+			            // Reemplaza la sección de la tabla con los datos actualizados
+			            $.each(data, function(index, element){
+			            	 $template.querySelector(".fPedido").textContent = convertirFormato(element.fPedido);
+			            	 $template.querySelector(".fEntrega").textContent =convertirFormato(element.fEntrega);
+			            	 $template.querySelector(".proveedor-nombreProveedor").textContent = element.proveedor.nombreProveedor;
+			            	 $template.querySelector(".total").textContent = element.total;
+			            	 $template.querySelector(".estado").textContent = element.estado;
+
+			                 $template.querySelector(".edit").dataset.id = element.id;
+			                 $template.querySelector(".edit").dataset.name = controlador;
+			                   $template.querySelector(".delete").dataset.id = element.id;
+			                   $template.querySelector(".delete").dataset.name= controlador;
+			            	const $clone = document.importNode($template, true);
+			            	$fragmento.appendChild($clone);
+			            });
+			            
+			            $table.querySelector("tbody").appendChild($fragmento);
+			        },
+			        error: function (xhr, status, error) {
+			            console.error("Error al cargar datos de la tabla:", error);
+			        }
+			    });			 
+		 }
+		 
+		 document.addEventListener("click", (e)=>{
+			if(e.target.matches(".links button")){
+				if(e.target.dataset.table === "tablaCategorias" || e.target.dataset.table==="tablaMarcas"){
+					reloadTablaCMPagination(e.target.dataset.table,e.target.dataset.ruta,e.target.dataset.controlador);
+
+				}
+				else if (e.target.dataset.table==="tablaProductos" ){
+					reloadTablePagination(e.target.dataset.ruta);
+				}
+				else if(e.target.dataset.table==="tablaPedidos" ){
+					reloadTablaPedidoPagination(e.target.dataset.table,e.target.dataset.ruta,e.target.dataset.controlador);
+				}
+			} 
+
+		 });
+		 
+		 function guardarImgEnLocal(imgSave){
+			const imagenSelec = document.querySelector("[name='img']").files[0];
+			 
+			if(imagenSelec !=null ){
+				 const xhr = new XMLHttpRequest();
+
+			     xhr.addEventListener("readystatechange", (e) => {
+			       if (xhr.readyState !== 4) return;
+
+			       if (xhr.status >= 200 && xhr.status < 300) {
+			         /*Tratamos la respuesta y la convertimos a JSON*/
+			         //let json = JSON.parse(xhr.responseText);
+			         //console.log(json);
+
+			         console.log("Petición para guardar imagen con éxito!")
+			       } else {
+			         let message = xhr.statusText || "Ocurrió un error!";
+			         console.log(`Error ${xhr.status}: ${message} `);
+			       }
+			     });
+			     var formData = new FormData();
+			     formData.append("img", imagenSelec)
+
+			     xhr.open("POST","http://localhost:8080/productos/imgSave");
+				xhr.send(formData);
+			}
+			
+		 }
+			const $fragmentMedia = document.createDocumentFragment();
+
+		 //Cerrar modal
+		   function cerrarModalProducto() {
+		    // Obtener el formulario por su identificador
+		    const $formulario = document.getElementById("contenedor");
+			//obtener div media
+		    const $divMedia = document.getElementById("contenedor-media");
+		    $divMedia.innerHTML = "";
+		    let codigoMedia = ""; // Inicializado codigoMedia
+
+		    codigoMedia += `
+		        <div class="mb-2">
+		            <label class="form-label">Imagen</label>
+		            <img id="img_producto" height="197px" width="200px" class="border rounded mx-auto d-block img-fluid" />
+		        </div>
+		        <div class="mb-2">
+		            <input class="form-control" type="file" id="img" name="img" onchange="mostrarImagen(this)" />
+		        </div>
+		    `;
+
+		    // Crear un fragmento y agregar el contenido a él
+		    $divMedia.innerHTML = codigoMedia;
+
+		    //$divMedia.appendChild($fragmentMedia);
+		    // Resetear el formulario para restaurar los valores iniciales
+		    $formulario.reset();
+
+		  
+
+		 }
+		 
+		   function cerrarModalCM() {
+			    // Obtener el formulario por su identificador
+			    const $formulario = document.getElementById("contenedor");
+
+			    // Resetear el formulario para restaurar los valores iniciales
+			    $formulario.reset();
+
+			  
+
+			 }
+		   
+		// Función para cargar proveedores al cargar la página
+
+
+		      function cargarProductos(id) {
+		        // Obtener el id del proveedor seleccionado
+		      //  var proveedorId = document.getElementById("proveedor").value;
+
+		        // Realizar una solicitud AJAX para obtener productos por proveedor
+		        let idProve = parseInt(id);
+		        var urlProductos =
+		          "http://localhost:8000/productos/"+ idProve;
+
+		        fetch(urlProductos)
+		          .then((response) => response.json())
+		          .then((productos) => {
+		            // Mostrar los productos con checkboxes y campos de cantidad
+		            console.log(productos);
+		            mostrarProductos(productos);
+		          })
+		          .catch((error) =>
+		            console.error("Error al obtener productos:", error)
+		          );
+		      }
+
+		      function mostrarProductos(productos) {
+		        // Limpiar la lista de productos
+		        var productosContainer = document.querySelector("div#productos");
+		        productosContainer.innerHTML = "";
+				
+		        const $button = document.createElement("button");
+		        const $buttonCerrar = document.createElement("button");
+		        const $divContainerButton = document.createElement("div");
+		        
+		        $divContainerButton.classList.add("container-button-guadar");
+		        $divContainerButton.classList.add("w-100");
+		        $button.type="button";
+		        $buttonCerrar.type="button";
+		        
+		   		 $button.classList.add("guardarSeleccionProd");
+		   		$buttonCerrar.classList.add("cerrarSeleccionProd");
+		   		
+		        $button.textContent= "Guardar Selección";
+		        $buttonCerrar.textContent= "Cancelar Selección";
+		        // Mostrar los productos con checkboxes y campos de cantidad
+		        productos.forEach(function (producto) {
+		          var checkbox = document.createElement("input");
+		          var label = document.createElement("label");
+		          checkbox.type = "checkbox";
+		          checkbox.className = "producto-checkbox";
+		          var cantidadInput = document.createElement("input");
+		          cantidadInput.type = "text";
+		          cantidadInput.placeholder = "Ingresar cantidad"
+		          cantidadInput.className = "cantidad-input";
+		          cantidadInput.disabled = true;
+
+		          label.textContent  = producto.nombre;
+
+		          // Asignar el id del producto como data para asociar checkbox y cantidad
+		          checkbox.setAttribute("data-producto-id", producto.id);
+		          cantidadInput.setAttribute("data-producto-id", producto.id);
+
+		          var container = document.createElement("div");
+		          container.classList.add("contenedor-check")
+		          container.appendChild(checkbox);
+		          container.appendChild(label);
+		          // Agregar los elementos al DOM
+		          productosContainer
+		            .appendChild(document.createElement("div"))
+		            .appendChild(container);
+
+		          productosContainer.lastChild.appendChild(cantidadInput);
+		          $divContainerButton.appendChild($button);
+		          $divContainerButton.appendChild($buttonCerrar);
+		          productosContainer.appendChild($divContainerButton);
+		          
+
+				
+		          // Habilitar/deshabilitar campos de cantidad al marcar/desmarcar checkbox
+		          checkbox.addEventListener("change", function () {
+		            cantidadInput.disabled = !checkbox.checked;
+		          });
+		        });
+		      }
+
+		      function confirmarPedido() {
+		        // Obtener productos seleccionados y sus cantidades
+		        
+		        var productosSeleccionados = [];
+		        var checkboxes = document.getElementsByClassName("producto-checkbox");
+		        for (var i = 0; i < checkboxes.length; i++) {
+		          var checkbox = checkboxes[i];
+		          var productoId = checkbox.getAttribute("data-producto-id");
+		          var cantidadInput = document.querySelector(
+		            '.cantidad-input[data-producto-id="' + productoId + '"]'
+		          );
+		          var cantidad = cantidadInput.value;
+		          if (checkbox.checked && cantidad.trim() !== "") {
+		            productosSeleccionados.push({
+		              id: productoId
+		            });
+		          }
+		        }
+
+		        // Obtener la fecha de entrega
+		        var fechaEntrega = document.getElementById("fechaEntrega").value;
+
+		        // Obtener el id del proveedor seleccionado
+		        var proveedorId = document.getElementById("cboproveedor").value;
+
+		        
+		        //Formatear la fecha de pedido
+		        const fechaActual = new Date();
+		        let year = fechaActual.getFullYear();
+		        let month = fechaActual.getMonth()+1;
+		        let day = fechaActual.getDate();
+		        
+		        const fechaFormateadaPedido = `${year}-${month < 10 ? "0":""}${month}-${day<10 ? "0": ""}${day}`
+	
+		        	var fechaObjeto = new Date(fechaEntrega);
+
+		     	// Obtener el año, mes y día
+		     		const yearE = fechaObjeto.getFullYear();
+		     		const monthE = fechaObjeto.getMonth() + 1; // Los meses en JavaScript son indexados desde 0, por lo que sumamos 1
+		     		const dayE = fechaObjeto.getDate();
+		        
+		        	const fechaFormateadaEntrega = `${yearE}-${monthE < 10 ? "0":""}${monthE}-${dayE<10 ? "0": ""}${dayE}`
+		        // Crear objeto que representa el pedido
+		        var pedido = {
+		          id: "PE16",
+		          proveedor: {
+		            id: proveedorId,
+		          },
+		          fPedido: fechaFormateadaPedido,
+		          fEntrega: fechaEntrega,
+		          estado: "Enviado",
+		          itemsProducto: productosSeleccionados
+		        };
+
+					 document.querySelector("#mensajeError").innerHTML="";
+				        if(!pedidoFormValidation()){
+							alert("Por favor debe seleccionar correctamente.");
+				        	console.log("No se cumplió con la validación")
+							 $("#mensajeError").show(); 
+							return;
+				        }
+				        
+		        	
+		        	// Generar un límite único
+		        const boundary = `----MyBoundary${new Date().getTime()}`;
+
+		        const formData = new FormData();
+		        //formData.append("img", imagenSeleccionado);
+		        formData.append("pedido", JSON.stringify(pedido));
+
+		        // Mostrar el contenido de FormData
+		        console.log("FormData content:");
+		        for (const pair of formData.entries()) {
+		          console.log(pair[0] + ", " + pair[1]);
+		        }
+
+		        // Configurar opciones para la solicitud Fetch
+		        const options = {
+		          method: "POST",
+		          body: formData,
+		        };
+
+
+		        // Realizar la solicitud Fetch
+		        fetch("http://localhost:8000/pedidos/save", options)
+		          .then((response) => {
+		            if (!response.ok) {
+		              throw new Error(
+		                `Error ${response.status}: ${response.statusText}`
+		              );
+		            }
+		            
+		            console.log("Exito");
+		            guardarLinea();    
+			    	  $('#FormModal').modal('hide')
+			    	  reloadTablePedidos("tablaPedidos", "http://localhost:8000/pedidos/listar-siguientes-5", "pedidos");
+
+		            // Puedes agregar código para manejar la respuesta aquí si es necesario
+		            // return response.json(); // Si esperas una respuesta en formato JSON
+		          })
+		          .catch((error) => {
+		            console.error(error.message);
+		            // Puedes manejar errores aquí según tus necesidades
+		          });
+
+
+		        //No aplicamos validación, ya que tan solo podemos evitar pasarle la variable data
+		        //"data" y lo tomaría como null al igual que la variable method
+		      }
+
+		      function guardarLinea() {
+
+		        const idPedidoUltimo = document.querySelector("input[name='idPedido']").value;
+		        const formData = new FormData();
+		        //formData.append("img", imagenSeleccionado);
+		        
+		        // Obtener productos seleccionados y sus cantidades
+		        var productosSeleccionados = [];
+		        var checkboxes = document.getElementsByClassName("producto-checkbox");
+		        for (var i = 0; i < checkboxes.length; i++) {
+		          var checkbox = checkboxes[i];
+		          var productoId = checkbox.getAttribute("data-producto-id");
+		          var cantidadInput = document.querySelector(
+		            '.cantidad-input[data-producto-id="' + productoId + '"]'
+		          );
+		          var cantidad = cantidadInput.value;
+		          if (checkbox.checked && cantidad.trim() !== "") {
+		            productosSeleccionados.push({
+		              pedido: {
+		                id:idPedidoUltimo
+		              },
+		              productos:{
+		                id: productoId
+		              },
+		              cantidad: cantidad,
+		            });
+		          }
+		        }
+
+		        formData.append("lineapedido", JSON.stringify(productosSeleccionados));
+
+
+		        fetch("http://localhost:8000/lineaP/save", {method: "POST", body: formData})
+		        .then(res=>generarPedidoPDF())
+		        .catch(err=>console.log(err));
+		      }
+		      
+		      function generarPedidoPDF(){
+			        const idPedidoUltimo = document.querySelector("input[name='idPedido']").value;
+					let url = "http://localhost:8000/lineaP/export-pdf/"+idPedidoUltimo;
+			        fetch(url)
+			        .then(response => {
+			            if (!response.ok) {
+			              throw new Error(`Error al descargar el archivo: ${response.status} - ${response.statusText}`);
+			            }
+			            return response.blob();
+			          })
+			          .then(blob => {
+			            const url = window.URL.createObjectURL(blob);
+			            const a = document.createElement('a');
+			            a.href = url;
+			            a.download = 'pedidosReport.pdf';
+			            document.body.appendChild(a);
+			            a.click();
+			            document.body.removeChild(a);
+			        	enviarPDFProveedor(idPedidoUltimo);
+
+			          })
+			          .catch(error => console.error(error));
+		      }
+		      
+		      function enviarPDFProveedor(id){
+		    	  let url = "http://localhost:8000/lineaP/enviar-pdf/"+id;
+			        fetch(url)
+			        .then(res=>console.log(res))
+			        .catch(err=>console.log(err));
+		      }
+		      
+		     function resetearCheckProductyCantidad(){
+			        var checkboxes = document.getElementsByClassName("producto-checkbox");
+			        for (var i = 0; i < checkboxes.length; i++) {
+			          var checkbox = checkboxes[i];
+			          checkbox.checked = false;
+			          var productoId = checkbox.getAttribute("data-producto-id");
+			          var cantidadInput = document.querySelector(
+			            '.cantidad-input[data-producto-id="' + productoId + '"]'
+			          );
+						cantidadInput.value = ""
+			        }
+		      }
+		    function  validarProductosPedidos(){
+		    	var checkboxes = document.getElementsByClassName("producto-checkbox");
+		    	
+		    	let valido = false;
+		    	
+		    	for(var i=0; i< checkboxes.length; i++){
+		    		let checkbox =  checkboxes[i];
+		    		let productoId = checkbox.getAttribute("data-producto-id");
+		    		let cantidadInput = document.querySelector('.cantidad-input[data-producto-id="'+productoId+'"]');
+		    		
+		    		valido = (cantidadInput.value === ""  || checkbox.checked === false)? valido : true;
+		    	}
+		    	
+		    	return valido;
+		    }
+
+		      document.addEventListener("click", e=>{
+		        const $productosContainer = document.querySelector("#productos");
+		        
+		        if(e.target.matches(".abrirProductos")){
+		        	var proveedorId = document.getElementById("cboproveedor").value;
+		        	
+		        	if(proveedorId ==="0"){
+		        		alert("Por favor selecciona un proveedor");
+		        		return;
+		        	}
+
+			        var checkboxes = document.getElementsByClassName("producto-checkbox");
+					
+			        if(!checkboxes.length>0){
+			        	cargarProductos(proveedorId);	
+			        }
+		        	
+		            $productosContainer.classList.remove("none");
+		            $productosContainer.classList.add("block");
+
+		        }
+		        
+		        if(e.target.matches("div.container-button-guadar button.guardarSeleccionProd")){
+		        	
+		        	if(!validarProductosPedidos()){
+		        		alert("Debe seleccionar el producto e ingresar la cantidad que desea");
+		        		return;
+		        	}
+		        	 $productosContainer.classList.remove("block");
+			            $productosContainer.classList.add("none");
+			            
+		        }
+		     
+			      if(e.target.matches("div.container-button-guadar button.cerrarSeleccionProd")){
+			    	  $productosContainer.classList.remove("block");
+			            $productosContainer.classList.add("none");
+			        	 resetearCheckProductyCantidad();
+			        }
+			      
+		      
+		      });
+		      
+
+		      
+		      document.addEventListener("change", e=>{
+					 const $inputFEntrega = document.querySelector(".contact-form input[name='fEntrega']");
+					 const $selectProveedor = document.querySelector("#cboproveedor");
+		    	  
+					 if(e.target === $inputFEntrega  || e.target === $selectProveedor ){
+						 document.querySelector("#mensajeError").innerHTML="";
+						
+				    	  if(!pedidoFormValidation()){
+								 $("#mensajeError").show(); 
+
+				    	  }
+				    	  else{
+				    		  $("#mensajeError").hide(); 
+				    	  }
+
+					 }
+
+		    	  
+		    	  
+		      });
+
+
+</script>
+
+</body>
+
+</html>

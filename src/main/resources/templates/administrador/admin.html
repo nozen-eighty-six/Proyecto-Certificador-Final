@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Tienda</title>
+<!-- jQuery -->
+<script th:src="@{https://code.jquery.com/jquery-3.6.4.min.js}"></script>
+
+
+<link rel="stylesheet"
+	th:href="@{https://cdnjs.cloudflare.com/ajax/libs/hamburgers/1.2.1/hamburgers.min.css}" />
+
+<link rel="stylesheet"
+	th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css}" />
+
+<link
+	th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css}"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+
+
+
+<!--  
+<link th:href="@{/css/material-dashboard.css}" rel="stylesheet" />
+<!-- Bootstrap core CSS 
+<link th:href="@{/vendor/bootstrap/css/bootstrap.css}" rel="stylesheet">
+
+<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet">
+	-->
+<link rel="stylesheet"
+	th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css}">
+<script
+	th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js}"></script>
+
+
+<!-- Font Awesome Icons 
+<script th:src="@{https://kit.fontawesome.com/42d5adcbca.js}"
+	crossorigin="anonymous"></script>
+
+<!-- Material Icons 
+<link
+	th:href="@{https://fonts.googleapis.com/icon?family=Material+Icons+Round}"
+	rel="stylesheet">
+
+-->
+
+<!-- Estilos para el menú -->
+<link th:href="@{/css/dom_style.css}" rel="stylesheet">
+
+
+
+<style>
+html {
+	box-sizing: border-box;
+}
+
+*, *::before, *::after {
+	box-sizing: inherit;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.loader {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 10000000;
+	background-color: #7f7f7f;
+}
+      .links{
+        position: absolute;
+        right: 10px;
+        bottom: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .links button{
+        padding: .5rem 1rem;
+        color: #000 !important;
+        cursor: pointer;
+        
+      }
+      .links button:hover{
+      	font-weight: bold !important;
+      }
+
+      .active{
+        background-color: #b2b2b2;
+        
+        
+      }
+
+</style>
+</head>
+<body>
+
+
+	<div class="contenido-principal ">
+
+		<button class="panel-btn hamburger none hamburger--vortex"
+			type="button">
+			<span class="hamburger-box"> <span class="hamburger-inner"></span>
+			</span>
+		</button>
+
+
+		<div class="menu-navegacion is-active">
+			<aside class="panel is-active">
+				<nav class="menu">
+					<span>Menú</span>
+					<button class=" nav-btn right-top  hamburger--vortex" type="button">
+						<span class="hamburger-box"> <span class="hamburger-inner"></span>
+						</span>
+					</button>
+					<hr class="styled-hr mt-0 mb-1">
+					<a th:href="@{/administrador/usuarios}"
+						data-ruta="@{/administrador/usuarios}" data-scroll-spy> <i
+						class="fas fa-user"></i> Usuarios
+					</a> <a th:href="@{/proveedores}" data-ruta="@{/proveedores}"
+						data-scroll-spy> <i class="fas fa-user-check"></i> Proveedores
+					</a>
+					<hr class="mt-0 mb-1">
+					<a th:href="@{#}" class="separador-seccion">Gestión</a> <a
+						th:href="@{/administrador/productos}" data-controlador="productos" data-scroll-spy> <i
+						class="fas fa-box"></i> Productos
+					</a> <a th:href="@{/marcas}" data-scroll-spy> <i class="fas fa-tag"></i>Marcas
+					</a> <a th:href="@{/categorias}" data-scroll-spy><i
+						class="fas fa-list"></i>Categorías</a>
+					<!-- 
+				 <a href="#seccion7" data-scroll-spy>Detección de Conexión</a>
+			<a href="#seccion8" data-scroll-spy>Detección de webCam</a> <a
+				href="#seccion9" data-scroll-spy>Geolocalización</a> <a
+				href="#seccion10" data-scroll-spy>Filtros de búsqueda</a> <a
+				href="#seccion11" data-scroll-spy>Sorteo Digital</a> <a
+				href="#seccion12" data-scroll-spy>Responsive Slider</a> <a
+				href="#seccion13" data-scroll-spy>Video Inteligente</a> <a
+				href="#seccion14" data-scroll-spy>Validación de Formulario</a> -->
+					<button th:onclick="location.href='/usuario/cerrar'"
+						data-scroll-spy class="bottom-7">
+						<i class="fas fa-sign-out-alt"></i>Salir
+					</button>
+				</nav>
+			</aside>
+
+		</div>
+
+
+		<section class="contenido bg-gray-light br-1 bs-thin position-relative overflow-hidden">
+
+		</section>
+
+
+
+
+	</div>
+
+	<template id="producto-template">
+		<tr>
+			<td class="nombre"></td>
+			<td class="descripcion"></td>
+			<td class="cantidad"></td>
+			<td class="precio"></td>
+			<td class="marca"></td>
+			<td class="categoria"></td>
+			<!-- th:href="@{/productos/editar/{id}(id=${p.id})}" -->
+			<td><button class="btn btn-warning edit col-12">Editar</button></td>
+			<!-- th:href="@{/productos/delete/{id}(id=${p.id})}" -->
+			<td><button class="btn btn-danger delete col-12">Eliminar</button></td>
+		</tr>
+		<!-- 
+		<tr th:each="p : ${bProductos}">
+			<td th:utext="${p.nombre}"></td>
+			<td th:utext="${p.descripcion}"></td>
+			<td th:utext="${p.cantidad}"></td>
+			<td th:utext="${p.precio}"></td>
+			<td th:utext="${p.marca.nombre}"></td>
+			<td th:utext="${p.categoria.nombre}"></td>
+			<td><a class="btn btn-warning"
+				th:href="@{/productos/editar/{id}(id=${p.id})}">Editar</a></td>
+			<td><a class="btn btn-danger"
+				th:href="@{/productos/delete/{id}(id=${p.id})}">Eliminar</a></td>
+		</tr> -->
+	</template>
+
+	<template id="template">
+		<tr>
+			<td class="nombre"></td>
+			<td class="activo"></td>
+
+			<td><button class="btn btn-warning edit col-6">Editar</button></td>
+			<!-- th:href="@{/productos/delete/{id}(id=${p.id})}" -->
+			<td><button class="btn btn-danger delete col-6">Eliminar</button></td>
+		</tr>
+
+	</template>
+	
+	<template id="loader">
+	
+				<div
+				class="loader d-flex justify-content-center align-items-center">
+				<!-- By Sam Herbert (@sherb), for everyone. More @ http://goo.gl/7AJzbL -->
+				<svg width="60" height="60" viewBox="0 0 38 38"
+					xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%"
+						id="a">
+            <stop stop-color="#000" stop-opacity="0" offset="0%" />
+            <stop stop-color="#000" stop-opacity=".631" offset="63.146%" />
+            <stop stop-color="#000" offset="100%" />
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g transform="translate(1 1)">
+            <path d="M36 18c0-9.94-8.06-18-18-18" id="Oval-2"
+						stroke="url(#a)" stroke-width="2">
+                <animateTransform attributeName="transform"
+						type="rotate" from="0 18 18" to="360 18 18" dur="0.9s"
+						repeatCount="indefinite" />
+            </path>
+            <circle fill="#fff" cx="36" cy="18" r="1">
+                <animateTransform attributeName="transform"
+						type="rotate" from="0 18 18" to="360 18 18" dur="0.9s"
+						repeatCount="indefinite" />
+            </circle>
+        </g>
+    </g>
+</svg>
+			</div>
+	</template>
+
+
+
+
+	<!--   Core JS Files   -->
+	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+
+	<script th:src="@{/js/dom_index.js}" type="module"></script>
+	<script th:src="@{/js/ajax.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/perfect-scrollbar.min.js}"></script>
+	<script th:src="@{/js/smooth-scrollbar.min.js}"></script>
+
+	<script>
+	//variables globales
+	var tablaData;
+	$(document).ready(function() {
+		   abrirModalCrearProducto();
+		   abrirModalCrearCategoria();
+		   abrirModalCrearMarca();
+		   guardarProducto();
+		   guardarMarca();
+		   guardarCategoria();
+		});
+	
+	
+	/*Diseñamos nuestra tabla
+	tablaData = $("#tabla").DataTable({
+		responsive: true,
+		ordering: false, //para ordenar las columnas
+		//Traer todos los valores
+		"ajax": {
+			//Que tome de referencia el método Get ListarUsuarios del Contr. Home
+		url: "http://localhost:8000/productos/listar",
+		type: "GET",
+		dataType: "json",
+		 dataSrc: "data"
+		},
+	    success: function(response) {
+	        console.log(response); // Imprime la respuesta en la consola
+	    },
+		"columns": [
+		//"data" es lo que se envia del controller
+			{ "data": "nombre" },
+			{ "data": "descripcion" },
+			{ "data": "cantidad" },
+			{ "data": "precio" },
+			{
+				"data": "marca", "render": function (data) {
+
+					return data.nombre;
+
+				}
+			},
+			{
+				"data": "categoria", "render": function (data) {
+
+					return data.nombre;
+
+				}
+			},
+
+			{
+				//Columna por defecto
+				"defaultContent": '<button type="button" class="btn btn-primary btn-sm btn-editar"><i class="fas fa-pen "> </i></button>' +
+					'<button type="button" class="btn btn-danger btn-sm ms-2 btn-eliminar"><i class="fas fa-trash "> </i></button>',
+				"orderable": false,
+				"searchable": false,//que no se filtre por estos botones
+				"width":"90px"
+			}
+		],
+		"language": { "url": "https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"}
+
+
+
+	});*/
+	
+	
+		
+		 function abrirModalCrearProducto() {
+		        $('#FormModal').modal('show');
+		        //document.querySelector(".container-modal").classList.add("modal-show");
+		        $("#mensajeError").hide();
+		        document.querySelector(".modal-backdrop").style.display="none";
+		    }
+	
+	 function abrirModalCrearMarca() {
+	        $('#FormModal').modal('show');
+	        //document.querySelector(".container-modal").classList.add("modal-show");
+	        $("#mensajeError").hide();
+	        document.querySelector(".modal-backdrop").style.display="none";
+	    }
+	 function abrirModalCrearCategoria() {
+	        $('#FormModal').modal('show');
+	        //document.querySelector(".container-modal").classList.add("modal-show");
+	        $("#mensajeError").hide();
+	        document.querySelector(".modal-backdrop").style.display="none";
+	    }
+		 function mostrarImagen(input) {
+		        var fileInput = input;
+		        var imgElement = document.getElementById('img_producto');
+
+		        // Verifica si se seleccionó un archivo
+		        if (fileInput.files && fileInput.files[0]) {
+		            var reader = new FileReader();
+
+		            reader.onload = function (e) {
+		                // Muestra la vista previa de la imagen
+		                imgElement.src = e.target.result;
+		            }
+
+		            // Lee el contenido del archivo como una URL de datos
+		            reader.readAsDataURL(fileInput.files[0]);
+		        }
+		    }
+		 
+		 function contactFormValidations() {
+			  const $form = document.querySelector(".contact-form"),
+			    //Si no quieres que por ejemplo el subject sea requerido, se le puede
+			    //quitar el atributo "required" para que no sea tomado en cuenta
+			    $inputs = document.querySelectorAll(".contact-form [required]");
+				let cumpleVerificacion = true;
+			  console.log($inputs);
+			  //Estamos creando un span que se coloque después de los inputs,
+			  //Se le agrega la clase error con none, para que este oculto
+			  //cuando se detecte algo en los inputs, se le quitará esa clase "none"
+			  //a los inputs
+			  $inputs.forEach((inp) => {
+					  let expRegular = new RegExp(inp.pattern);
+
+					  if(!expRegular.exec(inp.value.toString())){
+						  console.log(inp);
+						  const $span = document.createElement("span");
+						    $span.id = inp.name;
+						    $span.textContent = inp.name+": "+ inp.title;
+						    $span.style.display="block";
+						    document.querySelector("#mensajeError").appendChild($span);
+						    cumpleVerificacion = false;
+					  }
+			   
+			    //$span.classList.add("contact-form-error", "none");
+			    //inp.insertAdjacentElement("afterend", $span);
+			  });
+				/*
+			  document.addEventListener("keyup", (e) => {
+			    if (e.target.matches(".contact-form [required]")) {
+			      let $input = e.target, //Capturamos al elemento actual que realiza el event
+			        pattern = $input.pattern || $input.dataset.pattern;
+			      //Operador de cortocircuito, indica que si la primera condición no funciona
+			      //Entonces accede al segundo valor
+			      if (pattern && $input.value !== "") {
+			        console.log("El input tiene patrón");
+			        //Guardo mi expresión regultar
+			        let expRegular = new RegExp(pattern);
+			        //
+			        //let expr = new RegExp(expresion) y la usamos mediante expr.exec(valorAVerificar)
+			        return !expRegular.exec($input.value)
+			          ? document.getElementById($input.name).classList.add("is-active")
+			          : document.getElementById($input.name).classList.remove("is-active");
+			      }
+			      if (!pattern) {
+			        console.log("El input  no tiene patrón");
+
+			        return $input.value === ""
+			          ? document.getElementById($input.name).classList.add("is-active")
+			          : document.getElementById($input.name).classList.remove("is-active");
+			      }
+			    }
+			  });*/
+			  return cumpleVerificacion;
+			  
+
+
+			}
+		 /*
+		 $("#contenedor").validate({
+				rules: {
+					nombre: {
+						required: true
+					},
+					descripcion: {
+						required: true
+					},
+					precio: {
+						required: true,
+						preciodecimal: true
+					},
+					cantidad: {
+						required: true,
+						number: true
+					}
+
+				},
+				//Mensajes en caso no se cumplan las reglas
+				messages: {
+					nombre: "- El campo nombre es obligatorio",
+					descripcion: "- El campo descripcion es obligatorio",
+					precio: { required: "- El campo precio es obligatorio", preciodecimal: "El formato correcto del precio es ##.##" },
+					stock: { required: "- El campo stock es obligatorio", preciodecimal: "- Debe ingresar solo numeros en el stock" },
+				},
+				//Dónde se van a mostrar los mensajes
+				errorElement: "div",
+				errorLabelContainer: ".alert-danger"//A qué div en específico
+
+			});*/
+		 
+		 function guardarProducto() {
+		   var imagenSeleccionado = document.querySelector("[name='img']").files[0];
+		  // var d = document;
+		  /*
+		   var Producto = {
+		     id: document.querySelector("[name='id']").value,
+		     nombre: document.querySelector("[name='nombre']").value,
+		     descripcion: document.querySelector("[name='descripcion']").value,
+		     marca: {
+		       id: document.querySelector("[name='marca']").checked,
+		       nombre: document.querySelector("[name='marca'").textContent,
+		     },
+		     categoria: {
+		       id: document.querySelector("[name='categoria']").checked,
+		       nombre: document.querySelector("[name='categoria']").textContent,
+		     },
+		     precio: document.querySelector("[name='precio']").value,
+		     cantidad: document.querySelector("[name='cantidad']").value,
+		   };*/
+
+		   const ajax = (options) => {
+		     let { url, method, success, err, data } = options;
+		    // var request = new FormData();
+		     const xhr = new XMLHttpRequest();
+
+		     xhr.addEventListener("readystatechange", (e) => {
+		       if (xhr.readyState !== 4) return;
+
+		       if (xhr.status >= 200 && xhr.status < 300) {
+		         /*Tratamos la respuesta y la convertimos a JSON*/
+		         //let json = JSON.parse(xhr.responseText);
+		         //console.log(json);
+
+		         success("exito");
+		       } else {
+		         let message = xhr.statusText || "Ocurrió un error!";
+		         err(`Error ${xhr.status}: ${message} `);
+		       }
+		     });
+
+		     xhr.open(method || "GET", url);
+		  // Generar un límite único
+		     // Generar un límite único
+			const boundary = `----MyBoundary${new Date().getTime()}`;
+			
+			const formData = new FormData();
+			formData.append("img", imagenSeleccionado);
+			
+			//guardarImgEnLocal(formData);
+			//const jsonBlob = new Blob([JSON.stringify(data)], { type: "application/json" });
+			formData.append("producto", JSON.stringify(data));
+			//formData.append("producto", new Blob([JSON.stringify(data)], { type: "application/json" }));
+
+//			xhr.setRequestHeader("Content-Type", "multipart/form-data");
+			//xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+			console.log("FormData content:");
+			for (const pair of formData.entries()) {
+			  console.log(pair[0] + ', ' + pair[1]);
+			}
+
+			xhr.send(formData);
+
+		
+
+
+		     //No aplicamos validación, ya que tan solo podemos evitar pasarle la variable data
+		     //"data" y lo tomaría como null al igual que la variable method
+		   };
+
+		   //Si es falsa, no tiene valor, por ende se requiere de registrar
+		   if (d.querySelector("[name='id']").value == 0) {
+			   
+				if (!contactFormValidations()) {
+					$("#mensajeError").show();
+					return;
+				}
+		     //POST
+		     ajax({
+		       method: "POST",
+		       url: "http://localhost:8000/productos/save",
+		       success: (res) => {
+		    	   $('#FormModal').modal('hide')
+		    	   //document.querySelector(".contenido").innerHTML = null;
+		    	   guardarImgEnLocal();
+		    	   reloadTabla();
+		    	   
+		    	   /* Actualizar solo la tabla con los nuevos datos
+		    	    fetch("http://localhost:8080/administrador/productos")
+		    	        .then(response => response.text())
+		    	        .then(data => {
+		    	        	document.querySelector(".contenido").innerHTML = data;
+		    	        })
+		    	        .catch(error => {
+		    	            console.error("Error al cargar los datos de la tabla:", error);
+		    	        });*/
+		       },
+		       err: (err) => $("mensajeError").show(),
+		           data: {
+		        	   id: document.querySelector("[name='id']").value,
+		        	   nombre: document.querySelector("[name='nombre']").value,
+		        	   descripcion: document.querySelector("[name='descripcion']").value,
+		        	   marca: {
+		        	     id: document.querySelector("[name='marca']").value, // Obtener el valor correcto del campo (puede ser checked o value dependiendo del tipo de campo)
+		        	     nombre: document.querySelector("[name='marca']").textContent,
+		        	   },
+		        	   categoria: {
+		        	     id: document.querySelector("[name='categoria']").value, // Obtener el valor correcto del campo (puede ser checked o value dependiendo del tipo de campo)
+		        	     nombre: document.querySelector("[name='categoria']").textContent,
+		        	   },
+		        	   precio: parseFloat(document.querySelector("[name='precio']").value), // Convertir a tipo de dato adecuado (por ejemplo, Double)
+		        	   cantidad: parseInt(document.querySelector("[name='cantidad']").value), // Convertir a tipo de dato adecuado (por ejemplo, Integer)
+		        	 }
+
+		     });
+		   } else {
+		     //UPDATE - DELETE
+		         ajax({
+		         method: "PUT",
+		         url: "http://localhost:8000/productos/editar/"+document.querySelector("[name='id']").value,
+		         success: (res) => {
+		        	 $('#FormModal').modal('hide')
+			    	   //document.querySelector(".contenido").innerHTML = null;
+			    	   guardarImgEnLocal();
+			    	   reloadTabla();
+		         },
+		         err: (err) => $("mensajeError").show(),
+		         data: {
+		        	 id: document.querySelector("[name='id']").value,
+		        	   nombre: document.querySelector("[name='nombre']").value,
+		        	   descripcion: document.querySelector("[name='descripcion']").value,
+		        	   marca: {
+		        	     id: document.querySelector("[name='marca']").value, // Obtener el valor correcto del campo (puede ser checked o value dependiendo del tipo de campo)
+		        	     nombre: document.querySelector("[name='marca']").textContent,
+		        	   },
+		        	   categoria: {
+		        	     id: document.querySelector("[name='categoria']").value, // Obtener el valor correcto del campo (puede ser checked o value dependiendo del tipo de campo)
+		        	     nombre: document.querySelector("[name='categoria']").textContent,
+		        	   },
+		        	   precio: parseFloat(document.querySelector("[name='precio']").value), // Convertir a tipo de dato adecuado (por ejemplo, Double)
+		        	   cantidad: parseInt(document.querySelector("[name='cantidad']").value), 
+		         },
+		         });
+		     }
+		 }
+		 
+		  const ajaxCM = (options) => {
+			     let { url, method,nombreObjeto, success, err, data } = options;
+			    // var request = new FormData();
+			     const xhr = new XMLHttpRequest();
+
+			     xhr.addEventListener("readystatechange", (e) => {
+			       if (xhr.readyState !== 4) return;
+
+			       if (xhr.status >= 200 && xhr.status < 300) {
+
+			         success("exito");
+			       } else {
+			         let message = xhr.statusText || "Ocurrió un error!";
+			         err(`Error ${xhr.status}: ${message} `);
+			       }
+			     });
+			     xhr.open(method || "GET", url);
+				  // Generar un límite único
+				     // Generar un límite único
+					const boundary = `----MyBoundary${new Date().getTime()}`;
+					
+					const formData = new FormData();
+					
+					//guardarImgEnLocal(formData);
+					//const jsonBlob = new Blob([JSON.stringify(data)], { type: "application/json" });
+					formData.append(nombreObjeto, JSON.stringify(data));
+					//formData.append("producto", new Blob([JSON.stringify(data)], { type: "application/json" }));
+
+//					xhr.setRequestHeader("Content-Type", "multipart/form-data");
+					//xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+					console.log("FormData content:");
+					for (const pair of formData.entries()) {
+					  console.log(pair[0] + ', ' + pair[1]);
+					}
+
+					xhr.send(formData);
+
+			   };
+
+		 
+		 
+	            function guardarMarca() {
+
+	                if (d.querySelector("[name='id']").value == 0) {
+
+	                  if (!contactFormValidations()) {
+	                    $("#mensajeError").show();
+	                    return;
+	                  }
+
+	                    ajaxCM({
+	                         method: "POST",
+	                         url: "http://localhost:8000/marcas/save",
+	                         nombreObjeto: "marca",
+	                         success: (res) => {
+	                           $('#FormModal').modal('hide')
+	                           //document.querySelector(".contenido").innerHTML = null;
+	                           //guardarImgEnLocal();
+	                          // tabla,url,controlador
+	                           reloadTablaCM("tablaMarcas","http://localhost:8000/marcas/listar","marcas");
+
+	                           /* Actualizar solo la tabla con los nuevos datos
+	                            fetch("http://localhost:8080/administrador/productos")
+	                                .then(response => response.text())
+	                                .then(data => {
+	                                  document.querySelector(".contenido").innerHTML = data;
+	                                })
+	                                .catch(error => {
+	                                    console.error("Error al cargar los datos de la tabla:", error);
+	                                });*/
+	                         },
+	                         err: (err) => $("mensajeError").show(),
+	                             data: {
+	                               id: document.querySelector("[name='id']").value,
+	                               nombre: document.querySelector("[name='nombre']").value,
+	                               activo: document.querySelector("#cboactivo").value
+	                             }
+
+	                       });
+	                      }
+
+	                
+	                 //Si es falsa, no tiene valor, por ende se requiere de registrar
+	                 //if (d.querySelector("[name='id']").value == 0) {
+	                   //POST
+
+	                 //}
+	                 else {
+	                   console.log("Actualizando marca");
+
+	                   //UPDATE - DELETE
+	                       ajaxCM({
+	                       method: "PUT",
+	                       url: "http://localhost:8000/marcas/editar/" + document.querySelector("[name='id']").value,
+	                       nombreObjeto: "marca",
+	                       success: (res) => { 
+	                    	   $('#FormModal').modal('hide')
+	                    	   reloadTablaCM("tablaMarcas","http://localhost:8000/marcas/listar","marcas")},
+	                       err: (err) => $("mensajeError").show(),
+	                       data: {
+	                           id: document.querySelector("[name='id']").value,
+	                           nombre: document.querySelector("[name='nombre']").value,
+	                           activo: document.querySelector("#cboactivo").value
+	                         }
+	                       });
+	                   }
+	                  }
+			 
+		 function guardarCategoria() {
+			  if (d.querySelector("[name='id']").value == 0) {
+				  
+				  if (!contactFormValidations()) {
+						$("#mensajeError").show();
+						return;
+					}
+				  //POST
+				     ajaxCM({
+				       method: "POST",
+				       url: "http://localhost:8000/categorias/save",
+				       nombreObjeto: "categoria",
+				       success: (res) => {
+				    	   $('#FormModal').modal('hide')
+				    	   //document.querySelector(".contenido").innerHTML = null;
+				    	   //guardarImgEnLocal();
+				    	   
+				    	   reloadTablaCM("tablaCategorias","http://localhost:8000/categorias/listar","categorias");
+				    	   
+				    	   /* Actualizar solo la tabla con los nuevos datos
+				    	    fetch("http://localhost:8080/administrador/productos")
+				    	        .then(response => response.text())
+				    	        .then(data => {
+				    	        	document.querySelector(".contenido").innerHTML = data;
+				    	        })
+				    	        .catch(error => {
+				    	            console.error("Error al cargar los datos de la tabla:", error);
+				    	        });*/
+				       },
+				       err: (err) => $("mensajeError").show(),
+				           data: {
+				        	   id: document.querySelector("[name='id']").value,
+				        	   nombre: document.querySelector("[name='nombre']").value,
+				        	   activo: document.querySelector("#cboactivo").value
+				        	 }
+
+				     });
+					
+			  }
+			 
+			   //Si es falsa, no tiene valor, por ende se requiere de registrar
+			  // if (d.querySelector("[name='id']").value == 0) {
+			   
+			   //}
+			  else {
+			     //UPDATE - DELETE
+				  console.log("Actualizando marca");
+
+                  //UPDATE - DELETE
+                      ajaxCM({
+                      method: "PUT",
+                      url: "http://localhost:8000/categorias/editar/" + document.querySelector("[name='id']").value,
+                      nombreObjeto: "categoria",
+                      success: (res) => { 
+                   	   $('#FormModal').modal('hide')
+                   	   reloadTablaCM("tablaCategorias","http://localhost:8000/categorias/listar","categorias")},
+                      err: (err) => $("mensajeError").show(),
+                      data: {
+                          id: document.querySelector("[name='id']").value,
+                          nombre: document.querySelector("[name='nombre']").value,
+                          activo: document.querySelector("#cboactivo").value
+                        }
+                      });
+			     }
+			 }
+		 const ajaxEditModalCM = (options) => {
+		        let { url, method, success, err, data } = options;
+
+		        const xhr = new XMLHttpRequest();
+
+		        xhr.addEventListener("readystatechange", (e) => {
+		          if (xhr.readyState !== 4) return;
+
+		          if (xhr.status >= 200 && xhr.status < 300) {
+		            /*Tratamos la respuesta y la convertimos a JSON*/
+		            let json = JSON.parse(xhr.responseText);
+		            console.log(json);
+
+		            success(json);
+		          } else {
+		            let message = xhr.statusText || "Ocurrió un error!";
+		            err(`Error ${xhr.status}: ${message} `);
+		          }
+		        });
+
+		        xhr.open(method || "GET", url);
+		        xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+		        /*Nuestro objeto lo convertimos a texto*/
+		        xhr.send(JSON.stringify(data));
+		        //No aplicamos validación, ya que tan solo podemos evitar pasarle la variable data
+		        //"data" y lo tomaría como null al igual que la variable method
+		      };
+		      
+		      const ajaxEditModalProducto = (options) => {
+			        let { url, method, success, err, data } = options;
+
+			        const xhr = new XMLHttpRequest();
+
+			        xhr.addEventListener("readystatechange", (e) => {
+			          if (xhr.readyState !== 4) return;
+
+			          if (xhr.status >= 200 && xhr.status < 300) {
+			            /*Tratamos la respuesta y la convertimos a JSON*/
+			            let json = JSON.parse(xhr.responseText);
+			            console.log(json);
+
+			            success(json);
+			          } else {
+			            let message = xhr.statusText || "Ocurrió un error!";
+			            err(`Error ${xhr.status}: ${message} `);
+			          }
+			        });
+
+			        xhr.open(method || "GET", url);
+			        xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+			        /*Nuestro objeto lo convertimos a texto*/
+			        xhr.send(JSON.stringify(data));
+			        //No aplicamos validación, ya que tan solo podemos evitar pasarle la variable data
+			        //"data" y lo tomaría como null al igual que la variable method
+			      };
+		      
+		      
+		      function abrirModalConMC(data){
+		    		
+		    	  const $form = document.querySelector("#FormModal form");
+		    	  const $formId = document.querySelector("#FormModal #txtid");
+		    	  $formId.setAttribute("value",data.id);
+		    	  
+		    	  console.log($formId);
+		    	  $form.nombre.value = data.nombre;
+		    	    const selectActivo = $form.querySelector('#cboactivo');
+
+		    	    // Establecer la propiedad selected de la opción correspondiente
+		    	    selectActivo.value = data.activo.toString();
+		    	    
+		    	    
+		    	    $('#FormModal').modal('show');
+			        //document.querySelector(".container-modal").classList.add("modal-show");
+			        $("#mensajeError").hide();
+			        document.querySelector(".modal-backdrop").style.display="none";
+		    	  
+		      	
+		      }
+		      
+
+		      function abrirModalProducto(data){
+		    		
+		    	  const $form = document.querySelector("#FormModal form");
+		    	  
+		    	  const $formImg = document.querySelector("#FormModal form img");
+		    	  
+		    	  $formImg.setAttribute("src","/images/"+data.imagen);
+		    	  const $formId = document.querySelector("#FormModal #txtid");
+		    	  $formId.setAttribute("value",data.id);
+		    	  
+		    	  console.log($formId);
+		    	  //const $formInputImg = document.querySelector("#FormModal #img");
+		    	  //console.log($formInputImg);
+		    	  //$formInputImg.setAttribute("src","/images/"+data.imagen);
+		    	  $form.nombre.value = data.nombre;
+		    	  $form.descripcion.value = data.descripcion;
+		    	  $form.precio.value = data.precio;
+		    	  $form.cantidad.value = data.cantidad;
+		    	  const selecCategoria = $form.querySelector('#cbocategoria');
+		    	  const selectMarca = $form.querySelector('#cbomarca');
+		    	    // Establecer la propiedad selected de la opción correspondiente
+		    	  selecCategoria.value = data.categoria.id;
+		    	  selectMarca.value = data.marca.id;
+		    	    
+		    	    
+		    	  $('#FormModal').modal('show');
+			        //document.querySelector(".container-modal").classList.add("modal-show");
+			      $("#mensajeError").hide();
+			      document.querySelector(".modal-backdrop").style.display="none";
+		    	  
+		      	
+		      }
+		      
+		 
+		 //Abrir modal con los datos
+		 document.addEventListener("click",(e)=>{
+			
+			 //Para categoria y marca
+			 if(e.target.matches("#tablaMarcas .edit") || e.target.matches("#tablaCategorias .edit")){
+				 //e.preventDefault();
+				 console.log("Evitando evento")
+			 
+				 ajaxEditModalCM(
+				{
+					url: "http://localhost:8000/"+e.target.dataset.name+"/"+e.target.dataset.id,
+					success: (success)=> abrirModalConMC(success),
+					err: (err)=> console.log("Error")
+				
+				
+				});
+			 }
+			 
+			 if(e.target.matches("#tablaProductos .edit")){
+				 console.log("Evitando evento");
+				 ajaxEditModalCM(
+				{
+					url: "http://localhost:8000/"+e.target.dataset.name+"/"+e.target.dataset.id,
+					success: (success)=> abrirModalProducto(success),
+					err: (err)=> console.log("Error")
+							
+							
+				});
+			 }
+			 
+		 });
+		 
+		 
+		 
+		 
+		 function reloadTabla() {
+			    // Aquí puedes realizar una petición Ajax para obtener los datos actualizados
+			    // y luego actualizar la sección de la tabla
+			    const $fragmento = document.createDocumentFragment();
+			    const $table = document.querySelector("#tablaProductos");
+			    const $template = d.getElementById("producto-template").content;
+			    $.ajax({
+			        url: "http://localhost:8000/productos/listar",
+			        type: "GET",
+			        dataType: "json",
+			        success: function (data) {
+			            // Reemplaza la sección de la tabla con los datos actualizados
+			        	$table.querySelector("tbody").innerHTML=null;
+
+			            $.each(data, function(index, element){
+			            	$template.querySelector(".nombre").textContent = element.nombre;
+			                 $template.querySelector(".descripcion").textContent =
+			                   element.descripcion;
+			                 $template.querySelector(".cantidad").textContent = element.cantidad;
+			                 $template.querySelector(".precio").textContent =
+			                   element.precio;
+			                 $template.querySelector(".marca").textContent = element.marca.nombre;
+			                 $template.querySelector(".categoria").textContent =
+			                   element.categoria.nombre;
+			                 
+			                 
+			                 $template.querySelector(".edit").dataset.id = element.id;
+			                 $template.querySelector(".edit").dataset.name = "productos";
+
+			                   $template.querySelector(".delete").dataset.id = element.id;
+				                 $template.querySelector(".delete").dataset.name = "productos";
+			                   const $clone = document.importNode($template, true);
+			            	$fragmento.appendChild($clone);
+			            });
+			            
+			            $table.querySelector("tbody").appendChild($fragmento);
+			        },
+			        error: function (xhr, status, error) {
+			            console.error("Error al cargar datos de la tabla:", error);
+			        }
+			    });
+			}
+		 function reloadTablaCM(tabla,url,controlador) {
+			    // Aquí puedes realizar una petición Ajax para obtener los datos actualizados
+			    // y luego actualizar la sección de la tabla
+			    const $fragmento = document.createDocumentFragment();
+			    const $table = document.querySelector(`#${tabla}`);
+			    const $template = d.getElementById("template").content;
+			    $.ajax({
+			        url: url,
+			        type: "GET",
+			        dataType: "json",
+			        success: function (data) {
+			            $table.querySelector("tbody").innerHTML=null;
+
+			            // Reemplaza la sección de la tabla con los datos actualizados
+			            $.each(data, function(index, element){
+			            	 $template.querySelector(".nombre").textContent = element.nombre;
+			                 $template.querySelector(".activo").textContent = (element.activo) ? "Si" : "No";
+			                 $template.querySelector(".edit").dataset.id = element.id;
+			                 $template.querySelector(".edit").dataset.name = controlador;
+			                   $template.querySelector(".delete").dataset.id = element.id;
+			                   $template.querySelector(".delete").dataset.name= controlador;
+			            	const $clone = document.importNode($template, true);
+			            	$fragmento.appendChild($clone);
+			            });
+			            
+			            $table.querySelector("tbody").appendChild($fragmento);
+			        },
+			        error: function (xhr, status, error) {
+			            console.error("Error al cargar datos de la tabla:", error);
+			        }
+			    });
+			}
+		 
+		 
+		 function reloadTablePagination(ruta) {
+			    // Aquí puedes realizar una petición Ajax para obtener los datos actualizados
+			    // y luego actualizar la sección de la tabla
+			    const $fragmento = document.createDocumentFragment();
+			    const $table = document.querySelector("#tablaProductos");
+			    const $template = d.getElementById("producto-template").content;
+			    $.ajax({
+			        url: ruta,
+			        type: "GET",
+			        dataType: "json",
+			        success: function (data) {
+			            // Reemplaza la sección de la tabla con los datos actualizados
+			        	$table.querySelector("tbody").innerHTML=null;
+
+			            $.each(data, function(index, element){
+			            	$template.querySelector(".nombre").textContent = element.nombre;
+			                 $template.querySelector(".descripcion").textContent =
+			                   element.descripcion;
+			                 $template.querySelector(".cantidad").textContent = element.cantidad;
+			                 $template.querySelector(".precio").textContent =
+			                   element.precio;
+			                 $template.querySelector(".marca").textContent = element.marca.nombre;
+			                 $template.querySelector(".categoria").textContent =
+			                   element.categoria.nombre;
+			                 
+			                 
+			                 $template.querySelector(".edit").dataset.id = element.id;
+			                 $template.querySelector(".edit").dataset.name = "productos";
+
+			                   $template.querySelector(".delete").dataset.id = element.id;
+				                 $template.querySelector(".delete").dataset.name = "productos";
+			                   const $clone = document.importNode($template, true);
+			            	$fragmento.appendChild($clone);
+			            });
+			            
+			            $table.querySelector("tbody").appendChild($fragmento);
+			        },
+			        error: function (xhr, status, error) {
+			            console.error("Error al cargar datos de la tabla:", error);
+			        }
+			    });
+			}
+		 
+		 document.addEventListener("click", (e)=>{
+			if(e.target.matches(".links button")){
+				reloadTablePagination(e.target.dataset.ruta);
+			} 
+		 });
+		 
+		 function guardarImgEnLocal(imgSave){
+			const imagenSelec = document.querySelector("[name='img']").files[0];
+			 
+			if(imagenSelec !=null ){
+				 const xhr = new XMLHttpRequest();
+
+			     xhr.addEventListener("readystatechange", (e) => {
+			       if (xhr.readyState !== 4) return;
+
+			       if (xhr.status >= 200 && xhr.status < 300) {
+			         /*Tratamos la respuesta y la convertimos a JSON*/
+			         //let json = JSON.parse(xhr.responseText);
+			         //console.log(json);
+
+			         console.log("Petición para guardar imagen con éxito!")
+			       } else {
+			         let message = xhr.statusText || "Ocurrió un error!";
+			         console.log(`Error ${xhr.status}: ${message} `);
+			       }
+			     });
+			     var formData = new FormData();
+			     formData.append("img", imagenSelec)
+
+			     xhr.open("POST","http://localhost:8080/productos/imgSave");
+				xhr.send(formData);
+			}
+			
+		 }
+	
+  }
+
+
+</script>
+
+</body>
+
+</html>

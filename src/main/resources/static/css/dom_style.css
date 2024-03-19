@@ -1,0 +1,742 @@
+:root {
+	--main-font: sans-serif;
+	--font-size: 16px;
+	--main-color: #f7df1e;
+	--second-color: #222;
+	--main-modal-color: rgba(247, 222, 30, 0.85);
+	--second-modal-color: rgba(34, 34, 34, 0.85);
+	--container-width: 1200px;
+}
+
+html {
+	box-sizing: border-box;
+	font-family: var(--main-font);
+	font-size: var(--font-size);
+	scroll-behavior: smooth;
+}
+
+*, *::after, *::before {
+	box-sizing: inherit;
+}
+
+body {
+	margin: 0;
+	padding: 0 !important;
+	overflow-x: hidden;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+i {
+	margin-right: .5rem;
+}
+
+.menu {
+	background-image: linear-gradient(195deg, #42424a 0%, #191919 100%);
+}
+/* Menu-hamburguesa*/
+.header {
+	position: sticky;
+	height: 4rem;
+	z-index: 897;
+	top: 0;
+	padding: 1rem;
+	background-color: var(--main-color);
+	color: var(--second-color);
+	margin-bottom: 0;
+}
+
+.header h1 {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.section {
+	padding: 2rem;
+	padding-top: 4rem;
+	width: 100%;
+	margin: 0 auto;
+	max-width: var(--container-width);
+	min-height: 100vh;
+	text-align: center;
+}
+
+.panel-btn {
+	position: fixed;
+	z-index: 10000;
+	bottom: 1vh;
+	right: 1vw;
+	width: 4rem;
+	height: 4rem;
+	color: var(--main-color);
+	border-radius: 50%;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+.panel {
+	position: fixed;
+	z-index: 998;
+	/*background-color: var(--second-modal-color);*/
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: start;
+	align-items: start;
+	opacity: 1;
+	transform: translate(-100%, 0);
+	transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.panel.is-active {
+	transform: translate(0, 0);
+}
+
+.contenedor-btn-hamburger {
+	z-index: 1000;
+	width: 4rem;
+	height: 4rem;
+}
+
+.contenido-principal {
+	display: flex;
+	width: 100%;
+	height: 100vh;
+}
+
+.contenido {
+	margin: 2.1rem 0;
+	height: 90vh;
+	z-index: 2;
+}
+
+.contenido * {
+	transition: all 0.3s ease-in-out;
+}
+
+/*
+.menu-navegacion {
+	flex: 0 0 23%;
+}*/
+.modal {
+	margin: auto;
+}
+
+@media screen and (min-width: 320px) {
+	.menu {
+		width: 1000%;
+		height: 100vh;
+		background-color: #000;
+		display: flex;
+		flex-direction: column;
+		justify-content: start;
+		align-items: start;
+		text-align: left;
+		overflow-y: auto;
+	}
+	.contenido {
+		flex: 0 0 100%;
+		overflow-x: auto;
+	}
+}
+
+/*
+@media screen and (min-width: 600px) {
+	.menu {
+		width: 50%;
+		height: 100vh;
+		background-color: #000;
+		display: flex;
+		flex-direction: column;
+		justify-content: start;
+		align-items: start;
+		text-align: left;
+		overflow-y: auto;
+	}
+}*/
+@media screen and (min-width: 768px) {
+	.menu {
+		width: 70%;
+		height: 100vh;
+		background-color: #000;
+		display: flex;
+		flex-direction: column;
+		justify-content: start;
+		align-items: start;
+		text-align: left;
+		overflow-y: auto;
+	}
+	.contenido-principal .contenido {
+		flex: 0 0 100%;
+	}
+}
+
+.menu>span {
+	padding: 1.5rem;
+	width: 90%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	/* text-align: center; */
+	font-size: 1.4rem;
+	color: white;
+	font-weight: bold;
+	transition: all 0.3s ease;
+	font-weight: bold;
+	font-size: 1.4rem;
+	text-align: center;
+	text-align: center
+}
+
+.menu {
+	position: relative;
+}
+
+.menu a.bottom-7 {
+	position: absolute;
+	bottom: 7px;
+	/* Ajusta este valor según sea necesario para la elevación deseada */
+}
+/*
+.styled-hr {
+	height: 20px !important;
+  	border: none;
+  	background-color: gray;
+  	background-image: linear-gradient(90deg, rgba(255, 255, 255, 0), #fff, rgba(255, 255, 255, 0)) !important;
+}*/
+aside .menu .styled-hr {
+	width: 100%;
+	height: 2px !important;
+	border: none;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0), #fff,
+		rgba(255, 255, 255, 0));
+}
+
+.menu button{
+	background-color: transparent;
+	position: absolute;
+	bottom: 10px;
+}
+
+.menu a, button {
+	padding: 0.8rem;
+	width: 85%;
+	display: block;
+	font-size: 1.2rem;
+	text-decoration: none !important;
+	color: white !important;
+	font-weight: 300 !important;
+	transition: all 0.3s ease;
+}
+
+.menu a:hover, button:hover {
+	font-weight: bold;
+	background-color: #57575c;
+	/* background-color: var(--main-modal-color); */
+}
+
+.menu a.separador-seccion:hover {
+	font-weight: normal;
+	background-color: #343439;
+}
+
+/*  **************Evento de Teclado **************** */
+.stage {
+	display: flex;
+	min-height: 50vh;
+	background-color: var(--second-color);
+}
+
+.ball {
+	margin: auto;
+	width: 4rem;
+	height: 4rem;
+	border-radius: 50%;
+	background-color: var(--main-color);
+}
+
+/*  **************Button llevar a arriba **************** */
+.btn-top {
+	position: fixed;
+	bottom: 1vw;
+	right: calc(4rem + 1vw);
+	width: 4rem;
+	height: 4rem;
+	color: #000;
+	background-color: var(--main-color);
+	border: none;
+	border-radius: 50%;
+	outline: none;
+	font-size: 2rem;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.hidden {
+	visibility: hidden;
+	opacity: 0;
+}
+
+/************************** DOM: Themes btn *************************/
+.dark-theme-btn {
+	position: fixed;
+	left: 1.5rem;
+	bottom: 1.3rem;
+	width: 2.8rem;
+	height: 3rem;
+	border: none;
+	outline: none;
+	border-radius: 50%;
+	font-size: 2rem;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.dark-theme-btn:hover {
+	border: thin solid var(--main-color);
+	font-weight: bold;
+	color: var(--main-color);
+}
+/*Está clase se aplicará a todos elementos que tengan como data-attribute = data-dark*/
+.dark-mode {
+	background-color: var(--second-color);
+	color: var(--main-color);
+}
+
+/*Video 89 - Implementación de la APi LocalStorage
+-Almacenar información en nuestro Disco duro
+*Es como un guardado session
+*/
+
+/************************ NetWork Status *********************/
+.online, .offline {
+	position: sticky;
+	top: 0;
+	z-index: 2000;
+	padding: 1rem;
+	font-size: 1.5rem;
+	font-weight: bold;
+	text-align: center;
+	background-color: #1b5e20;
+	color: #fff;
+}
+
+/*Sobreescribimos para tenga los mismos estios, pero solo
+modificando el fondo    
+*/
+.offline {
+	background-color: #b71c1c;
+}
+
+/********************** Searchs Filters  ***********************/
+.cards {
+	display: grid;
+	/*Auto-fit, indica que distribuirá el espacio proporcionalmente*/
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	/*1fr el espacio sobrante*/
+}
+
+.card {
+	background-color: var(--second-color);
+	color: var(--main-color);
+	transition: all 0.3s ease-out;
+}
+
+.card img {
+	width: 100%;
+	height: auto;
+}
+
+.card figcaption {
+	padding: 1rem;
+}
+
+/* Está clase me permitirá quitar los elementos que no coincidan con 
+    las palabras de búsqueda.
+*/
+.filter {
+	/*display: none no es animable*/
+	/*  display: none; */
+	visibility: hidden;
+	opacity: 0;
+	/*Manipula el orden de los elementos de la grid, por defecto los demás
+   tendrán un order 0
+   */
+	order: 1;
+
+	/*
+  propiedades flex
+  flex: flex-grow flex-shrink flex-basis
+  */
+}
+
+/***Responsive Slider***/
+.slider {
+	/*El posicionamiento altera la profundidad, debemos de agregar z-index al header*/
+	position: relative;
+	width: 80%;
+	border: thin solid #000;
+	margin: 1rem auto;
+	text-align: center;
+}
+
+.slider-slides {
+	position: relative;
+	height: 400px;
+}
+
+.slide {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 1s ease;
+}
+
+.slide img {
+	width: inherit;
+	height: inherit;
+	/*Podemos agregar object-fit y object-position en caso 
+    las dimensiones de las imágenes que estamos trayendo son muy grandes
+    */
+}
+
+.slider-slides .active {
+	opacity: 1;
+	visibility: visible;
+}
+
+.slider-btns {
+	position: absolute;
+	top: 45%;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	font-size: 3rem;
+	font-weight: bold;
+}
+
+.slider a {
+	display: block;
+	width: 4rem;
+	height: 4rem;
+	border-radius: 50%;
+	border: thin solid #000;
+	text-decoration: none;
+	background-color: #fff;
+	color: #000;
+	transition: all 1s ease;
+}
+
+.slider a:hover {
+	background-color: #4d4d4d;
+}
+
+/*                    ScrollSpy                             */
+@media screen and (min-width: 1024px) {
+	/*
+	.menu {
+		width: 100%;
+		height: 100%;
+		background-color: #000;
+		display: flex;
+		flex-direction: column;
+		justify-content: start;
+		align-items: start;
+		text-align: left;
+		overflow-y: auto;
+	}*/
+	/*
+	body {
+		display: grid;
+		grid-template-columns: 75% 25%;
+		grid-template-rows: 4rem auto;
+		grid-template-areas: "header header" "main   panel";
+	}
+	.header {
+		grid-area: header;
+	}
+	main {
+		grid-area: main;
+	}*/
+	.panel {
+		display: flex;
+		align-items: center;
+		z-index: 1;
+	}
+	.menu {
+		width: 20%;
+		height: 95vh;
+		border-radius: .5rem;
+		margin-left: .5rem;
+		background-color: #000;
+		display: flex;
+		flex-direction: column;
+		justify-content: start;
+		align-items: center;
+		text-align: left;
+		overflow-y: auto;
+	}
+	.menu a.separador-seccion {
+		text-align: center;
+		font-size: 1.5rem;
+		font-weight: 400;
+	}
+	.menu a.separador-seccion:hover {
+		cursor: default;
+		color: white;
+	}
+	.menu::-webkit-scrollbar {
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 0.125rem;
+		--un-bg-opacity: 1;
+		background-color: rgb(31, 41, 55/ var( --un-bg-opacity));
+	}
+	.menu::-webkit-scrollbar-thumb {
+		border-radius: 0.125rem .5rem .5rem 0.125rem;
+		--un-bg-opacity: 1;
+		background-color: rgb(107, 114, 128);
+	}
+	.menu-navegacion {
+		flex: 0 0 21%;
+		min-height: 100vh;
+		position: relative;
+	}
+	.right-top {
+		position: absolute;
+		top: 20px;
+		right: 5px;
+	}
+	.nav-btn {
+		z-index: 10001;
+		width: 3rem;
+		height: 3rem;
+		background-color: transparent;
+		border-radius: 50%;
+		border: none;
+		padding: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+	}
+	.nav-btn:hover {
+		background-color: #48484d;
+	}
+	.hamburger-inner, .hamburger-inner:after, .hamburger-inner:before {
+		position: absolute;
+		width: 40px;
+		height: 4px;
+		transition-timing-function: ease;
+		transition-duration: .15s;
+		transition-property: transform;
+		border-radius: 4px;
+		background-color: #a8a8b4;
+	}
+	.contenido-principal .contenido {
+		flex: 0 0 78.5%;
+	}
+	.
+}
+
+/* Smart Video*/
+section video {
+	width: 100%;
+}
+
+/*                ContactForm Validations      */
+.contact-form {
+	--form-ok-color: #4acf50;
+	--form-error-color: #f44336;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+}
+
+.contact-form>* {
+	padding: 0.5rem;
+	margin: 1rem auto;
+	display: block;
+	width: 100%;
+}
+
+.contact-form textarea {
+	resize: none;
+}
+
+.contact-form legend, .contact-form-response {
+	font-size: 1.5rem;
+	font-weight: bold;
+	text-align: center;
+}
+
+.contact-form input, .contact-form textarea {
+	font-size: 1rem;
+	font-family: sans-serif;
+}
+
+.contact-form input[type="submit"] {
+	width: 50%;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.contact-form *::placeholder {
+	color: #000;
+}
+/* [required] asi no más, quiere decir que todos los elementos dentro de
+.contact-form que tengan required
+
+.contact-form [required]:valid {
+	border: thin solid var(--form-ok-color);
+}
+
+.contact-form [required]:invalid {
+	border: thin solid var(--form-error-color);
+}
+
+.contact-form-error {
+	margin-top: -1rem;
+	font-size: 80%;
+	background-color: var(--form-error-color);
+	color: #fff;
+	transition: all 800ms ease;
+}
+
+@
+keyframes show-message { 0%{
+	visibility: hidden;
+	opacity: 0;
+}
+
+100
+
+
+
+
+
+
+%
+{
+visibility
+
+
+
+
+
+
+:
+
+
+
+
+
+
+visible
+
+
+
+
+;
+opacity
+
+
+
+
+
+
+:
+
+
+
+
+
+
+1
+
+
+
+
+;
+}
+}
+.contact-form-error.is-active {
+	display: block;
+	animation: show-message 1s 1 normal 0s ease-out both;
+}*/
+
+/*
+animation, time, cuántas veces se ejecutará, se ejecuta normal, 0 delay, timing-function
+, both que se queda con los estilos de inicio a fin
+*/
+.none {
+	display: none;
+}
+
+/*Narrador
+.speech-container {
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+}*/
+
+/* selector para todos los elementos hijos directos 
+.speech-container>* {
+	padding: .5rem;
+	margin: 1rem auto;
+	display: block;
+	width: 100%;
+	font-size: 1rem;
+	font-family: sans-serif;
+	background-color: #f2f2f2;
+}
+
+.speech-container button {
+	cursor: pointer;
+}
+
+.speech-container textarea {
+	resize: none;
+}*/
+
+/*Styles Syte*/
+.contenedor-form {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.bg-gray-light {
+	background-color: #f3f3f3;
+}
+
+.br-1 {
+	border-radius: 1rem;
+}
+
+.bs-thin {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+	/* Ajusta estos valores según sea necesario */
+}
+
+.margin-auto{
+	margin: auto auto;
+	 
+}
+.height-95{
+	height: 95%;
+}
+

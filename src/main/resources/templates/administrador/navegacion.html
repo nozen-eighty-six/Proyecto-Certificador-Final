@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Tienda</title>
+<script th:src="@{/js/dom_index.js}" type="module"></script>
+
+<!-- Estilos para el menú -->
+<link th:href="@{/css/dom_style.css}" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      th:href="@{https://cdnjs.cloudflare.com/ajax/libs/hamburgers/1.2.1/hamburgers.min.css}"
+    />
+    
+</head>
+<body>
+
+	<div class="contenedor-btn-hamburger">
+	<button class="panel-btn hamburger hamburger--vortex" type="button">
+		<span class="hamburger-box"> <span class="hamburger-inner"></span>
+		</span>
+	</button>
+	</div>
+	<aside class="panel is-active">
+		<nav class="menu">
+			<span>Menú</span> <a href="#seccion1" data-scroll-spy>Reloj
+				digital y Alarma Sonora</a> <a href="#seccion2" data-scroll-spy>Teclado</a>
+			<a href="#seccion3" data-scroll-spy>Temporizador</a> <a
+				href="#seccion4" data-scroll-spy>Responsive Design JavaScript</a> <a
+				href="#seccion5" data-scroll-spy>Responsive Tester</a> <a
+				href="#seccion6" data-scroll-spy>Detección de
+				dispositivos (User Agent)</a> <a href="#seccion7" data-scroll-spy>Detección
+				de Conexión</a> <a href="#seccion8" data-scroll-spy>Detección de
+				webCam</a> <a href="#seccion9" data-scroll-spy>Geolocalización</a> <a
+				href="#seccion10" data-scroll-spy>Filtros de búsqueda</a> <a
+				href="#seccion11" data-scroll-spy>Sorteo Digital</a> <a
+				href="#seccion12" data-scroll-spy>Responsive Slider</a> <a
+				href="#seccion13" data-scroll-spy>Video Inteligente</a> <a
+				href="#seccion14" data-scroll-spy>Validación de Formulario</a> <a
+				href="#seccion15" data-scroll-spy>Narrador</a>
+		</nav>
+	</aside>
+
+<script th:src="@{/js/hamburger_dom.js}" ></script>
+</body>
+
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Usuario</title>
+
+<style>
+body {
+	font-family: "Roboto", sans-serif;
+	background-color: #c9d6ff;
+	background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.header {
+	background-color: #000000;
+	color: #fff;
+	text-align: center;
+	padding: 10px;
+	position: fixed;
+	top: 0;
+	width: 100%;
+}
+
+header h1 {
+	margin: 0;
+}
+
+main {
+	padding: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-grow: 1;
+}
+
+#registro {
+	background-color: #fff;
+	border-radius: 15px;
+	padding: 20px;
+	width: 50%;
+	margin: auto auto;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#registro h2 {
+	text-align: center;
+}
+
+#registro form {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+@media screen and (max-width: 520px) {
+	#registro form {
+		flex-direction: column;
+		align-items: flex-start;
+		width: 222%;
+	}
+	#registro {
+		margin-top: 50px;
+	}
+	#guardar {
+		width: 45%;
+		margin-right: 0;
+	}
+}
+
+#registro label {
+	color: #000000;
+	font-size: 16px;
+}
+
+#registro input {
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	width: 100%;
+	height: 40px;
+	box-sizing: border-box;
+}
+
+#registro button {
+	background-color: #0f6c16;
+	color: #fff;
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0s ease;
+}
+
+#registro button:hover {
+	background-color: #0aaf15;
+}
+
+.footer {
+	background-color: #000000;
+	color: #fff;
+	text-align: center;
+	padding: 10px;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+.columna {
+	display: inline-block;
+	width: 45%;
+	margin-right: 5%;
+}
+
+@media screen and (max-width: 768px) {
+	#registro {
+		width: 80%;
+	}
+}
+
+@media screen and (max-width: 576px) {
+	#registro {
+		width: 90%;
+	}
+}
+
+.contact-form-error{
+  font-size: 80%;
+  background-color: var(--form-error-color);
+  color: #f44336;
+  transition: all 800ms ease;
+}
+.contact-form-error.is-active{
+  display: block;
+  animation: show-message 1s 1 normal 0s ease-out both;
+} 
+.none{
+  display: none;
+}
+</style>
+</head>
+
+<body>
+	<div class="header">
+		<header>
+			<h1>Top Moda</h1>
+		</header>
+	</div>
+	<main class="container" id="container">
+		<section id="registro">
+			<h2>Registro de Usuario</h2>
+			<br>
+			<form id="registroForm" th:action="@{/usuario/save}" method="post">
+				<div class="columna">
+					<label for="name">Nombre:</label><br> <br> <input
+						type="text" id="name" name="nombre"
+						title="El nombre solo acepta letras y espacios en blanco"
+						pattern="^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$"
+						required
+						placeholder="Por favor ingrese su nombre"><br> <label
+						for="direccion">Dirección:</label><br> <br> <input
+						type="text" id="direccion" name="direccion"
+						placeholder="Por favor ingrese su dirección"><br>
+				</div>
+
+				<div class="columna">
+					<label for="email">Email:</label><br> <br> <input
+						type="email" id="email" name="mail"
+						pattern="^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$"
+						title="El email debe ser válido"
+						required
+						placeholder="Por favor ingrese su email"><br> <label
+						for="contraseña">Contraseña:</label><br> <br> <input
+						type="password" id="contraseña" name="password"
+						placeholder="Por favor ingrese su contraseña"><br>
+				</div>
+				<button type="submit" id="guardar">Guardar</button>
+			</form>
+
+		</section>
+	</main>
+	<div class="footer">
+		<footer>
+			<p>&copy; 2023 Top Moda. Todos los derechos reservados.</p>
+		</footer>
+	</div>
+
+	<!-- Bootstrap core JavaScript -->
+	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+	<script>
+	document.addEventListener("DOMContentLoaded", (e) => {
+		
+		contactFormValidations();
+		
+	});
+	
+	function contactFormValidations() {
+		  const $form = document.querySelector("#registroForm"),
+		    //Si no quieres que por ejemplo el subject sea requerido, se le puede
+		    //quitar el atributo "required" para que no sea tomado en cuenta
+		    $inputs = document.querySelectorAll("#registroForm [required]");
+
+		  console.log($inputs);
+		  //Estamos creando un span que se coloque después de los inputs,
+		  //Se le agrega la clase error con none, para que este oculto
+		  //cuando se detecte algo en los inputs, se le quitará esa clase "none"
+		  //a los inputs
+		  $inputs.forEach((inp) => {
+		    const $span = document.createElement("span");
+		    $span.id = inp.name;
+		    $span.textContent = inp.title;
+		    $span.classList.add("contact-form-error", "none");
+		    inp.insertAdjacentElement("afterend", $span);
+		  });
+
+		  document.addEventListener("keyup", (e) => {
+		    if (e.target.matches("#registroForm [required]")) {
+		      let $input = e.target, //Capturamos al elemento actual que realiza el event
+		        pattern = $input.pattern || $input.dataset.pattern;
+		      //Operador de cortocircuito, indica que si la primera condición no funciona
+		      //Entonces accede al segundo valor
+		      if (pattern && $input.value !== "") {
+		        console.log("El input tiene patrón");
+		        //Guardo mi expresión regultar
+		        let expRegular = new RegExp(pattern);
+		        //
+		        //let expr = new RegExp(expresion) y la usamos mediante expr.exec(valorAVerificar)
+		        return !expRegular.exec($input.value)
+		          ? document.getElementById($input.name).classList.add("is-active")
+		          : document.getElementById($input.name).classList.remove("is-active");
+		      }
+		      if (!pattern) {
+		        console.log("El input  no tiene patrón");
+
+		        return $input.value === ""
+		          ? document.getElementById($input.name).classList.add("is-active")
+		          : document.getElementById($input.name).classList.remove("is-active");
+		      }
+		    }
+		  });
+		  
+
+
+		}
+	</script>
+</body>
+
+</html>

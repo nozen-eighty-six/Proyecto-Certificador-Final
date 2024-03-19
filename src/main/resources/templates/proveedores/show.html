@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Spring eCommerce</title>
+
+
+<!-- Bootstrap core CSS -->
+<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+
+
+<style>
+body {
+	padding: 0;
+	background-color: #f3f3f3;
+}
+
+ul {
+	padding-left: 0;
+}
+
+.contenedor{
+	min-height: 75vh;
+}
+.position-relative-own {
+	position: relative;
+	z-index: 101;
+}
+
+.position-absolute-own {
+	position: absolute;
+	top: -40px;
+}
+
+.modal-show {
+	display: block;
+}
+
+.opacity-05 {
+	opacity: 0.5;
+}
+
+.overflow-none {
+	z-index: 1000;
+	overflow-y: visible;
+	overflow-x: visible;
+}
+
+</style>
+</head>
+
+<body>
+
+	<!-- Navigation 
+  <div th:include="administrador/template_admin.html::header"></div>-->
+
+	<!-- Page Content -->
+	<div class="container contenedor container-xxl position-relative-own ">
+
+
+		<!-- Page Heading/Breadcrumbs -->
+		<h1 class="mt-4 mb-3">
+			Top Moda <small>Proveedores</small>
+		</h1>
+
+
+		<div class="contenedor-form">
+			<div class="contenedor-main">
+				<div
+					class="form-group mb-2 d-flex flex-row justify-content-between align-items-center ">
+					<div class="d-flex flex-row justify-content-between align-items-center">
+						<input type="text" name="palabraClave" class="form-control me-2"
+						id="palabraClave" th:value="${palabraClave}"
+						placeholder="Digite el valor a buscar" > <input
+						type="submit" class="btn btn-primary " value="Buscar">
+					&nbsp;&nbsp; <input type="button" class="btn btn-secondary "
+						value="Limpiar" onclick="limpiarCampos()">
+					</div>
+					<button class="btn btn-primary col-2"
+				onclick="abrirModalCrearProveedor()">Crear Proveedor</button>
+				</div>
+			</div>
+			
+		</div>
+
+		<h2>Proveedores</h2>
+		<table class="table" id="tablaProveedores">
+			<thead>
+				<tr>
+					<th scope="col">Nombre</th>
+					<th scope="col">Dirección</th>
+					<th scope="col">Correo</th>
+					<th scope="col">Teléfono</th>
+					<th scope="col">Acción</th>
+					<th scope="col">Acción</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr th:each="p:${bProveedores}">
+					<td th:text=${p.nombreProveedor}></td>
+					<td th:text=${p.direccion}></td>
+					<td th:text=${p.correo}></td>
+					<td th:text=${p.telefono}></td>
+					<td><button class="btn btn-warning edit col-12" 
+						th:data-id ="${p.id}" th:data-name="proveedores">Editar</button></td>
+					<td><button class="btn btn-danger delete col-12" 
+						th:data-id ="${p.id}" th:data-name="proveedores">Eliminar</button></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- Modal -->
+		<div class="modal fade  position-absolute-own"
+			id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+					<div class="modal-header bg-dark text-white">
+						<h5 class="modal-title" id="exampleModalLabel">Proveedor</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body col-12">
+
+						<!-- th:value="${producto.id}"  -->
+						<input id="txtid" class="invisible" type="text" name="id"
+							th:value="0" autocomplete="off" />
+						<form id="contenedor" class="row contact-form col-12 ms-auto me-auto"
+							enctype="multipart/form-data">
+
+
+							<div class="col-6">
+								<div class="mb-3">
+									<!-- th:value="${producto.nombre}" -->
+									<label class="form-label">Nombre</label> <input type="text"
+										class="form-control" id="textnombre" name="nombre"
+										placeholder="Escriba el nombre del proveedor" required
+										title="El nombre solo acepta letras y espacios en blanco"
+										pattern="^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$" />
+								</div>
+								<div class="mb-3">
+									<!-- th:text="${producto.descripcion}" -->
+									<label class="form-label">Dirección: </label> <input
+										type="text" class="form-control" id="textdireccion"
+										name="direccion" placeholder="Escriba la dirección" required
+										title="El nombre solo acepta letras y espacios en blanco"
+										pattern="^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$" />
+								</div>
+
+							</div>
+
+
+
+							<div class="col-6">
+
+								<div class="mb-3">
+									<label class="form-label">Correo:</label>
+									<input type="email" class="form-control" placeholder="Escriba el correo" name="correo"
+										required
+										pattern="^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$"
+										title="El email debe ser correcto" autocomplete="off">
+								</div>
+
+
+								<div class="mb-3">
+									<!-- th:value="${producto.cantidad}" -->
+									<label class="form-label">Teléfono:</label> <input type="text"
+										class="form-control" id="txttelefono" name="telefono" 
+										placeholder="Escriba el número telefónico"
+										required
+										pattern="^9\d{0,8}$"
+										title="Solo se pueden ingresar números enteros" step="1" />
+								</div>
+								<!-- 
+								<div class="mb-3">
+									<label class="form-label">Activo</label> <select id="cboactivo"
+										class="form-select">
+										<option value="1">Si</option>
+										<option value="0">No</option>
+									</select>
+								</div> -->
+
+
+							</div>
+
+						</form>
+
+
+						<div class="row g-1">
+
+
+
+
+
+
+							<!-- <div class="col-sm-6">
+						@*//Que sea una columna pequeña(sm) y que ocupe la mitad del formulario
+						<label for="txtdescripcion" class="form-label">Descripcion</label>
+						<input type="text" class="form-control" id="txtdescripcion" placeholder="Escriba la descripcion" autocomplete="off">
+					</div>
+					<div class="col-sm-6">
+						//Que sea una columna pequeña(sm) y que ocupe la mitad del formulario*
+						<label for="cboactivo" class="form-label">Activo</label>
+						<select class="form-select" id="cboactivo">
+							<option value="1">Si</option>
+							<option value="0">No</option>
+						</select>
+					</div>*@ -->
+						</div>
+
+						<!--Mensaje de alerta-->
+						<div class="row mt-2">
+							<div class="col-12">
+								<div id="mensajeError" class="alert alert-danger" role="alert">
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary col-2"
+							data-bs-dismiss="modal" onclick="cerrarModalCM()">Cerrar</button>
+						<button type="button" class="btn btn-primary col-2"
+							onclick="guardarProveedor()">Guardar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- /.container -->
+
+	<!-- Footer 
+<div th:include="administrador/template_admin.html::footer"></div>-->
+
+	<!-- Bootstrap core JavaScript -->
+	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+
+</html>
