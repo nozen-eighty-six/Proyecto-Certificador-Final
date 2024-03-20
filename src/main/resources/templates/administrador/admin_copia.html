@@ -332,8 +332,9 @@ opacity
 			<td class="proveedor-nombreProveedor"></td>
 			<td class="total"></td>
 			<td class="estado"></td>
+						<!--
 			<td><button class="btn btn-warning edit col-12">Editar</button></td>
-			<!-- th:href="@{/productos/delete/{id}(id=${p.id})}" -->
+ th:href="@{/productos/delete/{id}(id=${p.id})}" -->
 			<td><button class="btn btn-danger delete col-12">Eliminar</button></td>
 		</tr>
 
@@ -515,6 +516,8 @@ opacity
 			         
 			        cargarProductos(e.target.value);
 			      });
+			    document.querySelector(".modal-backdrop").style.display="none";
+
 	    }
 		 function mostrarImagen(input) {
 		        var fileInput = input;
@@ -661,7 +664,7 @@ opacity
 				    validoFormularioPedido = false;
 			 }
 			 if($selectProveedor.value !== "0" ){
-
+					let cBoxSelect = false;
 				 const $span = document.createElement("span");
 
 			        var checkboxes = document.getElementsByClassName("producto-checkbox");
@@ -672,13 +675,15 @@ opacity
 			            '.cantidad-input[data-producto-id="' + productoId + '"]'
 			          ).value;
 			          
-			          if(!(checkbox.checked) && cantidadInput===""){
-						    validoFormularioPedido = false;  
+			          if(checkbox.checked && cantidadInput!==""){
+			        	  cBoxSelect = true;
 			          }
 			          
 
+			          
+
 			        }
-				    if(!validoFormularioPedido){
+				    if(!cBoxSelect){
 				    	//$span.id =$selectProveedor.id ;
 					    $span.textContent = "Producto: Debe seleccionar algún producto";
 					    $span.style.display="block";
@@ -1267,6 +1272,7 @@ opacity
 		 function guardarPedido(){
 			 
 			 confirmarPedido();
+
 			 
 		 }
 		 
@@ -1633,7 +1639,7 @@ opacity
 			 try{
 				 const $fragmento = document.createDocumentFragment();
 				    const $table = document.querySelector(`#${tabla}`);
-				    const $template = d.getElementById("template-pedido").content;
+				    const $template = document.getElementById("template-pedido").content;
 				    
 				    const response = await fetch(url);
 				    const jsonData = await response.json();
@@ -1648,8 +1654,8 @@ opacity
 		            	 $template.querySelector(".total").textContent = element.total;
 		            	 $template.querySelector(".estado").textContent = element.estado;
 
-		                 $template.querySelector(".edit").dataset.id = element.id;
-		                 $template.querySelector(".edit").dataset.name = controlador;
+		                 //$template.querySelector(".edit").dataset.id = element.id;
+		                // $template.querySelector(".edit").dataset.name = controlador;
 		                   $template.querySelector(".delete").dataset.id = element.id;
 		                   $template.querySelector(".delete").dataset.name= controlador;
 		            	const $clone = document.importNode($template, true);
@@ -1824,7 +1830,7 @@ opacity
 			    // y luego actualizar la sección de la tabla
 			    const $fragmento = document.createDocumentFragment();
 			    const $table = document.querySelector(`#${tabla}`);
-			    const $template = d.getElementById("template-pedido").content;
+			    const $template = document.getElementById("template-pedido").content;
 			    $.ajax({
 			        url: url,
 			        type: "GET",
@@ -2027,10 +2033,11 @@ opacity
 		        });
 		      }
 
+		      
 		      function confirmarPedido() {
 		        // Obtener productos seleccionados y sus cantidades
 		        
-		        var productosSeleccionados = [];
+		        var productosSelec = [];
 		        var checkboxes = document.getElementsByClassName("producto-checkbox");
 		        for (var i = 0; i < checkboxes.length; i++) {
 		          var checkbox = checkboxes[i];
@@ -2040,7 +2047,7 @@ opacity
 		          );
 		          var cantidad = cantidadInput.value;
 		          if (checkbox.checked && cantidad.trim() !== "") {
-		            productosSeleccionados.push({
+		        	  productosSelec.push({
 		              id: productoId
 		            });
 		          }
@@ -2078,7 +2085,7 @@ opacity
 		          fPedido: fechaFormateadaPedido,
 		          fEntrega: fechaEntrega,
 		          estado: "Enviado",
-		          itemsProducto: productosSeleccionados
+		          itemsProducto: productosSelec
 		        };
 
 					 document.querySelector("#mensajeError").innerHTML="";
@@ -2144,16 +2151,18 @@ opacity
 		        //formData.append("img", imagenSeleccionado);
 		        
 		        // Obtener productos seleccionados y sus cantidades
-		        var productosSeleccionados = [];
-		        var checkboxes = document.getElementsByClassName("producto-checkbox");
-		        for (var i = 0; i < checkboxes.length; i++) {
-		          var checkbox = checkboxes[i];
-		          var productoId = checkbox.getAttribute("data-producto-id");
-		          var cantidadInput = document.querySelector(
+		        let productosSeleccionados = [];
+		        /*let checkboxes = document.getElementsByClassName("producto-checkbox");
+		        for (let i = 0; i < checkboxes.length; i++) {
+		        	console.log("Recorriendo el for");
+		          let checkbox = checkboxes[i];
+		          let productoId = checkbox.getAttribute("data-producto-id");
+		          let cantidadInput = document.querySelector(
 		            '.cantidad-input[data-producto-id="' + productoId + '"]'
 		          );
-		          var cantidad = cantidadInput.value;
-		          if (checkbox.checked && cantidad.trim() !== "") {
+		          let  cantidad = cantidadInput.value;
+		          if (checkbox.checked !==false && cantidad.trim() !== "") {
+		        	  console.log("entrando para guardar producto select")
 		            productosSeleccionados.push({
 		              pedido: {
 		                id:idPedidoUltimo
@@ -2165,12 +2174,45 @@ opacity
 		            });
 		          }
 		        }
+		        */
+		        
+		    	let checkboxes = document.getElementsByClassName("producto-checkbox");
 
+		    	for(let i=0; i< checkboxes.length; i++){
+		    		let checkbox =  checkboxes[i];
+		    		let productoId = checkbox.getAttribute("data-producto-id");
+		    		let cantidadInput = document.querySelector('.cantidad-input[data-producto-id="'+productoId+'"]');
+		    		
+		    		console.log(checkbox.checked);
+		    		console.log(cantidadInput.value);
+		    		
+		    		if(checkbox.checked !== false&& cantidadInput.value !== "" ){
+		    			productosSeleccionados.push({
+				              pedido: {
+				                id:idPedidoUltimo
+				              },
+				              productos:{
+				                id: productoId
+				              },
+				              cantidad: cantidadInput.value,
+				            });
+		    		}
+		    	}
+		    		
+		        console.log("Productos que irán en lineaPedido")
+				console.log(productosSeleccionados);
 		        formData.append("lineapedido", JSON.stringify(productosSeleccionados));
 
 
 		        fetch("http://localhost:8000/lineaP/save", {method: "POST", body: formData})
-		        .then(res=>generarPedidoPDF())
+		        .then(res=>
+		        {
+		        	generarPedidoPDF();
+		        	cerrarModalCM();
+
+		        	
+		        
+		        })
 		        .catch(err=>console.log(err));
 		      }
 		      
@@ -2201,10 +2243,36 @@ opacity
 		      function enviarPDFProveedor(id){
 		    	  let url = "http://localhost:8000/lineaP/enviar-pdf/"+id;
 			        fetch(url)
-			        .then(res=>console.log(res))
+			        .then(res=>{
+			        	console.log(res);
+			        	resetearCheckProductyCantidad();	
+			        	actualizarIdPedido();
+			        })
 			        .catch(err=>console.log(err));
 		      }
 		      
+		      function actualizarIdPedido() {
+		    	    let url = "http://localhost:8000/pedidos/ultimoid";
+		    	    fetch(url)
+		    	        .then(res => {
+		    	            if (!res.ok) {
+		    	                throw new Error('Error al obtener el último ID de pedido');
+		    	            }
+		    	            return res.text(); // Espera que la respuesta sea texto
+		    	        })
+		    	        .then(data => {
+		    	            let $inputId = document.querySelector("input[name='idPedido']");
+		    	            // Asigna directamente el valor obtenido
+		    	            let dataid = data.substring(0,2) + (parseInt(data.substring(2)));
+		    	           // $inputId.setAttribute("th-value", data);
+		    	            $inputId.setAttribute("value", dataid)
+		    	            console.log(data);
+		    	            console.log($inputId)
+		    	            //$inputId.value = data;
+		    	        })
+		    	        .catch(err => console.error(err));
+		    	}
+
 		     function resetearCheckProductyCantidad(){
 			        var checkboxes = document.getElementsByClassName("producto-checkbox");
 			        for (var i = 0; i < checkboxes.length; i++) {
@@ -2222,15 +2290,25 @@ opacity
 		    	
 		    	let valido = false;
 		    	
+		    	let contadorCorrec = 0;
+		    	let contadorIncorr = 0;
 		    	for(var i=0; i< checkboxes.length; i++){
 		    		let checkbox =  checkboxes[i];
 		    		let productoId = checkbox.getAttribute("data-producto-id");
 		    		let cantidadInput = document.querySelector('.cantidad-input[data-producto-id="'+productoId+'"]');
 		    		
-		    		valido = (cantidadInput.value === ""  || checkbox.checked === false)? valido : true;
+		    		if(checkbox.checked !== false&& cantidadInput.value !== "" ){
+		    			contadorCorrec++;
+		    		}
+		    		
+		    		if(checkbox.checked !== false&& cantidadInput.value === "" ){
+		    			contadorIncorr++;		    			
+		    		}
+
+		    		//valido = (cantidadInput.value === ""  || checkbox.checked === false)? valido : true;
 		    	}
 		    	
-		    	return valido;
+		    	return [contadorCorrec, contadorIncorr];
 		    }
 
 		      document.addEventListener("click", e=>{
@@ -2257,7 +2335,9 @@ opacity
 		        
 		        if(e.target.matches("div.container-button-guadar button.guardarSeleccionProd")){
 		        	
-		        	if(!validarProductosPedidos()){
+		        	let [contadorCor, contadorInc] = validarProductosPedidos();
+		        	
+		        	if(!(contadorCor>0 && contadorInc ===0)){
 		        		alert("Debe seleccionar el producto e ingresar la cantidad que desea");
 		        		return;
 		        	}

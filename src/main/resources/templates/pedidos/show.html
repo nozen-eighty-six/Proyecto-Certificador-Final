@@ -223,7 +223,6 @@ opacity
 					<th scope="col">Total</th>
 					<th scope="col">Estado</th>
 					<th scope="col">Acción</th>
-					<th scope="col">Acción</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -233,8 +232,9 @@ opacity
 					<td th:utext="${p.proveedor.nombreProveedor}"></td>
 					<td th:utext="${p.total}"></td>
 					<td th:utext="${p.estado}"></td>
+					<!-- 
 					<td><button class="btn btn-warning edit col-12"
-							th:data-id="${p.id}" th:data-name="pedidos">Editar</button></td>
+							th:data-id="${p.id}" th:data-name="pedidos">Editar</button></td> -->
 					<td><button class="btn btn-danger delete col-12"
 							th:data-id="${p.id}" th:data-name="pedidos">Eliminar</button></td>
 				</tr>
