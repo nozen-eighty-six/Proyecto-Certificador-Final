@@ -755,6 +755,10 @@ opacity
 					let $inputId = document.querySelector("#txtid");				
 					let $inputUbicacion = document.querySelector(".contact-form #textubicacion");
 					let $cboEstado = document.querySelector(".contact-form #cboestado");
+					
+					if($cboEstado.value === "Recepcionado"){
+						$cboEstado.disabled = true;
+					}
 					let url = "http://localhost:8000/entradas/editar/"+$inputId.value;
 
 					const formData = new FormData();
@@ -1353,9 +1357,16 @@ opacity
 					  const $inputId = document.querySelector("#txtid");
 			    	  const $inputUbicacion = document.querySelector(".contact-form #textubicacion");
 			    	  const $selectEstado = document.querySelector(".contact-form #cboestado");
+
 			    	  $inputId.value = data.id;
 			    	  $inputUbicacion.value = data.ubicacion;
 			    	  $selectEstado.value = data.estado;
+			    	  
+			    	  
+			    	  if($selectEstado.value === "Recepcionado"){
+			    		  
+			    		  $selectEstado.disabled = true;
+			    	  }
 
 			    	    
 			    	    $('#FormModal').modal('show');
@@ -1420,6 +1431,7 @@ opacity
 			    	  $formImg.setAttribute("src","/images/"+data.imagen);
 
 				  }
+				  console.log(data);
 		    	  const $formId = document.querySelector("#FormModal #txtid");
 		    	  $formId.setAttribute("value",data.id);
 		    	  
@@ -1485,7 +1497,7 @@ opacity
 				 console.log("Evitando evento");
 				 ajaxEditModalCM(
 				{
-					url: "http://localhost:8000/"+e.target.dataset.name+"/"+e.target.dataset.id,
+					url: "http://localhost:8000/"+e.target.dataset.name+"/get/"+e.target.dataset.id,
 					success: (success)=> abrirModalProducto(success),
 					err: (err)=> console.log("Error")
 							
@@ -2373,6 +2385,8 @@ opacity
 				    	  }
 
 					 }
+					 
+					 
 
 		    	  
 		    	  
