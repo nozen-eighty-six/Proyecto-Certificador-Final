@@ -159,7 +159,7 @@ body{
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-   	padding-bottom: 30px;
+   	padding-bottom: 10px;
 }
 .barra-lateral .navegacion::-webkit-scrollbar{
     width: 5px;
@@ -209,7 +209,7 @@ body{
 /*----------------> Modo Oscuro*/
 .barra-lateral .modo-oscuro{
     width: 100%;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
@@ -363,4 +363,48 @@ main.min-main{
 	position: relative;
 	overflow: hidden;
 	min-height: 100vh;
+}
+
+
+.abrir-usuario {
+    cursor: pointer;
+}
+.abrir-usuario *{
+    cursor: pointer;
+}
+
+.btn-logout{
+    position: relative;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 4rem;
+    font-size: 1.15rem;
+    margin: 0 auto;
+    
+    border: none;
+    background-color: #eeeeee;
+    cursor: pointer;
+}
+.btn-logout ion-icon{
+    margin-right: 5px;
+}
+
+.btn-logout:hover{
+    background-color: #e0e0e0;
+}
+.btn-logout span{
+    display: inline-block;
+}
+
+.none{
+    visibility: hidden;
+}
+
+.content-usuario{
+    position: absolute;
+    width: 220px;
+    bottom: 5.5rem;
 }

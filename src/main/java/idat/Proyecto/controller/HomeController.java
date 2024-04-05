@@ -65,6 +65,16 @@ public class HomeController {
 	public String home(Model model, HttpSession session) {
 		// Verificar la sesión, mostrará el id
 		log.info("Sesión del usuario {}", session.getAttribute("idusuario"));
+		
+		
+		if(!(session.getAttribute("idusuario") == null)) {
+			Usuario usuario = us.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+			model.addAttribute("user", usuario);
+		}
+		/*
+		if(usuario != null) {
+
+		}*/
 
 		model.addAttribute("productos", prs.findAll());
 
@@ -73,6 +83,40 @@ public class HomeController {
 
 		return "usuario/home";
 
+	}
+	
+	@GetMapping("/carrito")
+	public String carritoUsuario(HttpSession session) {
+		
+		return "usuario/carritoUsuario";
+	}
+	
+	@GetMapping("/contacto")
+	public String contacto(Model model, HttpSession session) {
+		// Verificar la sesión, mostrará el id
+		log.info("Sesión del usuario {}", session.getAttribute("idusuario"));
+
+		//model.addAttribute("productos", prs.findAll());
+
+		// Session
+		model.addAttribute("sesion", session.getAttribute("idusuario"));
+
+		return "usuario/contacto";
+
+	}
+	
+	@GetMapping("/detalle/{id}")
+	public String detalle_compra(@PathVariable Integer id, HttpSession session, Model model) {
+		log.info("Id de la orden: {}", id);
+		
+		Optional<Orden> orden = os.findById(id);
+		//Orden
+		model.addAttribute("detalles", orden.get().getDetalle());
+		
+		//Session
+		model.addAttribute("sesion", session.getAttribute("idusuario"));
+		
+		return "usuario/detallecompra";
 	}
 
 	@GetMapping("productohome/{id}")
@@ -228,8 +272,8 @@ public class HomeController {
 		log.info("suma: {}", sumaUser);
 		Venta ventaUser = new Venta();
 		ventaUser.setUsuario(usuario);
-		ventaUser.setTotal(sumaUser);
-		ventaUser.setFechaCreacion(fechaActual);
+		//ventaUser.setTotal(sumaUser);
+		//ventaUser.setFechaCreacion(fechaActual);
 		vs.save(ventaUser);
 
 		// Una vez guardado limpiamos todo

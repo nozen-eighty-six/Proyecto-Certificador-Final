@@ -49,7 +49,7 @@ public class UsuarioController {
 		//Encriptamos la clave del usuario
 		usuario.setPassword(passEnconder.encode(usuario.getPassword()));
 		us.save(usuario);
-		return "redirect:/usuario/login";
+		return "/usuario/login";
 	}
 	
 	@GetMapping("/login")
@@ -80,7 +80,7 @@ public class UsuarioController {
 			}
 			else {
 				
-				return "redirect:/administrador/admin";
+				return "redirect:/administrador/navegacion";
 			}
 		}
 		else {
@@ -107,19 +107,10 @@ public class UsuarioController {
 		return "usuario/compras";
 	}
 	
-	@GetMapping("/detalle/{id}")
-	public String detalle_compra(@PathVariable Integer id, HttpSession session, Model model) {
-		log.info("Id de la orden: {}", id);
-		
-		Optional<Orden> orden = os.findById(id);
-		//Orden
-		model.addAttribute("detalles", orden.get().getDetalle());
-		
-		//Session
-		model.addAttribute("sesion", session.getAttribute("idusuario"));
-		
-		return "usuario/detallecompra";
-	}
+
+	
+	
+
 	@GetMapping("/cerrar")
 	public String cerrarSesion(HttpSession session) {
 		log.info("Cerrando sesion");

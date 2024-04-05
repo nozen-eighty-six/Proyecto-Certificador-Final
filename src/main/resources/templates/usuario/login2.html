@@ -9,62 +9,68 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Login</title>
-
+  <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@500&amp;display=swap" />
+    <title>Login</title>
 
 <!-- Bootstrap core CSS 
 <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
 	rel="stylesheet">-->
 
-<!-- Custom styles for this template -->
-<link th:href="@{/css/style.css}" rel="stylesheet">
+<!-- Custom styles for this template 
+<link th:href="@{/css/style.css}" rel="stylesheet">-->
 <!-- Estilos para el menú -->
+<style>
+.contact-form-error{
+
+  margin-top: 0.2rem;
+  font-size: 80%;
+  background-color: var(--form-error-color);
+  color: #f44336;
+  transition: all 800ms ease;
+}
+
+.none{
+  display: none;
+}
+
+
+
+</style>
 
 </head>
 
 <body>
 
-	<div class="container" id="container">
-		<div class="form-container sign-up">
-			<form>
-				<h1>Recuperar Contraseña</h1>
-				<span></span> <input type="text" placeholder="Nombre" /> <input
-					type="email" placeholder="Correo" />
-				<button>Recuperar Contraseña</button>
-			</form>
-		</div>
-		<div class="form-container sign-in">
-			<form th:action="@{/usuario/login}" class="contact-form" method="post">
-				<h1>Iniciar Sesión</h1>
-				<br> <span>Utiliza tu correo electronico y contraseña
-					para iniciar sesión.</span> 
-					<input type="email" placeholder="Correo"  name="username" required 
-					pattern="^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$"
+<div class="container" id="container">
+        <input type="checkbox" id="chk" aria-hidden="true">
+        
+        <div class="signup">
+            <form th:action="@{/usuario/login}" class="contact-form" method="post">
+                <label for="chk" aria-hidden="true">Iniciar Sesion</label>
+                <p>Inicie sesión para poder utilizar todas las funciones del sitio</p>
+                <p>Utiliza tu correo electronico  y contraseña para iniciar sesión</p>
+                <input type="email" name="username" placeholder="Email" required=""
+				pattern="^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$"
 					title="El email debe ser correcto"
-					autocomplete="off">
-				<input type="password" placeholder="Contraseña" id="password" name="password">
-				<button type="submit">Iniciar sesión</button>
-			</form>
-			<a th:href="@{/usuario/registro}" class="card-link">Si aún no
-			tiene cuenta aqui puede registrarse</a>
-		</div>
-		<div class="toggle-container">
-			<div class="toggle">
-				<div class="toggle-panel toggle-left">
-					<h1>¡Bienvenido de nuevo!</h1>
-					<p>Ingresa tu corro y nombre, para poder recuperar tu
-						contraseña</p>
-					<button class="hidden" id="login">Iniciar sesión</button>
-				</div>
-				<div class="toggle-panel toggle-right">
-					<h1>¡Bienvenido!</h1>
-					<p>Inicie sesión para poder utilizar todas las funciones del
-						sitio</p>
-					<button class="hidden" id="register">Recuperar Contraseña</button>
-				</div>
-			</div>
-		</div>
-	</div>
+					autocomplete="off"
+				>
+                <input type="password" placeholder="Contraseña" id="password" name="password">
+                <button type="submit" id="iniciarSesion">Iniciar Sesión</button>
+                <br>
+                <p id="log">Si aún no tiene cuenta, <a th:href="@{/usuario/registro}">aquí puede registrarse</a></p>
+            </form>
+        </div>
+        <div class="login">
+            <form>
+                <label for="chk" aria-hidden="true">Recuperar Contraseña</label>
+                <p>Ingresa tu correo y nombre, para poder recuperar tu contraseña</p>
+                <input type="text" name="txt" placeholder="User name" required="">
+                <input type="email" name="email" placeholder="Email" required="">
+                <button>Recuperar Contraseña</button>
+            </form>
+        </div>
+    </div>
 
 	<!-- Bootstrap core JavaScript
 	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>

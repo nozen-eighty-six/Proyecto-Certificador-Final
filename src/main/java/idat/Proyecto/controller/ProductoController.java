@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import idat.Proyecto.entity.Producto;
 import idat.Proyecto.entity.Usuario;
@@ -39,6 +40,18 @@ public class ProductoController {
 	
 	private static final String GET_PRODUCTS = "http://localhost:8000/productos";
 	private static final String GET_PRODUCT = "http://localhost:8000/productos/";
+	private static final String GET_HOMBRE_PRODUCT = "http://localhost:8000/productos/hombre";
+	private static final String GET_MUJER_PRODUCT = "http://localhost:8000/productos/mujer";
+	private static final String GET_CAMISA_PRODUCT = "http://localhost:8000/productos/camisa";
+	private static final String GET_CASACA_PRODUCT = "http://localhost:8000/productos/casaca";
+	private static final String GET_POLO_PRODUCT = "http://localhost:8000/productos/polo";
+	private static final String GET_GORRA_PRODUCT = "http://localhost:8000/productos/gorra";
+	private static final String GET_NINIO_PRODUCT = "http://localhost:8000/productos/ninio";
+	private static final String GET_SPORT_PRODUCT = "http://localhost:8000/productos/sport";
+	private static final String GET_ACCESORIO_PRODUCT = "http://localhost:8000/productos/accesorios";
+	private static final String GET_BEBE_PRODUCT = "http://localhost:8000/productos/bebes";
+	private static final String GET_ZAPATILLA_PRODUCT = "http://localhost:8000/productos/zapatilla";
+
 	private final Logger LOGGER = LoggerFactory.getLogger(ProductoController.class);
 	static RestTemplate restTemplate = new RestTemplate();
 	
@@ -56,6 +69,123 @@ public class ProductoController {
 	
 	@Autowired
 	private UploadFileService ups;
+	@Autowired
+    private WebClient webClient;
+	
+	@GetMapping("")
+	public String mostrarTodoProductos(Model model, HttpSession session) {
+		
+		if(!(session.getAttribute("idusuario") == null)) {
+			Usuario usuario = us.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+			model.addAttribute("user", usuario);
+		}
+		
+		List<Producto> productosHombre = webClient.get()
+	            .uri(GET_HOMBRE_PRODUCT)
+	            .retrieve()
+	            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+	            .block();
+
+	    // Añade la lista de productos al modelo
+	    model.addAttribute("bProductoHombre", productosHombre);
+	    
+	    List<Producto> productosZapatilla = webClient.get()
+	            .uri(GET_ZAPATILLA_PRODUCT)
+	            .retrieve()
+	            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+	            .block();
+
+	    // Añade la lista de productos al modelo
+	    model.addAttribute("bProductoZapatilla", productosZapatilla);
+	    
+	    List<Producto> productosMujer = webClient.get()
+	            .uri(GET_MUJER_PRODUCT)
+	            .retrieve()
+	            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+	            .block();
+
+	    // Añade la lista de productos al modelo
+	    model.addAttribute("bProductoMujer", productosMujer);
+	    
+	    List<Producto> productosCamisa = webClient.get()
+	            .uri(GET_CAMISA_PRODUCT)
+	            .retrieve()
+	            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+	            .block();
+
+	    // Añade la lista de productos al modelo
+	    model.addAttribute("bProductoCamisa", productosCamisa);
+	    
+	    List<Producto> productosCasaca = webClient.get()
+	            .uri(GET_CASACA_PRODUCT)
+	            .retrieve()
+	            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+	            .block();
+
+	    // Añade la lista de productos al modelo
+	    model.addAttribute("bProductoCasaca", productosCasaca);
+	    
+	    List<Producto> productosPolo = webClient.get()
+	            .uri(GET_POLO_PRODUCT)
+	            .retrieve()
+	            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+	            .block();
+
+	    // Añade la lista de productos al modelo
+	    model.addAttribute("bProductoPolo", productosPolo);
+	    
+	    List<Producto> productosGorra = webClient.get()
+	            .uri(GET_GORRA_PRODUCT)
+	            .retrieve()
+	            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+	            .block();
+
+	    // Añade la lista de productos al modelo
+	    model.addAttribute("bProductoGorra", productosGorra);
+	    
+	    
+	    List<Producto> productosNinio = webClient.get()
+	            .uri(GET_NINIO_PRODUCT)
+	            .retrieve()
+	            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+	            .block();
+
+	    // Añade la lista de productos al modelo
+	    model.addAttribute("bProductoNinio", productosNinio);
+	    
+	    
+	    List<Producto> productosSport = webClient.get()
+	            .uri(GET_SPORT_PRODUCT)
+	            .retrieve()
+	            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+	            .block();
+
+	    // Añade la lista de productos al modelo
+	    model.addAttribute("bProductoSport", productosSport);
+	    
+	    List<Producto> productosAccesorio = webClient.get()
+	            .uri(GET_ACCESORIO_PRODUCT)
+	            .retrieve()
+	            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+	            .block();
+
+	    // Añade la lista de productos al modelo
+	    model.addAttribute("bProductoAccesorio", productosAccesorio);
+	    
+	    
+	    List<Producto> productosBebe = webClient.get()
+	            .uri(GET_BEBE_PRODUCT)
+	            .retrieve()
+	            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+	            .block();
+
+	    // Añade la lista de productos al modelo
+	    model.addAttribute("bProductoBebe", productosBebe);
+		model.addAttribute("sesion", session.getAttribute("idusuario"));
+
+		
+	    return "productos/productosTotal";
+	}
 	@GetMapping("/listar")
 	public String show(Model model) {
 		

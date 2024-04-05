@@ -23,6 +23,7 @@
 
 <!-- Custom styles for this template -->
 <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+<link th:href="@{/css/detalles.css}" rel="stylesheet">
 
 
 <style>
@@ -76,7 +77,8 @@ ul {
   <div th:include="administrador/template_admin.html::header"></div>-->
 
 	<!-- Page Content -->
-	<div class="container container-xxl position-relative-own h-75">
+	<div
+		class="container container-xxl position-relative-own h-75 container-detalle">
 
 
 		<!-- Page Heading/Breadcrumbs -->
@@ -146,13 +148,14 @@ ul {
 			<tbody>
 				<tr th:each="p : ${bEntradas}">
 					<td th:utext="${p.pedidoEntrada.id}"></td>
-					<td th:utext="${p.pedidoEntrada.fEntrega}"></td>
+					<td
+						th:utext="${#dates.format(p.pedidoEntrada.fEntrega, 'yyyy-MM-dd')}"></td>
 					<td th:utext="${p.pedidoEntrada.proveedor.nombreProveedor}"></td>
 					<td th:utext="${p.ubicacion}"></td>
-					<td th:utext="${p.estado} =='NRecepcionado'  ? 'No Recepcionado' :  'Recepcionado' "></td>
+					<td
+						th:utext="${p.estado} =='NRecepcionado'  ? 'No Recepcionado' :  'Recepcionado' "></td>
 					<td><button class="btn btn-primary see col-12"
-							th:data-id="${p.pedidoEntrada.id}" th:data-name="productos">Ver
-							detalles</button></td>
+							th:data-id="${p.pedidoEntrada.id}" th:data-name="productos">Detalles</button></td>
 					<td><button class="btn btn-warning edit col-12 "
 							th:data-id="${p.id}" th:data-name="productos">Actualizar</button></td>
 				</tr>
@@ -178,7 +181,8 @@ ul {
 						<!-- th:value="${producto.id}"  -->
 						<input id="txtid" class="invisible" type="text" name="id"
 							th:value="0" autocomplete="off" />
-						<form id="contenedor" class="row  me-auto ms-auto justify-content-center contact-form  col-12"
+						<form id="contenedor"
+							class="row  me-auto ms-auto justify-content-center contact-form  col-12"
 							enctype="multipart/form-data">
 
 							<div class="col-8 ">
@@ -199,9 +203,10 @@ ul {
 									<label class="form-label " for="estado">Estado:</label> <select
 										class="form-select " aria-label="Default select example"
 										id="cboestado" name="estado">
-										
-										<option value="NRecepcionado" selected disabled="disabled"> No recepcionado</option>
-										<option value="Recepcionado"> Recepcionado</option>
+
+										<option value="NRecepcionado" selected disabled="disabled">
+											No recepcionado</option>
+										<option value="Recepcionado">Recepcionado</option>
 										<!--  <option th:each="marca : ${bMarcas}" th:value="${marca.id}"
 											th:text="${marca.nombre}"></option>-->
 									</select>
@@ -258,8 +263,49 @@ ul {
 			</div>
 		</div>
 
+	<div class="modal" id="miModal">
+		<div style="position: relative;"  class="modal-content">
+			<span class="close-button" >&#10006;</span>
+			<h2>Detalles</h2>
+			<div class="table-container">
+				<table id="product-table">
+					<thead>
+						<tr class="text-product">
+							<th>Producto</th>
+							<th>Cantidad</th>
+							<th>Precio</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Camisa</td>
+							<td>10</td>
+							<td>$40</td>
+							<td>$400</td>
+						</tr>
+
+					</tbody>
+				</table>
+				<span class="total-entrada"
+					style="position: absolute; left: 78%; margin-top: 0.75rem; font-weight: bold;">Total:
+				</span>
+			</div>
+		</div>
+	</div>
+	
 	</div>
 
+	<!-- Modal de detalles de la entrada -->
+	
+	<template id="template-entradas-detalles">
+		<tr>
+			<td class="nombreProducto">Camisa</td>
+			<td class="cantidad">10</td>
+			<td class="precio">$40</td>
+			<td class="subtotal">$400</td>
+		</tr>
+	</template>
 	<!-- /.container -->
 
 	<!-- Footer 
@@ -269,6 +315,7 @@ ul {
 	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 
 	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/js/detalleEntrada.js}"></script>
 
 	<script>
 		

@@ -3,6 +3,7 @@ package idat.Proyecto.controller;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -28,6 +29,7 @@ import idat.Proyecto.entity.Marca;
 import idat.Proyecto.entity.Orden;
 import idat.Proyecto.entity.Producto;
 import idat.Proyecto.entity.Proveedor;
+import idat.Proyecto.entity.Usuario;
 import idat.Proyecto.service.CategoriaService;
 import idat.Proyecto.service.MarcaService;
 import idat.Proyecto.service.OrdenService;
@@ -38,6 +40,8 @@ import idat.Proyecto.service.UsuarioService;
 @RequestMapping("/administrador")
 public class AdministradorController {
 	private static final String GET_PRODUCTS = "http://localhost:8000/productos/listar-siguientes-5";
+	private static final String GET_SALES = "http://localhost:8000/ventas/listar-siguientes-5";
+
 	private static final String GET_CATEGORIES = "http://localhost:8000/categorias/listar";
 	private static final String GET_BRANDS = "http://localhost:8000/marcas/listar";
 	private static final String GET_PROVEEDOR = "http://localhost:8000/proveedores/listar";
@@ -68,13 +72,18 @@ public class AdministradorController {
 		return "administrador/home";
 	}
 
-	@GetMapping("/admin")
+	@GetMapping("/navegacion")
 	public String home_admin(Model model, HttpSession session) {
 		// Lista de usuarios
 		if (session.getAttribute("idusuario") == null) {
 			return "redirect:/usuario/cerrar";
 		}
-
+		else {
+			Optional<Usuario> usuario = us.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
+			
+			model.addAttribute("usuario", usuario.get());
+		}
+		
 		return "administrador/admin_copia";
 	}
 
@@ -126,10 +135,11 @@ public class AdministradorController {
 	}
 
 	// Probando código de navegación
+	/*
 	@GetMapping("/navegacion")
 	public String home_nav(Model model) {
 		return "administrador/admin_copia";
-	}
+	}*/
 
 	@GetMapping("/usuarios")
 	public String usuario(Model model, HttpSession session) {

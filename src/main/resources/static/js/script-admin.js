@@ -39,3 +39,13 @@ cloud.addEventListener("click",()=>{
         span.classList.toggle("oculto");
     });
 });
+
+
+document.addEventListener("click", (e)=>{
+    const buttonLogout = document.querySelector(".btn-logout");
+    if(e.target.matches(".abrir-usuario") || e.target.matches(".abrir-usuario *")){
+        buttonLogout.classList.toggle("none");
+        //buttonLogout.style.display = "block";
+    }
+});
+

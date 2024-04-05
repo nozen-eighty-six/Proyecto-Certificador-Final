@@ -231,12 +231,15 @@ opacity
 							name="receipt-outline"></ion-icon> <span>Pedidos</span> </a></li>
 				<li><a th:href="@{/entradas}" data-controlador="entradas"
 					data-table="tablaEntradas" data-scroll-spy><ion-icon
-							name="trash-outline"></ion-icon> <span>Entradas</span> </a></li>
+							name="bus-outline"></ion-icon> <span>Entradas</span> </a></li>
+					<li th:if="${usuario.tipo == 'ADMIN'}"><a th:href="@{/ventas}" data-controlador="ventas"
+					data-table="tablaVentas" data-scroll-spy><ion-icon
+							name="cash-outline"></ion-icon> <span>Ventas</span> </a></li>
 
 			</ul>
 		</nav>
 
-		<div>
+		<div class="content-usuario">
 			<div class="linea"></div>
 
 			<div class="modo-oscuro">
@@ -255,12 +258,18 @@ opacity
 
 				<div class="info-usuario">
 					<div class="nombre-email">
-						<span class="nombre">Yuusha</span> <span class="email">yuushaescalanter@gmail.com</span>
+						<span class="nombre"  th:utext="${usuario.nombre}"></span> <span class="email" th:utext="${usuario.mail}"></span>
 					</div>
-					<ion-icon name="ellipsis-vertical-outline"></ion-icon>
+					<ion-icon name="ellipsis-vertical-outline" class="abrir-usuario"></ion-icon>
 				</div>
 			</div>
 		</div>
+		<button onclick="location.href='/usuario/cerrar'" class="none btn-logout"
+                data-scroll-spy >
+ 
+                <ion-icon name="log-out-outline"></ion-icon>
+                Salir
+            </button>
 
 	</div>
 
@@ -351,6 +360,18 @@ opacity
 		</tr>
 
 	</template>
+	
+		<template id="template-venta">
+		<tr>
+			<td class="cliente"></td>
+			<td class="fechaVenta"></td>
+			<td class="total"></td>
+			<!-- th:href="@{/productos/delete/{id}(id=${p.id})}" -->
+			<td><button class="btn btn-primary see col-6">Detalles</button></td>
+		</tr>
+
+	</template>
+	
 
 
 	<template id="loader">
@@ -398,6 +419,8 @@ opacity
 	<script nomodule
 		th:src="@{https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js}"></script>
 	<script th:src="@{/js/script-admin.js}"></script>
+		<script th:src="@{/js/detalleEntrada.js}"></script>
+	
 	<script th:src="@{/js/popper.min.js}"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/perfect-scrollbar.min.js}"></script>
@@ -1626,7 +1649,7 @@ opacity
 				    jsonData.forEach(item =>{
 				    	$template.querySelector(".entradaid").textContent = item.pedidoEntrada.id;
 
-				    	$template.querySelector(".fechaentrega").textContent = item.pedidoEntrada.fEntrega;
+				    	$template.querySelector(".fechaentrega").textContent =convertirFormato(item.pedidoEntrada.fEntrega);
 				    	$template.querySelector(".nombreproveedor").textContent = item.pedidoEntrada.proveedor.nombreProveedor;
 				    	$template.querySelector(".ubicacion").textContent = item.ubicacion;
 				    	$template.querySelector(".estado").textContent = item.estado;
@@ -1646,6 +1669,41 @@ opacity
 				console.log(error);
 			}
 		 }
+		 
+		 async function reloadTablaVenta(tabla,url,controlador){
+				try{
+					 const $fragmento = document.createDocumentFragment();
+					    const $table = document.querySelector(`#${tabla}`);
+					    const $template = d.getElementById("template-venta").content;
+					    
+					    const response = await fetch(url);
+					    const jsonData = await response.json();
+					    
+					    console.log(jsonData);
+					    
+					    $table.querySelector("tbody").innerHTML = null;
+					    jsonData.forEach(item =>{
+					    	$template.querySelector(".cliente").textContent = item.usuario.nombre;
+
+					    	$template.querySelector(".fechaVenta").textContent =convertirFormato(item.fechaVenta);
+					    	$template.querySelector(".total").textContent = item.totalVenta;
+					    	$template.querySelector(".see").dataset.id = item.id;
+					    	$template.querySelector(".see").dataset.name = controlador;
+					    	/*
+					    	$template.querySelector(".edit").dataset.id = item.id;
+					    	$template.querySelector(".edit").dataset.name = controlador;
+					    	*/
+					    	const $clone = document.importNode($template, true);
+					    	$fragmento.appendChild($clone);
+					    	
+					    });
+					    $table.querySelector("tbody").appendChild($fragmento);
+				}
+				catch(error){
+					console.log(error);
+				}
+			 }
+			 
 		 
 		 async function reloadTablePedidos(tabla, url, controlador){
 			 try{
@@ -1857,9 +1915,9 @@ opacity
 			            	 $template.querySelector(".proveedor-nombreProveedor").textContent = element.proveedor.nombreProveedor;
 			            	 $template.querySelector(".total").textContent = element.total;
 			            	 $template.querySelector(".estado").textContent = element.estado;
-
+/*
 			                 $template.querySelector(".edit").dataset.id = element.id;
-			                 $template.querySelector(".edit").dataset.name = controlador;
+			                 $template.querySelector(".edit").dataset.name = controlador;*/
 			                   $template.querySelector(".delete").dataset.id = element.id;
 			                   $template.querySelector(".delete").dataset.name= controlador;
 			            	const $clone = document.importNode($template, true);
@@ -1885,6 +1943,13 @@ opacity
 				}
 				else if(e.target.dataset.table==="tablaPedidos" ){
 					reloadTablaPedidoPagination(e.target.dataset.table,e.target.dataset.ruta,e.target.dataset.controlador);
+				}
+				
+				else if(e.target.dataset.table ==="tablaEntradas"){
+					reloadTablaEntrada(e.target.dataset.table,e.target.dataset.ruta,e.target.dataset.controlador);
+				}
+				else if(e.target.dataset.table ==="tablaVentas"){
+					reloadTablaVenta(e.target.dataset.table,e.target.dataset.ruta,e.target.dataset.controlador)
 				}
 			} 
 
