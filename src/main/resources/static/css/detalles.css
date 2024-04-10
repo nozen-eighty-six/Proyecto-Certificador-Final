@@ -32,7 +32,7 @@ body{
   }
 }
 
-.modal {
+.modal-detalle {
     position: absolute;
     	display: flex;
     
@@ -41,7 +41,6 @@ body{
     width: 100%;
     height: 100%;
     transform: translate(0, -150%);
-	transition: opacity 0.5s ease-in-out, transform 0.4s ease-in-out;
     /*
     background-color: rgba(0, 0, 0, 0.5);
     */
@@ -52,11 +51,13 @@ body{
 
 .is-open{
 	 transform: translate(0, 0);
+	 	transition: opacity 0.5s ease-in-out, transform 0.4s ease-in-out;
+	 
 	 opacity: 1;
 	
 }
   
-.modal-content {
+.modal-content-detalle {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -153,7 +154,7 @@ tr.text-product {
 }
 
 @media screen and (min-width: 1200px) {
-    .modal-content {
+    .modal-content-detalle {
         width: 80%;
     }
 }

@@ -1388,27 +1388,34 @@ opacity
 			    	  }
 			      }
 			      function abrirModalConEntradas(data){
-			    	  console.log(data);
-			    	  const $form = document.querySelector(".contact-form");
-					  const $inputId = document.querySelector("#txtid");
-			    	  const $inputUbicacion = document.querySelector(".contact-form #textubicacion");
-			    	  const $selectEstado = document.querySelector(".contact-form #cboestado");
-
-			    	  $inputId.value = data.id;
-			    	  $inputUbicacion.value = data.ubicacion;
-			    	  $selectEstado.value = data.estado;
-			    	  
-			    	  
-			    	  if($selectEstado.value === "Recepcionado"){
+			    	  try{
 			    		  
-			    		  $selectEstado.disabled = true;
-			    	  }
+			    		  console.log(data);
+				    	  const $form = document.querySelector(".contact-form");
+						  const $inputId = document.querySelector("#txtid");
+				    	  const $inputUbicacion = document.querySelector(".contact-form #textubicacion");
+				    	  const $selectEstado = document.querySelector(".contact-form #cboestado");
 
-			    	    
-			    	  $('#FormModal').modal('show');
-				        //document.querySelector(".container-modal").classList.add("modal-show");
-				        $("#mensajeError").hide();
-				        document.querySelector(".modal-backdrop").style.display="none";
+				    	  $inputId.value = data.id;
+				    	  $inputUbicacion.value = data.ubicacion;
+				    	  $selectEstado.value = data.estado;
+				    	  
+				    	  
+				    	  if($selectEstado.value === "Recepcionado"){
+				    		  
+				    		  $selectEstado.disabled = true;
+				    	  }
+
+				    	  console.log($form);
+				    	  console.log($inputId.value);
+				    	  console.log($selectEstado.value);			    	  
+				    	  $('#FormModal').modal('show');
+					        //document.querySelector(".container-modal").classList.add("modal-show");
+					        $("#mensajeError").hide();
+					        document.querySelector(".modal-backdrop").style.display="none";
+			    	  }catch(erro){
+			    		  console.log(erro);
+			    	  }
 			      }
 		      
 		      function abrirModalConMC(data){
