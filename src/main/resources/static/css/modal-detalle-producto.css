@@ -1,0 +1,375 @@
+@import
+	url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap')
+	;
+
+/*
+font-family: 'Oswald', sans-serif;
+font-family: 'Poppins', sans-serif;
+*/
+@font-face {
+	font-family: 'Oswald', sans-serif;
+	font-family: 'Poppins', sans-serif;
+	src:
+		url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap");
+}
+
+:root {
+	box-sizing: border-box;
+}
+
+*, *::before, *::after {
+	box-sizing: inherit;
+}
+
+/*Modal producto detalle*/
+.modal {
+	position: fixed;
+	z-index: 10000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.5);
+	font-family: 'Poppins', sans-serif;
+}
+
+.is-active {
+	display: flex;
+}
+
+.modal__border {
+	width: 90%;
+	height: 90%;
+	background-color: #fff;
+	border-radius: 10px;
+	position: relative;
+	padding: 40px;
+}
+
+.modal__container {
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	border: thin solid #000;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	display: grid;
+	grid-template-columns: 60% 40%;
+	grid-template-rows: 1fr 1fr;
+	padding: 20px;
+}
+
+.modal__border button.cerrar-modal {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: #000;
+}
+
+.modal__img img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	border-radius: 10px;
+}
+
+.modal__img {
+	width: 90%;
+	height: 100%;
+	background-color: #f1f1f1;
+	border-radius: 10px;
+	grid-column: 1/2;
+	grid-row: 1/3;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal__content {
+	grid-column: 2/3;
+	grid-row: 1/3;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: start;
+}
+
+.content__talla {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: start;
+	margin: 10px 0;
+}
+
+.content__talla select {
+	display: block;
+	width: 100%;
+	padding: 10px 3rem 10px 10px;
+	margin: 10px 0;
+	border: thin solid #000;
+	border-radius: 5px;
+	font-family: 'Poppins', sans-serif;
+	font-size: 1rem;
+}
+
+/* Estilo para el enlace que lleva al carrito */
+.link-carrito {
+	text-decoration: none;
+	border: 2px solid transparent;
+	/* Cambia el color de borde según sea necesario */
+	padding: 15px;
+	color: #000000; /* Color del texto */
+	text-transform: uppercase;
+	border-radius: 5px;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	background-color: transparent; /* Fondo transparente */
+}
+
+.link-carrito span {
+	position: relative;
+	z-index: 3;
+}
+
+.link-carrito::before, .link-carrito::after {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	transition: all 0.5s ease-in-out;
+	pointer-events: none;
+	/* Evita que los seudoelementos interfieran con los eventos del mouse */
+	background-color: transparent; /* Fondo transparente */
+}
+
+.link-carrito::before {
+	top: 0;
+	left: 0;
+	border-top: 2px solid #000000; /* Color del borde superior */
+	border-bottom: 2px solid #000000; /* Color del borde inferior */
+	transform: scaleY(0);
+	z-index: 2;
+}
+
+.link-carrito:hover::before {
+	transform: scaleY(1);
+}
+
+.link-carrito::after {
+	top: 0;
+	right: 0;
+	border-right: 2px solid #000000; /* Color del borde derecho */
+	border-left: 2px solid #000000; /* Color del borde izquierdo */
+	transform: scaleX(0);
+	z-index: 2;
+}
+
+.link-carrito:hover::after {
+	transform: scaleX(1);
+}
+
+/* Estilo para el botón "Agregar al carrito" */
+.agregar-barrito.btn2 {
+	text-decoration: none;
+	border: 2px solid transparent;
+	/* Cambia el color de borde según sea necesario */
+	padding: 15px;
+	color: #000; /* Color del texto */
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+}
+
+.agregar-barrito.btn2 span {
+	position: relative;
+	z-index: 3;
+}
+
+.agregar-barrito.btn2::before, .agregar-barrito.btn2::after {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	transition: all 0.5s ease-in-out;
+	pointer-events: none;
+	/* Evita que los seudoelementos interfieran con los eventos del mouse */
+}
+
+.agregar-barrito.btn2::before {
+	top: 0;
+	left: 0;
+	border-top: 2px solid #010100; /* Color del borde superior */
+	border-bottom: 2px solid #010100; /* Color del borde inferior */
+	transform: scaleY(0);
+	z-index: 2;
+}
+
+.agregar-barrito.btn2:hover::before {
+	transform: scaleY(1);
+}
+
+.agregar-barrito.btn2::after {
+	top: 0;
+	right: 0;
+	border-right: 2px solid #010100; /* Color del borde derecho */
+	border-left: 2px solid #010100; /* Color del borde izquierdo */
+	transform: scaleX(0);
+	z-index: 2;
+}
+
+.agregar-barrito.btn2:hover::after {
+	transform: scaleX(1);
+}
+
+@media screen and (min-width: 480px) {
+	.modal__border {
+		height: 95%;
+		padding: 15px;
+		border-radius: 5px;
+	}
+	.modal__container {
+		grid-template-columns: 1fr;
+		grid-template-rows: 21% 15% 34% 30%;
+	}
+	.modal__img {
+		width: 100%;
+		grid-column: 1/2;
+		grid-row: 1/3;
+	}
+	.modal__img img {
+		width: 100%;
+		height: 95%;
+		object-fit: contain;
+		border-radius: 10px;
+	}
+	.modal__content .modal__title {
+		font-size: 1.5rem;
+	}
+	.modal__content {
+		grid-column: 1/2;
+		grid-row: 3/5;
+		justify-content: space-around;
+	}
+	.modal__border button.cerrar-modal {
+		top: 3px;
+		right: 2px;
+		font-size: 1.2rem;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.modal__img {
+		width: 65%;
+		margin: 0 auto;
+	}
+	.modal__img img {
+		width: 100%;
+		height: 95%;
+		object-fit: contain;
+		border-radius: 10px;
+	}
+}
+
+@media screen and (min-width: 1024px) {
+	.modal__border {
+		width: 90%;
+		height: 90%;
+		background-color: #fff;
+		border-radius: 10px;
+		position: relative;
+		padding: 40px;
+	}
+	.modal__container {
+		width: 100%;
+		height: 100%;
+		background-color: #fff;
+		border: thin solid #000;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		display: grid;
+		grid-template-columns: 60% 40%;
+		grid-template-rows: 1fr 1fr;
+		padding: 20px;
+	}
+	.modal__border button.cerrar-modal {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+		font-size: 1.5rem;
+		font-weight: bold;
+		color: #000;
+	}
+	.modal__img img {
+		width: 100%;
+		height: 95%;
+		object-fit: contain;
+		border-radius: 10px;
+	}
+	.modal__img {
+		width: 90%;
+		height: 100%;
+		background-color: #f1f1f1;
+		border-radius: 10px;
+		grid-column: 1/2;
+		grid-row: 1/3;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.modal__content {
+		grid-column: 2/3;
+		grid-row: 1/3;
+		padding: 20px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+		align-items: start;
+	}
+	.content__talla {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: start;
+		align-items: start;
+		margin: 10px 0;
+	}
+	.content__talla select {
+		display: block;
+		width: 100%;
+		padding: 10px 3rem 10px 10px;
+		margin: 10px 0;
+		border: thin solid #000;
+		border-radius: 5px;
+		font-family: 'Poppins', sans-serif;
+		font-size: 1rem;
+	}
+	.content__button {
+		width: 100%;
+		display: flex;
+		justify-content: end;
+		align-items: center;
+	}
+	.link-carrito.btn2 {
+		width: 40%;
+		text-align: center;
+	}
+	.agregar-barrito.btn2 {
+		width: 70%;
+		text-align: center;
+	}
+}

@@ -44,6 +44,7 @@ body {
 
 .menu {
   position: absolute;
+  
   top: 0;
   right: 0;
   display: flex;
@@ -230,9 +231,9 @@ td {
 .products h2 {
   color: #111111;
   font-family: "Oswald", sans-serif;
-  font-size: 50px;
+  font-size: 40px;
   text-transform: uppercase;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .link li {
@@ -247,18 +248,21 @@ td {
   .product {
     margin-bottom: 1rem;
   }
-  .button-container a.agregar-barrito.btn2{
-    width: 60%;
+  .button-container a.agregar-barrito.btn2 , a.link-carrito{
+    width: 80%;
+  }
+
+
+  .button-container button.detalle-producto{
+    width: 50%;
+  
   }
   
   .modal-txt a.agregar-barrito.btn2, .link-carrito.btn2{
     width: 80%;
   }
 
-  .button-container button.detalle-producto{
-    width: 40%;
-  
-  }
+
 }
 
 @media screen and (min-width: 768px) {

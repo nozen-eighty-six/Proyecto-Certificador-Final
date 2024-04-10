@@ -354,9 +354,9 @@ opacity
 			<td class="direccion"></td>
 			<td class="correo"></td>
 			<td class="telefono"></td>
-			<td><button class="btn btn-warning edit col-6">Editar</button></td>
+			<td><button class="btn btn-warning edit col-12">Editar</button></td>
 			<!-- th:href="@{/productos/delete/{id}(id=${p.id})}" -->
-			<td><button class="btn btn-danger delete col-6">Eliminar</button></td>
+			<td><button class="btn btn-danger delete col-12">Eliminar</button></td>
 		</tr>
 
 	</template>
@@ -436,6 +436,18 @@ opacity
 		   guardarProducto();
 		   guardarMarca();
 		   guardarCategoria();
+		   
+	            // Seleccionar el elemento body
+	            var body = document.body;
+
+	            // Seleccionar el elemento que deseas eliminar dentro del body
+	            var elementoEliminar = body.querySelector('.modal-backdrop.fade.show');
+	            
+	            // Verificar si se encontró el elemento
+	            if (elementoEliminar) {
+	                // Eliminar el elemento del DOM usando el método removeChild() en el body
+	                body.removeChild(elementoEliminar);
+	            }
 		});
 	
 	let formularioValido = false;
@@ -1207,7 +1219,8 @@ opacity
                       nombreObjeto: "categoria",
                       success: (res) => { 
                    	   $('#FormModal').modal('hide')
-                   	reloadTablaCM("tablaCategorias","http://localhost:8000/categorias/listar","categorias");},
+			    	   reloadTablaCM("tablaCategorias","http://localhost:8000/categorias/listar-siguientes-5","categorias");
+                   	},
                       err: (err) => $("mensajeError").show(),
                       data: {
                           id: document.querySelector("[name='id']").value,
@@ -1392,7 +1405,7 @@ opacity
 			    	  }
 
 			    	    
-			    	    $('#FormModal').modal('show');
+			    	  $('#FormModal').modal('show');
 				        //document.querySelector(".container-modal").classList.add("modal-show");
 				        $("#mensajeError").hide();
 				        document.querySelector(".modal-backdrop").style.display="none";
@@ -1934,8 +1947,12 @@ opacity
 		 
 		 document.addEventListener("click", (e)=>{
 			if(e.target.matches(".links button")){
-				if(e.target.dataset.table === "tablaCategorias" || e.target.dataset.table==="tablaMarcas"){
-					reloadTablaCMPagination(e.target.dataset.table,e.target.dataset.ruta,e.target.dataset.controlador);
+				if(e.target.dataset.table === "tablaCategorias" ){
+					reloadTablaCMPagination(e.target.dataset.table,e.target.dataset.ruta,"categorias");
+
+				}
+				else if(e.target.dataset.table==="tablaMarcas"){
+					reloadTablaCMPagination(e.target.dataset.table,e.target.dataset.ruta,"marcas");
 
 				}
 				else if (e.target.dataset.table==="tablaProductos" ){

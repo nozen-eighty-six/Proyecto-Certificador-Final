@@ -115,7 +115,7 @@
         <div class="header-txt">
             <h1>Ofertas especiales</h1>
             <p>Estrena las mejores prendas</p>
-            <a href="general.html" class="btn-1" >Información</a>
+            <!-- <a href="general.html" class="btn-1" >Información</a> -->
         </div>
       </div>
     </header>
@@ -123,55 +123,71 @@
     
     <main class="products container" id="lista-1">
         <h2>Productos</h2>
-        <div class="product-content">
-            <div class="product">
-                <div class="product-img">
-                    <img class="img" th:src="@{/images/camisa.png}" alt="">
-                </div>
-                <div class="product-txt">
-                    <h3>Sobrecamisa Shacket</h3>
-                    <p>H&M MAN</p>
-                    <p class="precio">$130</p>
-                    <a href="product-camisa.html" class="informacion btn-2">Información</a>         
-                </div>
-            </div>
+		<div class="slider">
+            <div class="slider-products">
+                <div class="product active">
+                    <div class="product-img">
+                        <img class="img" th:src="@{/images/sobrecamisa-arica.webp}" alt="">
+                    </div>
+                    <div class="product-txt">
+                        <h3>Sobrecamisa Shacket</h3>
 
-            <div class="product">
-                <img class="img" th:src="@{/images/casaca-bomber.png}" alt="">
-                <div class="product-txt">
-                    <h3>Casaca Bomber</h3>
-                    <p>True Black</p>
-                    <p class="precio">$300</p>
-                    <a href="product-casaca.html" class="btn-2">Información</a>        
+                        <a href="product-camisa.html" class="informacion btn-2">Información</a>         
+                    </div>
+                </div>
+    
+                <div class="product">
+                    <div class="product-img">
+                        <img class="img" th:src="@{/images/casaca-vaquera.webp}" alt="">
+
+                    </div>
+                    <div class="product-txt">
+                        <h3>Casaca Bomber</h3>
+                        <a href="product-casaca.html" class="btn-2">Información</a>        
+                    </div>
+                </div>
+                <div class="product">
+                    <div class="product-img">
+                        <img class="img" th:src="@{/images/gorra-flex.jpg}" alt="">
+
+                    </div>
+                    <div class="product-txt">
+                        <h3>Gorra Pinnacle</h3>
+
+                        <a href="product-gorra.html" class="btn-2">Información</a>
+                    </div>
+                </div>
+                <div class="product">
+                    <div class="product-img">
+                        <img class="img" th:src="@{/images/polo-drymove-2.png}" alt="">
+
+                    </div>
+                    <div class="product-txt">
+                        <h3>Polo Sport</h3>
+
+                        <a href="product-polo.html" class="btn-2">Información</a>        
+                    </div>
+                </div>
+                <div class="product">
+                    <div class="product-img">
+                        <img class="img" th:src="@{/images/zapatilla-nike-3.jpg}" alt="">
+
+                    </div>
+                    <div class="product-txt">
+                        <h3>Zapatillas Urbanas</h3>
+                        <a href="product-zapatilla.html" class="btn-2">Información</a>        
+                    </div>
                 </div>
             </div>
-            <div class="product">
-                <img class="img" th:src="@{/images/gorra-flex.jpg}" alt="">
-                <div class="product-txt">
-                    <h3>Gorra Pinnacle</h3>
-                    <p>Tech Flexfit</p>
-                    <p class="precio">$120</p>
-                    <a href="product-gorra.html" class="btn-2">Información</a>
-                </div>
-            </div>
-            <div class="product">
-                <img class="img" th:src="@{images/polo-drymove.png}" alt="">
-                <div class="product-txt">
-                    <h3>Polo Sport</h3>
-                    <p>DryMove™</p>
-                    <p class="precio">$40</p>
-                    <a href="product-polo.html" class="btn-2">Información</a>        
-                </div>
-            </div>
-            <div class="product">
-                <img class="img" th:src="@{/images/zapatilla-nike2.jpg}" alt="">
-                <div class="product-txt">
-                    <h3>Zapatillas Urbanas</h3>
-                    <p>Nike Royale</p>
-                    <p class="precio">$230</p>
-                    <a href="product-zapatilla.html" class="btn-2">Información</a>        
-                </div>
-            </div>
+            <div class="slider-btns">
+                <a class="prev" href="#">
+                    <img src="/images/icono-back.svg" alt="back">
+                </a>
+                <a class="next" href="#">
+                    <img src="/images/icono-next.svg" alt="next">
+                </a>
+              </div>
+            
         </div>
     </main>
 
@@ -207,7 +223,7 @@
     </section>
 
     <section class="icons container">
-        <a href="product-hombre.html" class="icon-1">
+        <a th:href="@{/productos/hombre}" class="icon-1">
             <div class="icon-img">
                 <img th:src="@{/images/i1.svg}" alt="" id="_1">
             </div>
@@ -216,7 +232,7 @@
             </div>
         </a>
     
-        <a href="product-mujer.html" class="icon-1">
+        <a th:href="@{/productos/mujer}"   class="icon-1">
             <div class="icon-img">
                 <img th:src="@{/images/i2.svg}" alt="" id="_2">
             </div>
@@ -225,7 +241,7 @@
             </div>
         </a>
     
-        <a href="product-bebes.html" class="icon-1">
+        <a th:href="@{/productos/bebe}"  class="icon-1">
             <div class="icon-img">
                 <img th:src="@{/images/stroller.png}" alt="" id="_3">
             </div>
@@ -234,7 +250,7 @@
             </div>
         </a>
         
-        <a href="product-niños.html" class="icon-1">
+        <a  th:href="@{/productos/niño}"   class="icon-1">
             <div class="icon-img">
                 <img th:src="@{/images/i3.svg}" alt="" id="_4">
             </div>
@@ -243,7 +259,7 @@
             </div>
         </a>
 
-        <a href="product-sport.html" class="icon-1">
+        <a th:href="@{/productos/sport}"  class="icon-1">
             <div class="icon-img">
                 <img th:src="@{/images/shoe.png}" alt="" id="_5">
             </div>
@@ -252,7 +268,7 @@
             </div>
         </a>
 
-        <a href="product-accesorios.html" class="icon-1">
+        <a th:href="@{/productos/accesorio}" class="icon-1">
             <div class="icon-img">
                 <img th:src="@{/images/bracelet.png}" alt="" id="_6">
             </div>
@@ -321,6 +337,8 @@
         </div>
     </footer>
     <script th:src="@{/js/scrip.js}"></script>
+        <script th:src="@{/js/slider.js}"></script>
+    
 
 	<!-- Bootstrap core JavaScript -->
 	<script th:src="@{vendor/jquery/jquery-3.3.1.js}"></script>

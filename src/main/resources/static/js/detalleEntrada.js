@@ -32,17 +32,19 @@ document.addEventListener("click", async (e)=>{
             const id = e.target.getAttribute("data-id");
                 const $template = document.getElementById("template-entradas-detalles").content;
 
-            const data = await fetch(`http://localhost:8000/detalle-ventas/${id.toString()}`);
+            const data = await fetch(`http://localhost:8000/detalle-ventas/${parseInt(id)}`);
             const response = await data.json();
             let suma = 0;
+            
+            console.log(response);
 
             document.querySelector("#product-table  tbody").innerHTML = "";
             response.forEach((detalle)=>{
-                $template.querySelector(".nombreProducto").textContent = detalle.productos.nombre;
+                $template.querySelector(".nombreProducto").textContent = detalle.producto.nombre;
                 $template.querySelector(".cantidad").textContent = detalle.cantidad;
-                $template.querySelector(".precio").textContent = detalle.productos.precio;
-                $template.querySelector(".subtotal").textContent = detalle.productos.precio * detalle.productos.cantidad;
-                suma += detalle.productos.precio * detalle.productos.cantidad;
+                $template.querySelector(".precio").textContent = detalle.producto.precio;
+                $template.querySelector(".subtotal").textContent = (detalle.producto.precio * detalle.cantidad);
+                suma += detalle.producto.precio * detalle.cantidad;
                 const $clone = document.importNode($template, true);
                 $fragment.appendChild($clone);
 

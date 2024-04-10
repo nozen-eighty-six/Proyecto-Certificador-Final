@@ -13,7 +13,9 @@
 
 <!-- Custom styles for this template -->
 <link th:href="@{/css/carrito.css}" rel="stylesheet">
-  <script src="https://www.paypal.com/sdk/js?client-id=ATufh76xP5xwrDYiJw24WwOy-j2Lj4__Hr267FdDjff0e8BAOzrWHwNqtQSiOcGDAJcwKE3fowwRw7mS&currency=USD"></script>
+<link th:href="@{/css/modal.css}" rel="stylesheet">
+<script
+	src="https://www.paypal.com/sdk/js?client-id=AT38SHIsVNDzbpvrO609OK8gQHkEqLlQi1elR1j0ZL7vzGmO0fwdoZX0byKLbxmkAkIWLOWCO6hXgYth&currency=USD"></script>
 
 </head>
 
@@ -23,78 +25,109 @@
 <div th:include="usuario/template_usuario.html::header" th:if="${session==null}"></div>
 	<div th:include="usuario/template_usuario.html::header-user" th:if="${session!=null}"></div>-->
 
-    <header class="header">
-        <img id="flechaAtras" class="img" src="images/flecha.png">
-        <main class="products container" id="lista-1">
-            <h2>Carrito de Compras</h2>
-        </main>
-    </header>
+	<header class="header">
+		<img id="flechaAtras" class="img" src="images/flecha.png">
+		<main class="products container" id="lista-1">
+			<h2>Carrito de Compras</h2>
+		</main>
+	</header>
 
-    <section class="section-pago">
-        <div id="carrito">
-            <table id="lista-carrito">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Producto</th>
-                  <th>Precio</th>
-                  <th>Accion</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-            <a href="#" id="vaciar-carrito" class="btn-2"><span >Vaciar carrito</span></a>
-          </div>
+	<section class="section-pago">
+		<div id="carrito">
+			<table id="lista-carrito">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Producto</th>
+						<th>Precio</th>
+						<th>Accion</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+				<div class="content-message">
+					<span>No se ha agregado ningún producto</span>
+				</div>
+			</table>
+			<a href="#" id="vaciar-carrito" class="btn-2"><span>Vaciar
+					carrito</span></a>
+		</div>
 
-         <div class="content-pago">
-            <div class="col-lg-3 carrito-total">
-                <h2 class="card-total" >TOTAL: $  <span id="total-carrito"></span> </h2>
-            </div>
-            <div id="paypal-button-container" class="button-pago"></div>
-         </div>
-    </section>
-<!--
+		<div class="content-pago">
+			<div class="col-lg-3 carrito-total">
+				<h2 class="card-total">
+					TOTAL: $ <span id="total-carrito"></span>
+				</h2>
+			</div>
+			<div id="paypal-button-container" class="button-pago"></div>
+			<div class="desabilitar"></div>
+
+		</div>
+	</section>
+
+	<!-- Modal -->
+	<section class="modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2>Información</h2>
+				<span class="close">&times;</span>
+			</div>
+			<div class="modal-body">
+				<div class="image">
+					<img src="/images/icono-info.png" alt="icono-iformación">
+				</div>
+				<div class="modal-message">
+					<p>El carrito de compras está vacío, no ha seleccionado ningún
+						producto</p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn-confirm">Aceptar</button>
+			</div>
+		</div>
+	</section>
+	<!--
     <section class="pago">
 
     </section>
 -->
-    <footer class="footer">
-        <div class="footer-content container">
-            <div class="link">
-                <h3>Contacto</h3>
-                <ul>
-                    <li>Dirección: Av. Prolongacion Javier Prado 9515</li>
-                    <li>Teléfono: 994001450</li>
-                    <li>RUC: 10253061647</li>
-                </ul>
-            </div>
-            <div class="link">
-                <h3>Horario de Atención</h3>
-                <ul>
-                    <li>Lunes a Viernes: 9:00 AM - 8:00 PM</li>
-                    <li>Sábados y Domingos: 10:00 AM - 6:00 PM</li>
-                </ul>
-            </div>
-            <div class="link">
-                <h3>Redes Sociales</h3>
-                <ul>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">Twitter</a></li>
-                </ul>
-            </div>
-            <div class="link">
-                <h3>Servicios</h3>
-                <ul>
-                    <li>Envíos a domicilio disponibles</li>
-                    <li>Amplia variedad de tallas y estilos</li>
-                    <li>Promociones especiales para clientes frecuentes</li>
-                </ul>
-            </div>            
-        </div>
-    </footer>
-    <script th:src="@{/js/carrito.js}"></script>
+	<footer class="footer">
+		<div class="footer-content container">
+			<div class="link">
+				<h3>Contacto</h3>
+				<ul>
+					<li>Dirección: Av. Prolongacion Javier Prado 9515</li>
+					<li>Teléfono: 994001450</li>
+					<li>RUC: 10253061647</li>
+				</ul>
+			</div>
+			<div class="link">
+				<h3>Horario de Atención</h3>
+				<ul>
+					<li>Lunes a Viernes: 9:00 AM - 8:00 PM</li>
+					<li>Sábados y Domingos: 10:00 AM - 6:00 PM</li>
+				</ul>
+			</div>
+			<div class="link">
+				<h3>Redes Sociales</h3>
+				<ul>
+					<li><a href="#">Facebook</a></li>
+					<li><a href="#">Instagram</a></li>
+					<li><a href="#">Twitter</a></li>
+				</ul>
+			</div>
+			<div class="link">
+				<h3>Servicios</h3>
+				<ul>
+					<li>Envíos a domicilio disponibles</li>
+					<li>Amplia variedad de tallas y estilos</li>
+					<li>Promociones especiales para clientes frecuentes</li>
+				</ul>
+			</div>
+		</div>
+	</footer>
+	<script th:src="@{/js/carrito.js}"></script>
+	<script th:src="@{/js/modal.js}"></script>
 
 </body>
 

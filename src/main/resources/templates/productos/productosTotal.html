@@ -14,6 +14,7 @@
 
 <!-- Custom styles for this template -->
 <link th:href="@{/css/general.css}" rel="stylesheet">
+<link th:href="@{/css/modal-detalle-producto.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -165,7 +166,7 @@
 		<h2>casacas</h2>
 		<div class="product-content">
 
-			<div class="product" th:each="productos:${bProductoGorra}">
+			<div class="product" th:each="productos:${bProductoCasaca}">
 				<img th:src="@{/images/{img} (img=${productos.imagen})}" alt=""
 					id="_1">
 				<div class="product-txt">
@@ -409,29 +410,54 @@
 		<article class="modal"></article>
 	</main>
 
-	<template id="template-modal">
-		<div class="modal-content">
-			<div class="modal-title">
-				<h3>Detalle de Producto</h3>
+		<template id="template-modal">
+        <div class="modal__border">
+            <div class="modal__container">
+             
+              <div class="modal__img">
+                <img src="/images/1.png" alt="1_png" />
+              </div>
+    
+              <div class="modal__content">
+                <h2 class="modal__title">Nombre del producto</h2>
+                <p class="modal__description">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+                  voluptates.
+                </p>
+                <p class="modal__price">$100.00</p>
+                <div class="content__talla">
+                  <label for="cbotalla">Talla</label>
+                  <select name="cbotalla" id="">
+                    <option value="S">Small</option>
+                    <option value="M">Medium</option>
+                    <option value="L">Large</option>
+                  </select>
+                </div>
+                <div class="content__button">
+                    <a
+                  href="/carrito"
+                  class="link-carrito btn2 none"
+                  id="modal-agregar"
+                  th:unless="${sesion==null}"
+                >
+                  Ir al carrito
+                </a>
+    
+                <a
+                  href="#"
+                  class="agregar-barrito btn2 none"
+                  id="modal-agregar"
+                  th:unless="${sesion==null}"
+                >
+                  Agregar al carrito
+                </a>
+                </div>
+              </div>
+            </div>
+            <button class="cerrar-modal">X</button>
+          </div>
+    </template>
 
-			</div>
-			<div class="modal-img">
-				<img src="images/1.png" alt="" id="modal-img">
-			</div>
-			<div class="modal-txt">
-				<h3 id="modal-nombre">Camisa Corduroy</h3>
-				<p id="modal-descripcion">Regular Fit</p>
-				<p class="precio" id="modal-precio">$70</p>
-				<a href="/carrito" class="link-carrito btn2 none" id="modal-agregar">
-					Ir al carrito </a> <a href="#" class="agregar-barrito btn2 none"
-					id="modal-agregar"> Agregar al carrito </a>
-
-			</div>
-			<button class="cerrar-modal">X</button>
-
-		</div>
-
-	</template>
 
 	<footer class="footer">
 		<div class="footer-content container">
@@ -468,9 +494,46 @@
 			</div>
 		</div>
 	</footer>
-		    <script th:src="@{/js/scrip.js}"></script>
+		    <!--  <script th:src="@{/js/scrip.js}"></script>-->
 	
 	<script th:src="@{/js/productos.js}"></script>
+	
+	<script>
+
+
+	document.addEventListener('DOMContentLoaded', function() {
+		const openCardBtn = document.getElementById("openCardBtn");
+		const card = document.getElementById("card");
+
+		console.log(openCardBtn);
+		if(openCardBtn !== null){
+			console.log("abriendo menú usuario")
+			openCardBtn.addEventListener("click", () => {
+		    card.style.display = "block";
+		    document.addEventListener("click", closeCardOutside);
+		});
+		}
+
+		function closeCardOutside(event) {
+		    if (!card.contains(event.target) && event.target !== openCardBtn) {
+		        card.style.display = "none";
+		        document.removeEventListener("click", closeCardOutside);
+		    }
+		}	    
+		
+		
+		
+		// Verificar si hay un correo electrónico en localStorage
+	    //let userEmail = localStorage.getItem('userEmail');
+	    //if (userEmail) {
+	        // Actualizar el texto del span con el correo almacenado
+	       // let spanUsuarioCorreo = document.querySelector("#usuarioCorreo");
+	        //if (spanUsuarioCorreo) {
+	           // spanUsuarioCorreo.textContent = userEmail;
+	        //}
+	   // }
+	});
+	</script>
 	
 
 </body>

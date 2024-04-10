@@ -1,8 +1,10 @@
 const d = document;
-const $imgCarrito = d.getElementById("img-carrito");
+document.addEventListener("DOMContentLoaded", (e)=>{
+	const $imgCarrito = document.getElementById("img-carrito");
 // Evento click en la imagen del carrito para ir al carrito
 $imgCarrito.addEventListener("click", () => {
     window.location.href = "/carrito";
+});
 });
 
 const productContent = document.querySelectorAll('.product-content'); 
@@ -20,10 +22,12 @@ productContent.forEach((container) => {
 const openCardBtn = document.getElementById("openCardBtn");
 const card = document.getElementById("card");
 
-openCardBtn.addEventListener("click", () => {
+if(!openCardBtn !== null){
+	openCardBtn.addEventListener("click", () => {
     card.style.display = "block";
     document.addEventListener("click", closeCardOutside);
 });
+}
 
 function closeCardOutside(event) {
     if (!card.contains(event.target) && event.target !== openCardBtn) {

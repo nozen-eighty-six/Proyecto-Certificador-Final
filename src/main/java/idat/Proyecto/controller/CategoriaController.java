@@ -34,7 +34,7 @@ public class CategoriaController {
 
 
 	private final Logger LOGGER = LoggerFactory.getLogger(CategoriaController.class);
-	private static final String GET_CATEGORIES = "http://localhost:8000/categorias/listar";
+	private static final String GET_CATEGORIES = "http://localhost:8000/categorias/listar-siguientes-5";
 
 	
 	//Inyección

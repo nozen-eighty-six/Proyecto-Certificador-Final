@@ -1,8 +1,10 @@
-const d = document;
-const $imgCarrito = d.getElementById("img-carrito");
+//const d = document;
+document.addEventListener("DOMContentLoaded", (e)=>{
+	const $imgCarrito = document.getElementById("img-carrito");
 // Evento click en la imagen del carrito para ir al carrito
 $imgCarrito.addEventListener("click", () => {
     window.location.href = "/carrito";
+});
 });
 
 
@@ -87,39 +89,52 @@ document.addEventListener("click",  async (e) => {
         	const data = await response.json();
      	
      	 template.querySelector("img").src ="/images/" +data.imagen;
-        template.querySelector(".modal-txt h3").textContent = data.nombre;
-        template.querySelector(".modal-txt #modal-descripcion").textContent = data.description || "No hay descripción";
-        template.querySelector(".modal-txt #modal-precio").textContent = data.precio;
+        template.querySelector(".modal__content .modal__title").textContent= data.nombre;
+        template.querySelector(".modal__content .modal__description").textContent = data.descripcion || "No hay descripción";
+        template.querySelector(".modal__content .modal__price").textContent ="S/. " + data.precio;
 
         	            const productoId = data.id;
             console.log(productoId);
             if (verificarProductoEnCarrito(id)) {
                 console.log("El producto ya está en el carrito");
                 
+                if(template.querySelector(".agregar-barrito")){
+               		 template.querySelector(".agregar-barrito").classList.add("none");
+                template.querySelector(".agregar-barrito").classList.remove("is-active-btn"); 
                 
-                template.querySelector(".agregar-barrito").classList.add("none");
-                template.querySelector(".agregar-barrito").classList.remove("is-active-btn");
+                }
+               
+                
+                
+                if(template.querySelector(".link-carrito")){
                 
                 template.querySelector(".link-carrito").classList.remove("none");
 
                 template.querySelector(".link-carrito").classList.add("is-active-btn");
+                }
+                
 
             }
             else{
                 console.log("El producto no está en el carrito");
                 
-                template.querySelector(".link-carrito").classList.add("none");
+                 if(template.querySelector(".link-carrito")){
+                 template.querySelector(".link-carrito").classList.add("none");
 
                 template.querySelector(".link-carrito").classList.remove("is-active-btn");
+                 }
                 
-                 template.querySelector(".agregar-barrito").setAttribute("id", data.id);
+                if(template.querySelector(".agregar-barrito")){
+                	   template.querySelector(".agregar-barrito").setAttribute("id", data.id);
 
 
                 template.querySelector(".agregar-barrito").classList.remove("none");
                 template.querySelector(".agregar-barrito").classList.add("is-active-btn");
+                }
+              
             }
 
-            const $clone = d.importNode(template, true);
+            const $clone = document.importNode(template, true);
 
             $fragmente.appendChild($clone);
             $modal.appendChild($fragmente);

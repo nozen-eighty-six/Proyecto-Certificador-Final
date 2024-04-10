@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+/*
+font-family: 'Oswald', sans-serif;
+font-family: 'Poppins', sans-serif;
+*/
+
+@font-face {
+    font-family:'Oswald', sans-serif ;
+    font-family: 'Poppins', sans-serif;
+    src: url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap");
+}
+
+html{
+    font-size: 1rem;
+    box-sizing: border-box;
+
+}
+
+*,
+*::before,
+*::after{
+    box-sizing: inherit;
+    border: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+
+}
+
+@keyframes escala {
+    0%{
+        transform: scale(0);
+    }
+
+    25%{
+        transform: scale(0.5);
+    }
+    
+    100%{
+        transform: scale(1);
+    }
+}
+
+.modal{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.3);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    font-family: 'Poppins',sans-serif;
+    display: none;
+
+}
+.is-active{
+    display: flex;
+}
+
+.modal-content img{
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+    animation: escala 0.3s forwards;
+
+
+}
+.modal-body{
+    margin-bottom: 1.5rem;
+}
+
+
+
+
+
+
+.modal span{
+    position: absolute;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #111111;
+    cursor: pointer;
+    top: 5px;
+    right: 10px;
+}
+
+.modal-footer button{
+    padding: 10px 20px;
+    background-color: #111111;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+@media screen and (min-width: 480px){
+    .modal-content{
+        position: relative;
+        width: 450px ;
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+}
+
+
+@media screen and (min-width: 768px){
+    .modal-content{
+        position: relative;
+        width: 600px ;
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+}

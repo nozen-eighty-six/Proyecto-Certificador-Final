@@ -186,6 +186,155 @@ public class ProductoController {
 		
 	    return "productos/productosTotal";
 	}
+	
+	@GetMapping("/{nombre}")
+	public String productoDinamico(@PathVariable String nombre, Model model, HttpSession sesion) {
+		
+		String seccion = nombre.substring(0, 1).toUpperCase() + nombre.substring(1);
+		if(nombre.equals("hombre")) {
+			List<Producto> productosHombre = webClient.get()
+		            .uri(GET_HOMBRE_PRODUCT)
+		            .retrieve()
+		            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+		            .block();
+
+		    // Añade la lista de productos al modelo
+		    model.addAttribute("bProductoDinamico", productosHombre);
+		    model.addAttribute("nombreTipo", "Hombre" );
+
+		}
+		else if(nombre.equals("camisas")) {
+		    List<Producto> productosCamisas = webClient.get()
+		            .uri(GET_CAMISA_PRODUCT)
+		            .retrieve()
+		            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+		            .block();
+
+		    // Añade la lista de productos al modelo
+		    model.addAttribute("bProductoDinamico", productosCamisas);
+		    model.addAttribute("nombreTipo", "Camisas" );
+
+		}
+		else if(nombre.equals("casacas")) {
+		    List<Producto> productosCasacas = webClient.get()
+		            .uri(GET_CASACA_PRODUCT)
+		            .retrieve()
+		            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+		            .block();
+
+		    // Añade la lista de productos al modelo
+		    model.addAttribute("bProductoDinamico", productosCasacas);
+		    model.addAttribute("nombreTipo", "Casacas" );
+
+		}
+		else if(nombre.equals("gorras")) {
+		    List<Producto> productosGorras = webClient.get()
+		            .uri(GET_GORRA_PRODUCT)
+		            .retrieve()
+		            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+		            .block();
+
+		    // Añade la lista de productos al modelo
+		    model.addAttribute("bProductoDinamico", productosGorras);
+		    model.addAttribute("nombreTipo", "Gorras" );
+
+		}
+		
+		else if(nombre.equals("polos")) {
+		    List<Producto> productosPolos = webClient.get()
+		            .uri(GET_POLO_PRODUCT)
+		            .retrieve()
+		            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+		            .block();
+
+		    // Añade la lista de productos al modelo
+		    model.addAttribute("bProductoDinamico", productosPolos);
+		    model.addAttribute("nombreTipo", "Polos" );
+
+		}
+		
+		else if(nombre.equals("zapatillas")) {
+		    List<Producto> productosZapatillas = webClient.get()
+		            .uri(GET_ZAPATILLA_PRODUCT)
+		            .retrieve()
+		            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+		            .block();
+
+		    // Añade la lista de productos al modelo
+		    model.addAttribute("bProductoDinamico",productosZapatillas);
+		    model.addAttribute("nombreTipo", "Zapatillas" );
+
+		}
+		else if(nombre.equals("mujer")) {
+		    List<Producto> productosMujer = webClient.get()
+		            .uri(GET_MUJER_PRODUCT)
+		            .retrieve()
+		            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+		            .block();
+
+		    // Añade la lista de productos al modelo
+		    model.addAttribute("bProductoDinamico", productosMujer);
+		    model.addAttribute("nombreTipo", "Mujer" );
+
+		}
+		
+		else if(nombre.equals("bebe")) {
+		    List<Producto> productosBebe = webClient.get()
+		            .uri(GET_BEBE_PRODUCT)
+		            .retrieve()
+		            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+		            .block();
+
+		    // Añade la lista de productos al modelo
+		    model.addAttribute("bProductoDinamico", productosBebe);
+		    model.addAttribute("nombreTipo", "Bebe" );
+
+		}
+		
+		else if(nombre.equals("niño")) {
+		    List<Producto> productosNinio = webClient.get()
+		            .uri(GET_NINIO_PRODUCT)
+		            .retrieve()
+		            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+		            .block();
+
+		    // Añade la lista de productos al modelo
+		    model.addAttribute("bProductoDinamico", productosNinio);
+		    model.addAttribute("nombreTipo", "Niño" );
+
+		}
+		
+		else if(nombre.equals("sport")) {
+		    List<Producto> productosSport = webClient.get()
+		            .uri(GET_SPORT_PRODUCT)
+		            .retrieve()
+		            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+		            .block();
+
+		    // Añade la lista de productos al modelo
+		    model.addAttribute("bProductoDinamico", productosSport);
+		    model.addAttribute("nombreTipo", "Sport" );
+
+		}
+		
+		else if(nombre.equals("accesorio")) {
+		    List<Producto> productosAccesorio = webClient.get()
+		            .uri(GET_ACCESORIO_PRODUCT)
+		            .retrieve()
+		            .bodyToMono(new ParameterizedTypeReference<List<Producto>>() {})
+		            .block();
+
+		    // Añade la lista de productos al modelo
+		    model.addAttribute("bProductoDinamico", productosAccesorio );
+		    model.addAttribute("nombreTipo", "Accesorios" );
+		}
+		
+		return "productos/productosTipo";
+		
+	}
+	
+
+	
 	@GetMapping("/listar")
 	public String show(Model model) {
 		

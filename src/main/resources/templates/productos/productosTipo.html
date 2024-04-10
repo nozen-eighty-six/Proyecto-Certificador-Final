@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Productos</title>
+
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/general.css}" rel="stylesheet">
+</head>
+
+<body>
+	<header class="header">
+		<div class="menu container1">
+			<a th:href="@{/}" class="logo">TOP MODA</a> <input type="checkbox"
+				id="menu" /> <label for="menu"> <img
+				th:src="@{/images/menu.png}" alt="menu" class="menu-icono" />
+			</label>
+			<nav class="navbar">
+				<ul>
+					<li><a th:href="@{/}">Inicio</a></li>
+					<li><a th:href="@{/productos}">Productos</a></li>
+					<li><a th:href="@{/contacto}">Contacto</a></li>
+				</ul>
+			</nav>
+			<div class="imgcarrito"  th:unless="${sesion==null}" >
+				<ul>
+					<li class="submenu"><img th:src="@{/images/car.svg}"
+						id="img-carrito" alt="carrito" th:href="@{/carrito}" /></li>
+				</ul>
+			</div>
+			        <div class="card-container">
+            <div class="ingresar" id="ingresarContainer" th:if="${sesion==null}">
+                <a th:href="@{/usuario/login}"><img th:src="@{/images/ingresar.png}" id="ingresar" ></a>
+            </div>
+            <div class="usuario" id="usuarioContainer"  th:unless="${sesion==null}" >
+                <img th:src="@{/images/user.png}" id="openCardBtn">
+            </div>
+            <div class="card" id="card" th:unless="${sesion==null}">
+                <header class="card-header">
+                    <h1>TOP MODA</h1>
+                </header>
+                <section class="datos">
+				<h2 th:utext="'Usuario: ' + ${user.nombre}"></h2>
+                    <span id="usuarioCorreo" th:utext="${user.mail}"></span>
+                </section>
+                <section class="cerrarsesion">
+                    <a  th:href="@{/usuario/cerrar}" id="cerrarSesionBtn"  class="cerrarsesion btn"><img th:src="@{/images/close.svg}" class="user-icons" id="close">Cerra sesión</a>
+                </section>
+            </div>
+        </div>
+		</div>
+
+		<div class="header-txt">
+              <h1>Ofertas especiales</h1>
+		</div>
+
+		</div>
+	</header>
+
+	<main class="products container" id="lista-1">
+		<h2 th:utext="${nombreTipo}"></h2>
+		<div class="product-content">
+
+			<div class="product" th:each="productos:${bProductoDinamico}">
+				<img th:src="@{/images/{img} (img=${productos.imagen})}" alt=""
+					id="_1">
+				<div class="product-txt">
+					<h3 th:text="${productos.nombre}"></h3>
+					<p th:text="${productos.descripcion}"></p>
+					<p class="precio" th:text="${productos.precio}"></p>
+
+
+					<div class="button-container" th:if="${sesion==null}">
+						<!-- 
+						<a href="#" class="agregar-barrito btn2"  style="display: none;"  th:id="${productos.id}">
+                        Agregar al carrito 
+                    </a>     -->
+						<button class=" detalle-producto btn2" th:id="${productos.id}">
+							Ver Detalles</button>
+
+					</div>
+					<div class="button-container" th:unless="${sesion==null}">
+						<a href="#" class="agregar-barrito btn2" th:id="${productos.id}">
+							Agregar al carrito </a>
+						<button class=" detalle-producto btn2" th:id="${productos.id}">
+							Ver Detalles</button>
+
+					</div>
+
+
+				</div>
+			</div>
+
+
+		</div>
+		
+
+
+		<article class="modal"></article>
+	</main>
+
+	<template id="template-modal">
+		<div class="modal-content">
+			<div class="modal-title">
+				<h3>Detalle de Producto</h3>
+
+			</div>
+			<div class="modal-img">
+				<img src="images/1.png" alt="" id="modal-img">
+			</div>
+			<div class="modal-txt">
+				<h3 id="modal-nombre">Camisa Corduroy</h3>
+				<p id="modal-descripcion">Regular Fit</p>
+				<p class="precio" id="modal-precio">$70</p>
+				<a href="/carrito" class="link-carrito btn2 none" id="modal-agregar"   th:unless="${sesion==null}">
+					Ir al carrito </a> 
+					
+					<a href="#" class="agregar-barrito btn2 none"
+					id="modal-agregar"  th:unless="${sesion==null}"> Agregar al carrito </a>
+
+			</div>
+			<button class="cerrar-modal">X</button>
+
+		</div>
+
+	</template>
+
+	<footer class="footer">
+		<div class="footer-content container">
+			<div class="link">
+				<h3>Contacto</h3>
+				<ul>
+					<li>Dirección: Av. Prolongacion Javier Prado 9515</li>
+					<li>Teléfono: 994001450</li>
+					<li>RUC: 10253061647</li>
+				</ul>
+			</div>
+			<div class="link">
+				<h3>Horario de Atención</h3>
+				<ul>
+					<li>Lunes a Viernes: 9:00 AM - 8:00 PM</li>
+					<li>Sábados y Domingos: 10:00 AM - 6:00 PM</li>
+				</ul>
+			</div>
+			<div class="link">
+				<h3>Redes Sociales</h3>
+				<ul>
+					<li><a th:href="@{/}">Facebook</a></li>
+					<li><a th:href="@{/}">Instagram</a></li>
+					<li><a th:href="@{/}">Twitter</a></li>
+				</ul>
+			</div>
+			<div class="link">
+				<h3>Servicios</h3>
+				<ul>
+					<li>Envíos a domicilio disponibles</li>
+					<li>Amplia variedad de tallas y estilos</li>
+					<li>Promociones especiales para clientes frecuentes</li>
+				</ul>
+			</div>
+		</div>
+	</footer>
+		    <!--  <script th:src="@{/js/scrip.js}"></script>-->
+	
+	<script th:src="@{/js/productos.js}"></script>
+	
+	<script>
+
+
+	document.addEventListener('DOMContentLoaded', function() {
+		const openCardBtn = document.getElementById("openCardBtn");
+		const card = document.getElementById("card");
+
+		console.log(openCardBtn);
+		if(openCardBtn !== null){
+			console.log("abriendo menú usuario")
+			openCardBtn.addEventListener("click", () => {
+		    card.style.display = "block";
+		    document.addEventListener("click", closeCardOutside);
+		});
+		}
+
+		function closeCardOutside(event) {
+		    if (!card.contains(event.target) && event.target !== openCardBtn) {
+		        card.style.display = "none";
+		        document.removeEventListener("click", closeCardOutside);
+		    }
+		}	    
+		
+		
+		
+		// Verificar si hay un correo electrónico en localStorage
+	    //let userEmail = localStorage.getItem('userEmail');
+	    //if (userEmail) {
+	        // Actualizar el texto del span con el correo almacenado
+	       // let spanUsuarioCorreo = document.querySelector("#usuarioCorreo");
+	        //if (spanUsuarioCorreo) {
+	           // spanUsuarioCorreo.textContent = userEmail;
+	        //}
+	   // }
+	});
+	</script>
+	
+
+</body>
+
+</html>
