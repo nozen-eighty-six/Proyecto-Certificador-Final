@@ -3,7 +3,7 @@ document.addEventListener("click", async (e)=>{
     const $fragment = document.createDocumentFragment();
     try {
 
-        if(e.target.matches("#tablaEntradas .see")){
+        if(e.target.matches("#tablaEntradas  .see")){
             const id = e.target.getAttribute("data-id");
                 const $template = document.getElementById("template-entradas-detalles").content;
             const data = await fetch(`http://localhost:8000/lineaP/${id.toString()}`);
@@ -32,7 +32,7 @@ document.addEventListener("click", async (e)=>{
             const id = e.target.getAttribute("data-id");
                 const $template = document.getElementById("template-entradas-detalles").content;
 
-            const data = await fetch(`http://localhost:8000/detalle-ventas/${parseInt(id)}`);
+            const data = await fetch(`http://localhost:8000/detalle-ventas/${id}`);
             const response = await data.json();
             let suma = 0;
             

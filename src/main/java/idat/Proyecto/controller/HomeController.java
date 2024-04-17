@@ -99,8 +99,12 @@ public class HomeController {
 		//model.addAttribute("productos", prs.findAll());
 
 		// Session
+		if(!(session.getAttribute("idusuario") == null)) {
+			Usuario usuario = us.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+			model.addAttribute("user", usuario);
+		}
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
-
+		
 		return "usuario/contacto";
 
 	}

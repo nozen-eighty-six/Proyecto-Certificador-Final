@@ -64,9 +64,14 @@ public class AdministradorController {
 	
 	@Autowired
     private WebClient webClient;
+	
+
 
 	@GetMapping("")
-	public String home_GET(Model model) {
+	public String home_GET(Model model,HttpSession session) {
+		if (session.getAttribute("idusuario") == null) {
+			return "redirect:/usuario/login";
+		}
 		List<Producto> productos = prs.findAll();
 		model.addAttribute("productos", productos);
 		return "administrador/home";
@@ -74,17 +79,20 @@ public class AdministradorController {
 
 	@GetMapping("/navegacion")
 	public String home_admin(Model model, HttpSession session) {
+		log.info("sesión del usuari: {}", session.getAttribute("idusuario"));
+
 		// Lista de usuarios
 		if (session.getAttribute("idusuario") == null) {
-			return "redirect:/usuario/cerrar";
+			return "redirect:/usuario/login";
 		}
 		else {
 			Optional<Usuario> usuario = us.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
 			
 			model.addAttribute("usuario", usuario.get());
+			return "administrador/admin_copia";
+
 		}
 		
-		return "administrador/admin_copia";
 	}
 
 	@GetMapping("/productos")
@@ -144,20 +152,29 @@ public class AdministradorController {
 	@GetMapping("/usuarios")
 	public String usuario(Model model, HttpSession session) {
 
+		if(session.getAttribute("idusuario") == null) {
+			return "redirect:/usuario/cerrar";
+		}
 		log.info("usuarios: {}", us.findAll());
 		model.addAttribute("usuarios", us.findAll());
 		return "administrador/usuarios";
 	}
 
 	@GetMapping("/ordenes")
-	public String ordens(Model model) {
+	public String ordens(Model model,HttpSession session) {
+		if(session.getAttribute("idusuario") == null) {
+			return "redirect:/usuario/cerrar";
+		}
 		model.addAttribute("ordene", os.findAll());
 		log.info("ordenes: {}", os.findAll());
 		return "administrador/ordenes";
 	}
 
 	@GetMapping("/detalle/{id}")
-	public String detalle(@PathVariable Integer id, Model model) {
+	public String detalle(@PathVariable Integer id, Model model,HttpSession session) {
+		if(session.getAttribute("idusuario") == null) {
+			return "redirect:/usuario/cerrar";
+		}
 		log.info("El id de la orden:  {}", id);
 		Orden orden = os.findById(id).get();
 

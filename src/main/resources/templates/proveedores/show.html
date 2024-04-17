@@ -78,15 +78,8 @@ ul {
 		<div class="contenedor-form">
 			<div class="contenedor-main">
 				<div
-					class="form-group mb-2 d-flex flex-row justify-content-between align-items-center ">
-					<div class="d-flex flex-row justify-content-between align-items-center">
-						<input type="text" name="palabraClave" class="form-control me-2"
-						id="palabraClave" th:value="${palabraClave}"
-						placeholder="Digite el valor a buscar" > <input
-						type="submit" class="btn btn-primary " value="Buscar">
-					&nbsp;&nbsp; <input type="button" class="btn btn-secondary "
-						value="Limpiar" onclick="limpiarCampos()">
-					</div>
+					class="form-group mb-2 d-flex flex-row justify-content-end align-items-center ">
+
 					<button class="btn btn-primary col-2"
 				onclick="abrirModalCrearProveedor()">Crear Proveedor</button>
 				</div>
@@ -182,7 +175,7 @@ ul {
 										placeholder="Escriba el número telefónico"
 										required
 										pattern="^9\d{0,8}$"
-										title="Solo se pueden ingresar números enteros" step="1" />
+										title="Solo debe ingresar 9 dígitos" step="1" />
 								</div>
 								<!-- 
 								<div class="mb-3">

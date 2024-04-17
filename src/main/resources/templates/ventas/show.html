@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Spring eCommerce</title>
+<title>Ventas</title>
 <!-- Agregar en el encabezado de tu HTML -->
 <script th:src="@{https://code.jquery.com/jquery-3.6.4.min.js}"></script>
 
@@ -167,7 +167,7 @@ div.altura-80{
 
 		<!-- Page Heading/Breadcrumbs -->
 		<h1 class="mt-4 mb-3">
-			<small>Ventas</small>
+			TopModa | <small>Ventas</small>
 		</h1>
 
 
@@ -175,7 +175,8 @@ div.altura-80{
 		<div class="contenedor-form">
 			<div class="contenedor-main">
 				<div
-					class="form-group mb-2 d-flex flex-row justify-content-between align-items-center ">
+					class="form-group mb-2 d-flex flex-row justify-content-end align-items-center ">
+					<!-- 
 					<div
 						class="d-flex flex-row justify-content-between align-items-center">
 						<input type="text" name="palabraClave" class="form-control me-2"
@@ -184,7 +185,7 @@ div.altura-80{
 							type="submit" class="btn btn-primary " value="Buscar">
 						&nbsp;&nbsp; <input type="button" class="btn btn-secondary "
 							value="Limpiar" onclick="limpiarCampos()">
-					</div>
+					</div> -->
 
 				</div>
 			</div>
@@ -366,8 +367,8 @@ div.altura-80{
 			</div>
 		</div>
 		
-			<div class="modal" id="miModal">
-		<div style="position: relative;"  class="modal-content">
+		<div class="modal-detalle" id="miModal">
+		<div style="position: relative;"  class="modal-content-detalle">
 			<span class="close-button" >&#10006;</span>
 			<h2>Detalles</h2>
 			<div class="table-container">
@@ -377,7 +378,7 @@ div.altura-80{
 							<th>Producto</th>
 							<th>Cantidad</th>
 							<th>Precio</th>
-							<th>SubTotal</th>
+							<th>Total</th>
 						</tr>
 					</thead>
 					<tbody>

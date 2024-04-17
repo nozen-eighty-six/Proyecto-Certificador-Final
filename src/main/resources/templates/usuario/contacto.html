@@ -15,38 +15,57 @@
 
 <!-- Custom styles for this template -->
 <link th:href="@{/css/contactos.css}" rel="stylesheet">
+<link th:href="@{/css/general.css}" rel="stylesheet">
+
 
 <body>
+<header class="header">
+		<div class="menu container1">
+			<a th:href="@{/}" class="logo">TOP MODA</a> <input type="checkbox"
+				id="menu" /> <label for="menu"> <img
+				th:src="@{/images/menu.png}" alt="menu" class="menu-icono" />
+			</label>
+			<nav class="navbar">
+				<ul>
+					<li><a th:href="@{/}">Inicio</a></li>
+					<li><a th:href="@{/productos}">Productos</a></li>
+					<li><a th:href="@{/contacto}">Contacto</a></li>
+				</ul>
+			</nav>
+			<div class="imgcarrito"  th:unless="${sesion==null}" >
+				<ul>
+					<li class="submenu"><img th:src="@{/images/car.svg}"
+						id="img-carrito" alt="carrito" th:href="@{/carrito}" /></li>
+				</ul>
+			</div>
+			        <div class="card-container">
+            <div class="ingresar" id="ingresarContainer" th:if="${sesion==null}">
+                <a th:href="@{/usuario/login}"><img th:src="@{/images/ingresar.png}" id="ingresar" ></a>
+            </div>
+            <div class="usuario" id="usuarioContainer"  th:unless="${sesion==null}" >
+                <img th:src="@{/images/user.png}" id="openCardBtn">
+            </div>
+            <div class="card" id="card" th:unless="${sesion==null}">
+                <header class="card-header">
+                    <h1>TOP MODA</h1>
+                </header>
+                <section class="datos">
+				<h2 th:utext="'Usuario: ' + ${user.nombre}"></h2>
+                    <span id="usuarioCorreo" th:utext="${user.mail}"></span>
+                </section>
+                <section class="cerrarsesion">
+                    <a  th:href="@{/usuario/cerrar}" id="cerrarSesionBtn"  class="cerrarsesion btn"><img th:src="@{/images/close.svg}" class="user-icons" id="close">Cerra sesión</a>
+                </section>
+            </div>
+        </div>
+		</div>
 
-	<header class="header">
-    <div class="menu container1">
-      <a th:href="@{/}" class="logo">TOP MODA</a>
-      <input type="checkbox" id="menu" />
-      <label for="menu">
-        <img th:src="@{/images/menu.png}" alt="menu" class="menu-icono" />
-      </label>
-      <nav class="navbar">
-        <ul>
-          <li><a th:href="@{/}">Inicio</a></li>
-          <li><a th:href="@{/productos}">Productos</a></li>
-          <li><a th:href="@{/contacto}">Contacto</a></li>
-        </ul>
-      </nav>
-      <div>
-        <ul>
-          <li class="submenu">
-            <img th:src="@{/images/car.svg}" id="img-carrito" alt="carrito" href="carrito.html" />
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="header-txt">
-      <h1>TOP MODA - CONTACTOS</h1>
-    </div>
+		<div class="header-txt">
+			<h1>productos</h1>
+		</div>
 
-    </div>
-  </header>
-
+		</div>
+	</header>
   <section id="contacto">
     <div class="container">
       <h2>Contacto</h2>
@@ -122,15 +141,54 @@
       </div>
     </div>
   </footer>
+    <script th:src="@{/js/contacto.js}"></script>
+  
   <script>
     const d = document;
     const $imgCarrito = d.getElementById("img-carrito");
     // Evento click en la imagen del carrito para ir al carrito
     $imgCarrito.addEventListener("click", () => {
-      window.location.href = "carrito.html";
+      window.location.href = "/carrito";
     });
   </script>
-  <script th:src="@{/js/contacto.js}"></script>
+  
+  	<script>
+
+
+	document.addEventListener('DOMContentLoaded', function() {
+		const openCardBtn = document.getElementById("openCardBtn");
+		const card = document.getElementById("card");
+
+		console.log(openCardBtn);
+		if(openCardBtn !== null){
+			console.log("abriendo menú usuario")
+			openCardBtn.addEventListener("click", () => {
+		    card.style.display = "block";
+		    document.addEventListener("click", closeCardOutside);
+		});
+		}
+
+		function closeCardOutside(event) {
+		    if (!card.contains(event.target) && event.target !== openCardBtn) {
+		        card.style.display = "none";
+		        document.removeEventListener("click", closeCardOutside);
+		    }
+		}	    
+		
+		
+		
+		// Verificar si hay un correo electrónico en localStorage
+	    //let userEmail = localStorage.getItem('userEmail');
+	    //if (userEmail) {
+	        // Actualizar el texto del span con el correo almacenado
+	       // let spanUsuarioCorreo = document.querySelector("#usuarioCorreo");
+	        //if (spanUsuarioCorreo) {
+	           // spanUsuarioCorreo.textContent = userEmail;
+	        //}
+	   // }
+	});
+	</script>
+	
 </body>
 
 </html>

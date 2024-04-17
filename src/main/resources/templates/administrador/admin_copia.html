@@ -1572,7 +1572,7 @@ opacity
 							url: ruta,
 							method: "DELETE",
 							success: (success)=>{ console.log(success)
-								 reloadTablaCMPagination(tabla,url,controlador)
+								 //reloadTablaCMPagination(tabla,url,controlador)
 		                           reloadTablaCM("tabla"+tabla,"http://localhost:8000/"+e.target.dataset.name+"/listar-siguientes-5",e.target.dataset.name);
 							},
 							err: (err)=> console.log(err)
@@ -1973,7 +1973,7 @@ opacity
 					reloadTablaEntrada(e.target.dataset.table,e.target.dataset.ruta,e.target.dataset.controlador);
 				}
 				else if(e.target.dataset.table ==="tablaVentas"){
-					reloadTablaVenta(e.target.dataset.table,e.target.dataset.ruta,e.target.dataset.controlador)
+					reloadTablaVenta(e.target.dataset.table,e.target.dataset.ruta,"ventas")
 				}
 			} 
 
